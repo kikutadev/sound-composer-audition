@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sound Composer · Objective Audition</title>
+<style>
+:root { color-scheme: dark; --bg:#08090b; --card:#14161a; --card2:#1a1d22; --text:#f5f7f8; --muted:#979da7; --line:#2b3038; --good:#8fd7ac; --warn:#f1c77b; --bad:#ee9a9a; }
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;line-height:1.45}
+main{max-width:1180px;margin:0 auto;padding:56px 24px 96px} .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font-size:clamp(38px,6vw,72px);line-height:.95;margin:12px 0 18px;letter-spacing:-.045em} .lead{font-size:18px;color:#b9bec6;max-width:760px}
+.notice{margin:28px 0;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:#101216;color:#c8ccd2}
+.intent{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:28px 0} .intent div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px} .intent strong{display:block;font-size:22px;margin-top:4px}
+.toolbar{position:sticky;top:0;z-index:10;display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:rgba(8,9,11,.9);backdrop-filter:blur(18px);padding:14px 0;margin:26px 0;border-bottom:1px solid var(--line)}
+select,button{font:inherit} select,.toolbar button{background:#1a1d22;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:9px 12px} .toolbar button{cursor:pointer}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px} .candidate{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:24px;padding:20px;min-width:0}
+.candidate-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start} h2{font-size:28px;margin:4px 0 14px;letter-spacing:-.03em} .score-wrap{text-align:right} .score-wrap strong{display:block;font-size:32px;letter-spacing:-.04em} .score-wrap small{color:var(--muted)}
+.gate{font-size:11px;padding:4px 7px;border-radius:999px;font-weight:800;letter-spacing:.08em} .gate.pass{color:var(--good);background:#173024} .gate.fail{color:var(--bad);background:#381d1d}
+audio{width:100%;margin:8px 0 18px} .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px} .metric{font-size:12px;color:var(--muted)} .metric-row{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px} .bar{height:6px;background:#30343b;border-radius:999px;overflow:hidden} .fill{height:100%;background:#d8dce1;border-radius:999px}
+.facts{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0} .facts span{font-size:12px;color:#bcc1c8;background:#25292f;padding:5px 8px;border-radius:999px} details{border-top:1px solid var(--line);padding-top:12px;margin-top:12px} summary{cursor:pointer;color:#cbd0d6} dl{display:grid;grid-template-columns:1fr auto;gap:6px 14px;color:var(--muted);font-size:13px} dd{margin:0;color:var(--text)} .hints{font-size:13px;color:var(--muted);padding-left:18px}
+.review{display:flex;align-items:center;gap:7px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px;margin-top:14px} .review span{font-size:12px;color:var(--muted);margin-right:auto} .review button{border:1px solid var(--line);background:#20242a;color:#cfd3d8;border-radius:10px;padding:7px 10px;cursor:pointer} .review button.active{background:#eef0f2;color:#0d0e10;border-color:#eef0f2}
+footer{color:var(--muted);font-size:13px;margin-top:38px} code{color:#dfe4e8} @media(max-width:520px){main{padding:36px 14px 70px}#grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Sound Composer / Objective Audition Lab</div>
+<h1>20 variations.<br>Listen against the metrics.</h1>
+<p class="lead">同じMemoryとComposer mappingを固定し、seedだけを変えた候補です。数値の順位を先に信じるのではなく、実際に聴いて「自分の好み」と一致するかを確認するためのページです。</p>
+<div class="notice"><strong>重要:</strong> development rankingは「気持ちよさ」の客観的真値ではありません。technical failure、疲労、chaos、低域偏重、section単位の単調/急変などの測定riskを候補比較用にまとめた開発指標です。</div>
+<section class="intent">
+  <div><span class="eyebrow">Mode / Tempo</span><strong>dorian · 88 BPM</strong></div>
+  <div><span class="eyebrow">Mapping</span><strong>Density 32% · Space 72%</strong></div>
+  <div><span class="eyebrow">Corpus</span><strong>20 × 60s</strong></div>
+  <div><span class="eyebrow">Expression</span><strong>warmth 0.67 · nostalgia 0.62 · openness 0.69 · motion 0.32 · tension 0.10</strong></div>
+</section>
+<p class="lead" style="font-size:14px">Tempo: 88 BPM / Mode: Dorian / Density: 32% / Space: 72%</p>
+<div class="toolbar">
+  <label>並び替え <select id="sort"><option value="rank">Objective rank</option><option value="seed">Seed</option><option value="novelty">Section novelty</option><option value="risk">Lowest risk</option></select></label>
+  <button id="top5">Top 5だけ</button><button id="showAll">すべて表示</button><button id="exportRatings">評価JSONを書き出す</button>
+  <span id="reviewCount" style="color:var(--muted);font-size:13px"></span>
+</div>
+<section id="grid">
+        <article class="candidate" data-rank="1" data-score="0.95336884" data-seed="3620241871" data-novelty="0.23022545" data-risk="0.04663116" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 01 · SEED 3620241871</div>
+              <h2>Variation 07</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.953</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-07-seed-3620241871.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.047</b></div><div class="bar"><div class="fill" style="width:95.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.088</b></div><div class="bar"><div class="fill" style="width:91.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.111</b></div><div class="bar"><div class="fill" style="width:88.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.028</b></div><div class="bar"><div class="fill" style="width:97.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.230</b></div><div class="bar"><div class="fill" style="width:65.8%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.4 LUFS</span>
+            <span>-4.4 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.189</dd>
+              <dt>Whole-track monotony</dt><dd>0.711</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.230</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620241871">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="2" data-score="0.95218282" data-seed="3620328980" data-novelty="0.16396082" data-risk="0.04781718" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 02 · SEED 3620328980</div>
+              <h2>Variation 18</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.952</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-18-seed-3620328980.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.048</b></div><div class="bar"><div class="fill" style="width:95.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.101</b></div><div class="bar"><div class="fill" style="width:89.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.113</b></div><div class="bar"><div class="fill" style="width:88.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.009</b></div><div class="bar"><div class="fill" style="width:99.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.164</b></div><div class="bar"><div class="fill" style="width:46.8%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.0 LUFS</span>
+            <span>-3.7 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.190</dd>
+              <dt>Whole-track monotony</dt><dd>0.709</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.164</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620328980">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="3" data-score="0.94425225" data-seed="3620321061" data-novelty="0.20185552" data-risk="0.05574775" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 03 · SEED 3620321061</div>
+              <h2>Variation 17</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.944</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-17-seed-3620321061.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.056</b></div><div class="bar"><div class="fill" style="width:94.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.088</b></div><div class="bar"><div class="fill" style="width:91.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.098</b></div><div class="bar"><div class="fill" style="width:90.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.109</b></div><div class="bar"><div class="fill" style="width:89.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.202</b></div><div class="bar"><div class="fill" style="width:57.7%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.6 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.199</dd>
+              <dt>Whole-track monotony</dt><dd>0.715</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.202</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620321061">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="4" data-score="0.93601444" data-seed="3620210195" data-novelty="0.19997994" data-risk="0.06398556" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 04 · SEED 3620210195</div>
+              <h2>Variation 03</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.936</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-03-seed-3620210195.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.064</b></div><div class="bar"><div class="fill" style="width:93.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.089</b></div><div class="bar"><div class="fill" style="width:91.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.132</b></div><div class="bar"><div class="fill" style="width:86.8%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.123</b></div><div class="bar"><div class="fill" style="width:87.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.200</b></div><div class="bar"><div class="fill" style="width:57.1%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.9 LUFS</span>
+            <span>-4.8 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.207</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.200</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620210195">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="5" data-score="0.93392528" data-seed="3620281466" data-novelty="0.20597939" data-risk="0.06607472" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 05 · SEED 3620281466</div>
+              <h2>Variation 12</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.934</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-12-seed-3620281466.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.066</b></div><div class="bar"><div class="fill" style="width:93.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.114</b></div><div class="bar"><div class="fill" style="width:88.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.132</b></div><div class="bar"><div class="fill" style="width:86.8%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.090</b></div><div class="bar"><div class="fill" style="width:91.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.206</b></div><div class="bar"><div class="fill" style="width:58.9%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.8 LUFS</span>
+            <span>-4.0 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.209</dd>
+              <dt>Whole-track monotony</dt><dd>0.712</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.206</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620281466">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="6" data-score="0.93317597" data-seed="3620265628" data-novelty="0.19873017" data-risk="0.06682403" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 06 · SEED 3620265628</div>
+              <h2>Variation 10</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.933</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-10-seed-3620265628.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.067</b></div><div class="bar"><div class="fill" style="width:93.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.093</b></div><div class="bar"><div class="fill" style="width:90.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.120</b></div><div class="bar"><div class="fill" style="width:88.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.150</b></div><div class="bar"><div class="fill" style="width:85.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.199</b></div><div class="bar"><div class="fill" style="width:56.8%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.5 LUFS</span>
+            <span>-4.4 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.209</dd>
+              <dt>Whole-track monotony</dt><dd>0.709</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.199</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620265628">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="7" data-score="0.92584029" data-seed="3620336899" data-novelty="0.22582665" data-risk="0.07415971" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 07 · SEED 3620336899</div>
+              <h2>Variation 19</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.926</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-19-seed-3620336899.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.074</b></div><div class="bar"><div class="fill" style="width:92.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.099</b></div><div class="bar"><div class="fill" style="width:90.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.149</b></div><div class="bar"><div class="fill" style="width:85.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.155</b></div><div class="bar"><div class="fill" style="width:84.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.226</b></div><div class="bar"><div class="fill" style="width:64.5%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.7 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.216</dd>
+              <dt>Whole-track monotony</dt><dd>0.708</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.226</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620336899">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="8" data-score="0.92347587" data-seed="3620289385" data-novelty="0.22658490" data-risk="0.07652413" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 08 · SEED 3620289385</div>
+              <h2>Variation 13</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.923</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-13-seed-3620289385.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.077</b></div><div class="bar"><div class="fill" style="width:92.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.084</b></div><div class="bar"><div class="fill" style="width:91.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.133</b></div><div class="bar"><div class="fill" style="width:86.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.218</b></div><div class="bar"><div class="fill" style="width:78.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.227</b></div><div class="bar"><div class="fill" style="width:64.7%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.2 LUFS</span>
+            <span>-4.4 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.219</dd>
+              <dt>Whole-track monotony</dt><dd>0.711</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.227</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620289385">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="9" data-score="0.92128935" data-seed="3620226033" data-novelty="0.20672696" data-risk="0.07871065" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 09 · SEED 3620226033</div>
+              <h2>Variation 05</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.921</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-05-seed-3620226033.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.079</b></div><div class="bar"><div class="fill" style="width:92.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.108</b></div><div class="bar"><div class="fill" style="width:89.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.153</b></div><div class="bar"><div class="fill" style="width:84.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.164</b></div><div class="bar"><div class="fill" style="width:83.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.207</b></div><div class="bar"><div class="fill" style="width:59.1%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.1 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.221</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.207</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620226033">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="10" data-score="0.91559039" data-seed="3620273547" data-novelty="0.20784518" data-risk="0.08440961" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 10 · SEED 3620273547</div>
+              <h2>Variation 11</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.916</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-11-seed-3620273547.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.084</b></div><div class="bar"><div class="fill" style="width:91.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.068</b></div><div class="bar"><div class="fill" style="width:93.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.131</b></div><div class="bar"><div class="fill" style="width:86.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.309</b></div><div class="bar"><div class="fill" style="width:69.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.208</b></div><div class="bar"><div class="fill" style="width:59.4%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.1 LUFS</span>
+            <span>-3.7 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.227</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.208</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620273547">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="11" data-score="0.91529112" data-seed="3620249790" data-novelty="0.22469069" data-risk="0.08470888" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 11 · SEED 3620249790</div>
+              <h2>Variation 08</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.915</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-08-seed-3620249790.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.085</b></div><div class="bar"><div class="fill" style="width:91.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.089</b></div><div class="bar"><div class="fill" style="width:91.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.113</b></div><div class="bar"><div class="fill" style="width:88.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.295</b></div><div class="bar"><div class="fill" style="width:70.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.225</b></div><div class="bar"><div class="fill" style="width:64.2%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.6 LUFS</span>
+            <span>-3.6 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.228</dd>
+              <dt>Whole-track monotony</dt><dd>0.714</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.225</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620249790">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="12" data-score="0.91320989" data-seed="3620305223" data-novelty="0.17161265" data-risk="0.08679011" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 12 · SEED 3620305223</div>
+              <h2>Variation 15</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.913</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-15-seed-3620305223.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.087</b></div><div class="bar"><div class="fill" style="width:91.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.081</b></div><div class="bar"><div class="fill" style="width:91.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.162</b></div><div class="bar"><div class="fill" style="width:83.8%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.261</b></div><div class="bar"><div class="fill" style="width:73.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.172</b></div><div class="bar"><div class="fill" style="width:49.0%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-22.1 LUFS</span>
+            <span>-4.8 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.230</dd>
+              <dt>Whole-track monotony</dt><dd>0.714</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.172</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620305223">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="13" data-score="0.90715577" data-seed="3620194357" data-novelty="0.17402805" data-risk="0.09284423" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 13 · SEED 3620194357</div>
+              <h2>Variation 01</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.907</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-01-seed-3620194357.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.093</b></div><div class="bar"><div class="fill" style="width:90.7%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.096</b></div><div class="bar"><div class="fill" style="width:90.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.130</b></div><div class="bar"><div class="fill" style="width:87.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.160</b></div><div class="bar"><div class="fill" style="width:84.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.064</b></div><div class="bar"><div class="fill" style="width:93.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.174</b></div><div class="bar"><div class="fill" style="width:49.7%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 20%</span>
+            <span>abrupt 0%</span>
+            <span>-22.1 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.214</dd>
+              <dt>Whole-track monotony</dt><dd>0.714</dd>
+              <dt>Section-aware monotony</dt><dd>0.110</dd>
+              <dt>Section novelty mean</dt><dd>0.174</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620194357">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="14" data-score="0.90468571" data-seed="3620297304" data-novelty="0.16060152" data-risk="0.09531429" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 14 · SEED 3620297304</div>
+              <h2>Variation 14</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.905</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-14-seed-3620297304.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.095</b></div><div class="bar"><div class="fill" style="width:90.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.104</b></div><div class="bar"><div class="fill" style="width:89.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.127</b></div><div class="bar"><div class="fill" style="width:87.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.167</b></div><div class="bar"><div class="fill" style="width:83.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.064</b></div><div class="bar"><div class="fill" style="width:93.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.161</b></div><div class="bar"><div class="fill" style="width:45.9%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 20%</span>
+            <span>abrupt 0%</span>
+            <span>-22.1 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.216</dd>
+              <dt>Whole-track monotony</dt><dd>0.711</dd>
+              <dt>Section-aware monotony</dt><dd>0.110</dd>
+              <dt>Section novelty mean</dt><dd>0.161</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>特記事項なし</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620297304">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="15" data-score="0.90294848" data-seed="3620257709" data-novelty="0.22308029" data-risk="0.09705152" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 15 · SEED 3620257709</div>
+              <h2>Variation 09</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.903</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-09-seed-3620257709.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.097</b></div><div class="bar"><div class="fill" style="width:90.3%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.079</b></div><div class="bar"><div class="fill" style="width:92.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.156</b></div><div class="bar"><div class="fill" style="width:84.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.345</b></div><div class="bar"><div class="fill" style="width:65.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.223</b></div><div class="bar"><div class="fill" style="width:63.7%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.3 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.240</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.223</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620257709">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="16" data-score="0.90203645" data-seed="3620313142" data-novelty="0.24757242" data-risk="0.09796355" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 16 · SEED 3620313142</div>
+              <h2>Variation 16</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.902</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-16-seed-3620313142.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.098</b></div><div class="bar"><div class="fill" style="width:90.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.080</b></div><div class="bar"><div class="fill" style="width:92.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.094</b></div><div class="bar"><div class="fill" style="width:90.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.431</b></div><div class="bar"><div class="fill" style="width:56.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.248</b></div><div class="bar"><div class="fill" style="width:70.7%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.4 LUFS</span>
+            <span>-4.5 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.241</dd>
+              <dt>Whole-track monotony</dt><dd>0.714</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.248</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620313142">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="17" data-score="0.90085962" data-seed="3620202276" data-novelty="0.18919753" data-risk="0.09914038" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 17 · SEED 3620202276</div>
+              <h2>Variation 02</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.901</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-02-seed-3620202276.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.099</b></div><div class="bar"><div class="fill" style="width:90.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.085</b></div><div class="bar"><div class="fill" style="width:91.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.109</b></div><div class="bar"><div class="fill" style="width:89.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.410</b></div><div class="bar"><div class="fill" style="width:59.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.189</b></div><div class="bar"><div class="fill" style="width:54.1%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.5 LUFS</span>
+            <span>-3.6 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.242</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.189</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620202276">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="18" data-score="0.89363002" data-seed="3620344818" data-novelty="0.20425226" data-risk="0.10636998" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 18 · SEED 3620344818</div>
+              <h2>Variation 20</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.894</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-20-seed-3620344818.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.106</b></div><div class="bar"><div class="fill" style="width:89.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.101</b></div><div class="bar"><div class="fill" style="width:89.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.131</b></div><div class="bar"><div class="fill" style="width:86.9%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.404</b></div><div class="bar"><div class="fill" style="width:59.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.204</b></div><div class="bar"><div class="fill" style="width:58.4%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-21.6 LUFS</span>
+            <span>-3.9 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.249</dd>
+              <dt>Whole-track monotony</dt><dd>0.712</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.204</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620344818">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="19" data-score="0.88221317" data-seed="3620218114" data-novelty="0.19287546" data-risk="0.11778683" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 19 · SEED 3620218114</div>
+              <h2>Variation 04</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.882</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-04-seed-3620218114.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.118</b></div><div class="bar"><div class="fill" style="width:88.2%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.084</b></div><div class="bar"><div class="fill" style="width:91.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.096</b></div><div class="bar"><div class="fill" style="width:90.4%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.404</b></div><div class="bar"><div class="fill" style="width:59.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.064</b></div><div class="bar"><div class="fill" style="width:93.6%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.193</b></div><div class="bar"><div class="fill" style="width:55.1%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 20%</span>
+            <span>abrupt 0%</span>
+            <span>-22.0 LUFS</span>
+            <span>-4.2 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.238</dd>
+              <dt>Whole-track monotony</dt><dd>0.713</dd>
+              <dt>Section-aware monotony</dt><dd>0.110</dd>
+              <dt>Section novelty mean</dt><dd>0.193</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620218114">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+
+        <article class="candidate" data-rank="20" data-score="0.86516549" data-seed="3620233952" data-novelty="0.20788098" data-risk="0.13483451" data-gate="true">
+          <div class="candidate-head">
+            <div>
+              <div class="eyebrow">RANK 20 · SEED 3620233952</div>
+              <h2>Variation 06</h2>
+            </div>
+            <div class="score-wrap">
+              <span class="gate pass">PASS</span>
+              <strong>0.865</strong>
+              <small>development ranking</small>
+            </div>
+          </div>
+          <audio controls preload="none" src="audio/candidate-06-seed-3620233952.m4a"></audio>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-row"><span>構造補正risk</span><b>0.135</b></div><div class="bar"><div class="fill" style="width:86.5%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Fatigue</span><b>0.092</b></div><div class="bar"><div class="fill" style="width:90.8%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Chaos</span><b>0.119</b></div><div class="bar"><div class="fill" style="width:88.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Low-end</span><b>0.639</b></div><div class="bar"><div class="fill" style="width:36.1%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Long-form</span><b>0.000</b></div><div class="bar"><div class="fill" style="width:100.0%"></div></div></div>
+            <div class="metric"><div class="metric-row"><span>Section novelty</span><b>0.208</b></div><div class="bar"><div class="fill" style="width:59.4%"></div></div></div>
+          </div>
+          <div class="facts">
+            <span>6 sections</span>
+            <span>stagnant 0%</span>
+            <span>abrupt 0%</span>
+            <span>-20.6 LUFS</span>
+            <span>-3.9 dBTP</span>
+          </div>
+          <details>
+            <summary>診断の内訳</summary>
+            <dl>
+              <dt>Raw quality risk</dt><dd>0.280</dd>
+              <dt>Whole-track monotony</dt><dd>0.725</dd>
+              <dt>Section-aware monotony</dt><dd>0.000</dd>
+              <dt>Section novelty mean</dt><dd>0.208</dd>
+              <dt>Stereo instability</dt><dd>0.000</dd>
+            </dl>
+            <ul class="hints"><li>Low-end dominance is elevated: inspect bass/chord layer balance in the generator.</li></ul>
+          </details>
+          <div class="review" data-review-seed="3620233952">
+            <span>あなたの感覚</span>
+            <button type="button" data-rating="like">好き</button>
+            <button type="button" data-rating="neutral">普通</button>
+            <button type="button" data-rating="dislike">微妙</button>
+          </div>
+        </article>
+        </section>
+<footer>Generated 2026-08-15T20:17:42.037695+09:00. Search policy: fixed Composer mapping / seed-only variation. Audio is loaded only when you press play.</footer>
+</main>
+<script>
+const SEARCH_ID="public-20x60s";
+const CANDIDATES=[{"index":6,"seed":3620241871,"stem":"candidate-07-seed-3620241871","audio":"audio/candidate-07-seed-3620241871.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9533688358241493,"combinedRisk":0.04663116417585067,"qualityRisk":0.1887783369677829,"fatigueRisk":0.0878321711398842,"wholeTrackMonotonyRisk":0.7107358639596612,"chaosRisk":0.11062701407385524,"lowEndDominanceRisk":0.0277281224727631,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.4,"maxTruePeakDBTP":-4.4,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.23022545210451187,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":1},{"index":17,"seed":3620328980,"stem":"candidate-18-seed-3620328980","audio":"audio/candidate-18-seed-3620328980.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9521828161033867,"combinedRisk":0.047817183896613324,"qualityRisk":0.1896893300864142,"fatigueRisk":0.10092734152249502,"wholeTrackMonotonyRisk":0.7093607309490043,"chaosRisk":0.11259833951716616,"lowEndDominanceRisk":0.009345528483390847,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.0,"maxTruePeakDBTP":-3.7,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.16396081595220463,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":2},{"index":16,"seed":3620321061,"stem":"candidate-17-seed-3620321061","audio":"audio/candidate-17-seed-3620321061.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9442522481310859,"combinedRisk":0.05574775186891415,"qualityRisk":0.198736896351052,"fatigueRisk":0.087682528650829,"wholeTrackMonotonyRisk":0.7149457224106892,"chaosRisk":0.09807089426215426,"lowEndDominanceRisk":0.10926809608936314,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.6,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.20185551813304378,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":3},{"index":2,"seed":3620210195,"stem":"candidate-03-seed-3620210195","audio":"audio/candidate-03-seed-3620210195.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9360144431376478,"combinedRisk":0.06398555686235216,"qualityRisk":0.20651135019428696,"fatigueRisk":0.08851966935770263,"wholeTrackMonotonyRisk":0.712628966659674,"chaosRisk":0.13192925882460255,"lowEndDominanceRisk":0.12302268743515019,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.9,"maxTruePeakDBTP":-4.8,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.1999799437441363,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":4},{"index":11,"seed":3620281466,"stem":"candidate-12-seed-3620281466","audio":"audio/candidate-12-seed-3620281466.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9339252779747392,"combinedRisk":0.06607472202526074,"qualityRisk":0.20854120429488043,"fatigueRisk":0.11374907718463151,"wholeTrackMonotonyRisk":0.7123324113480984,"chaosRisk":0.13242054242182963,"lowEndDominanceRisk":0.09045903086662296,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.8,"maxTruePeakDBTP":-4.0,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.20597939238399862,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":5},{"index":9,"seed":3620265628,"stem":"candidate-10-seed-3620265628","audio":"audio/candidate-10-seed-3620265628.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9331759660059287,"combinedRisk":0.06682403399407139,"qualityRisk":0.2086567925817659,"fatigueRisk":0.09313952685264515,"wholeTrackMonotonyRisk":0.7091637929384725,"chaosRisk":0.12025335420246741,"lowEndDominanceRisk":0.1497296661138535,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.5,"maxTruePeakDBTP":-4.4,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.19873017122441325,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":6},{"index":18,"seed":3620336899,"stem":"candidate-19-seed-3620336899","audio":"audio/candidate-19-seed-3620336899.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9258402929947782,"combinedRisk":0.07415970700522176,"qualityRisk":0.21577005815786443,"fatigueRisk":0.09854000247276701,"wholeTrackMonotonyRisk":0.7080517557632133,"chaosRisk":0.14883496838494156,"lowEndDominanceRisk":0.15535008609294895,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.7,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.22582665387177428,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":7},{"index":12,"seed":3620289385,"stem":"candidate-13-seed-3620289385","audio":"audio/candidate-13-seed-3620289385.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9234758680686721,"combinedRisk":0.07652413193132795,"qualityRisk":0.2186624040393637,"fatigueRisk":0.08443367846771652,"wholeTrackMonotonyRisk":0.7106913605401788,"chaosRisk":0.13332309215573956,"lowEndDominanceRisk":0.2183801352977753,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.2,"maxTruePeakDBTP":-4.4,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.22658490417515081,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":8},{"index":4,"seed":3620226033,"stem":"candidate-05-seed-3620226033","audio":"audio/candidate-05-seed-3620226033.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9212893504548888,"combinedRisk":0.07871064954511123,"qualityRisk":0.22127336733333275,"fatigueRisk":0.1084040350373557,"wholeTrackMonotonyRisk":0.7128135889411076,"chaosRisk":0.1532375031161238,"lowEndDominanceRisk":0.16387749910354618,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.1,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.20672696421428133,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":9},{"index":10,"seed":3620273547,"stem":"candidate-11-seed-3620273547","audio":"audio/candidate-11-seed-3620273547.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9155903885528239,"combinedRisk":0.0844096114471761,"qualityRisk":0.22702334100609725,"fatigueRisk":0.06769446805956461,"wholeTrackMonotonyRisk":0.7130686477946058,"chaosRisk":0.13091852613251662,"lowEndDominanceRisk":0.30888367891311647,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.1,"maxTruePeakDBTP":-3.7,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.20784517832300958,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":10},{"index":7,"seed":3620249790,"stem":"candidate-08-seed-3620249790","audio":"audio/candidate-08-seed-3620249790.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9152911201437124,"combinedRisk":0.08470887985628758,"qualityRisk":0.22751522749247982,"fatigueRisk":0.08893919605376766,"wholeTrackMonotonyRisk":0.7140317381809611,"chaosRisk":0.11267164669807755,"lowEndDominanceRisk":0.29502708911895753,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.6,"maxTruePeakDBTP":-3.6,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.22469069083813165,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":11},{"index":14,"seed":3620305223,"stem":"candidate-15-seed-3620305223","audio":"audio/candidate-15-seed-3620305223.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9132098892686866,"combinedRisk":0.08679011073131335,"qualityRisk":0.2295123721575523,"fatigueRisk":0.0812800035741792,"wholeTrackMonotonyRisk":0.7136113071311947,"chaosRisk":0.16182241192377933,"lowEndDominanceRisk":0.26092339754104615,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.1,"maxTruePeakDBTP":-4.8,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.17161265056856922,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":[],"rank":12},{"index":0,"seed":3620194357,"stem":"candidate-01-seed-3620194357","audio":"audio/candidate-01-seed-3620194357.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9071557662475574,"combinedRisk":0.09284423375244251,"qualityRisk":0.21361793054683376,"fatigueRisk":0.09591022946798301,"wholeTrackMonotonyRisk":0.7138684839719562,"chaosRisk":0.1302959566503102,"lowEndDominanceRisk":0.16038787066936497,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.1,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.17402804656554394,"stagnantTransitionRatio":0.2,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.11000000000000001,"longFormChaosRisk":0.0,"longFormRisk":0.06380000000000001,"tuningHints":[],"rank":13},{"index":13,"seed":3620297304,"stem":"candidate-14-seed-3620297304","audio":"audio/candidate-14-seed-3620297304.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9046857075664896,"combinedRisk":0.0953142924335104,"qualityRisk":0.21560839094761294,"fatigueRisk":0.10405238226868874,"wholeTrackMonotonyRisk":0.7114704925705126,"chaosRisk":0.1269123474620169,"lowEndDominanceRisk":0.16726036071777348,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.1,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.1606015210293288,"stagnantTransitionRatio":0.2,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.11000000000000001,"longFormChaosRisk":0.0,"longFormRisk":0.06380000000000001,"tuningHints":[],"rank":14},{"index":8,"seed":3620257709,"stem":"candidate-09-seed-3620257709","audio":"audio/candidate-09-seed-3620257709.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9029484795253935,"combinedRisk":0.09705152047460658,"qualityRisk":0.2396279217140018,"fatigueRisk":0.07928478566235227,"wholeTrackMonotonyRisk":0.7128820061969761,"chaosRisk":0.15648719361836405,"lowEndDominanceRisk":0.344784152507782,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.3,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.2230802922108303,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":15},{"index":15,"seed":3620313142,"stem":"candidate-16-seed-3620313142","audio":"audio/candidate-16-seed-3620313142.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.902036450519444,"combinedRisk":0.09796354948055602,"qualityRisk":0.24072850882489322,"fatigueRisk":0.07978339839249228,"wholeTrackMonotonyRisk":0.713824796721686,"chaosRisk":0.0941034892103087,"lowEndDominanceRisk":0.43058027029037477,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.4,"maxTruePeakDBTP":-4.5,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.24757241924940138,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":16},{"index":1,"seed":3620202276,"stem":"candidate-02-seed-3620202276","audio":"audio/candidate-02-seed-3620202276.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.9008596155382704,"combinedRisk":0.09914038446172954,"qualityRisk":0.2417380885957225,"fatigueRisk":0.08482059755985372,"wholeTrackMonotonyRisk":0.7129885206699648,"chaosRisk":0.1092503600467205,"lowEndDominanceRisk":0.4101568877696991,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.5,"maxTruePeakDBTP":-3.6,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.18919752646522464,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":17},{"index":19,"seed":3620344818,"stem":"candidate-20-seed-3620344818","audio":"audio/candidate-20-seed-3620344818.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.8936300181435766,"combinedRisk":0.10636998185642343,"qualityRisk":0.24870541679139027,"fatigueRisk":0.10060973173799652,"wholeTrackMonotonyRisk":0.7116771746748342,"chaosRisk":0.13111240375140873,"lowEndDominanceRisk":0.4043658494949341,"stereoInstabilityRisk":0.0,"integratedLUFS":-21.6,"maxTruePeakDBTP":-3.9,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.2042522561071834,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":18},{"index":3,"seed":3620218114,"stem":"candidate-04-seed-3620218114","audio":"audio/candidate-04-seed-3620218114.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.8822131704194799,"combinedRisk":0.11778682958052013,"qualityRisk":0.23843954761606323,"fatigueRisk":0.08443596729152322,"wholeTrackMonotonyRisk":0.7132635901777156,"chaosRisk":0.09596444231228102,"lowEndDominanceRisk":0.4039991319179535,"stereoInstabilityRisk":0.0,"integratedLUFS":-22.0,"maxTruePeakDBTP":-4.2,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.19287545748830875,"stagnantTransitionRatio":0.2,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.11000000000000001,"longFormChaosRisk":0.0,"longFormRisk":0.06380000000000001,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":19},{"index":5,"seed":3620233952,"stem":"candidate-06-seed-3620233952","audio":"audio/candidate-06-seed-3620233952.m4a","technicalGatePassed":true,"technicalFailures":[],"score":0.8651654866235662,"combinedRisk":0.13483451337643385,"qualityRisk":0.2798613020785107,"fatigueRisk":0.09189132011455411,"wholeTrackMonotonyRisk":0.7251339435103842,"chaosRisk":0.11913536998586345,"lowEndDominanceRisk":0.6392743110656738,"stereoInstabilityRisk":0.0,"integratedLUFS":-20.6,"maxTruePeakDBTP":-3.9,"longFormSufficient":true,"sectionCount":6,"transitionCount":5,"sectionNoveltyMean":0.20788097842003647,"stagnantTransitionRatio":0.0,"abruptTransitionRatio":0.0,"longFormMonotonyRisk":0.0,"longFormChaosRisk":0.0,"longFormRisk":0.0,"tuningHints":["Low-end dominance is elevated: inspect bass/chord layer balance in the generator."],"rank":20}];
+const grid=document.getElementById('grid');
+const cards=[...grid.querySelectorAll('.candidate')];
+const key='sound-composer-review:'+SEARCH_ID;
+let reviews={}; try{reviews=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+function save(){try{localStorage.setItem(key,JSON.stringify(reviews))}catch(e){} updateReviewUI();}
+function updateReviewUI(){
+  document.querySelectorAll('.review').forEach(r=>{const seed=r.dataset.reviewSeed; r.querySelectorAll('button').forEach(b=>b.classList.toggle('active',reviews[seed]===b.dataset.rating));});
+  const n=Object.keys(reviews).length; document.getElementById('reviewCount').textContent=n?`${n} / ${CANDIDATES.length} reviewed`:'';
+}
+document.querySelectorAll('.review button').forEach(b=>b.addEventListener('click',()=>{const seed=b.closest('.review').dataset.reviewSeed; reviews[seed]=b.dataset.rating; save();}));
+document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(o=>{if(o!==a)o.pause();})));
+function sortCards(mode){const arr=[...cards]; arr.sort((a,b)=>{if(mode==='seed')return +a.dataset.seed-+b.dataset.seed;if(mode==='novelty')return +b.dataset.novelty-+a.dataset.novelty;if(mode==='risk')return +a.dataset.risk-+b.dataset.risk;return +a.dataset.rank-+b.dataset.rank;}); arr.forEach(c=>grid.appendChild(c));}
+document.getElementById('sort').addEventListener('change',e=>sortCards(e.target.value));
+document.getElementById('top5').addEventListener('click',()=>cards.forEach(c=>c.hidden=(+c.dataset.rank>5)));
+document.getElementById('showAll').addEventListener('click',()=>cards.forEach(c=>c.hidden=false));
+document.getElementById('exportRatings').addEventListener('click',()=>{
+ const payload={schemaVersion:1,searchId:SEARCH_ID,exportedAt:new Date().toISOString(),ratings:Object.entries(reviews).map(([seed,rating])=>{const c=CANDIDATES.find(x=>String(x.seed)===String(seed));return {seed:+seed,rating,rank:c?.rank,objectiveScore:c?.score,combinedRisk:c?.combinedRisk};})};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url;a.download='sound-composer-human-ratings.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+updateReviewUI();
+</script></body></html>
