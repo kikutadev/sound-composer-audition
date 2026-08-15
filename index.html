@@ -35,8 +35,8 @@ footer{color:var(--muted);font-size:13px;margin-top:38px} code{color:#dfe4e8} @m
 </section>
 <p class="lead" style="font-size:14px">Tempo: 88 BPM / Mode: Dorian / Density: 32% / Space: 72%</p>
 <div class="toolbar">
-  <label>並び替え <select id="sort"><option value="rank">Objective rank</option><option value="seed">Seed</option><option value="novelty">Section novelty</option><option value="risk">Lowest risk</option></select></label>
-  <button id="top5">Top 5だけ</button><button id="showAll">すべて表示</button><button id="exportRatings">評価JSONを書き出す</button>
+  <label>並び替え <select id="sort"><option value="rank">Objective rank</option><option value="worst">Lowest score first</option><option value="seed">Seed</option><option value="novelty">Section novelty</option><option value="risk">Lowest risk</option></select></label>
+  <button id="top5">Top 5だけ</button><button id="bottom5">Bottom 5だけ</button><button id="showAll">すべて表示</button><button id="exportRatings">評価JSONを書き出す</button>
   <span id="reviewCount" style="color:var(--muted);font-size:13px"></span>
 </div>
 <section id="grid">
@@ -996,9 +996,10 @@ function updateReviewUI(){
 }
 document.querySelectorAll('.review button').forEach(b=>b.addEventListener('click',()=>{const seed=b.closest('.review').dataset.reviewSeed; reviews[seed]=b.dataset.rating; save();}));
 document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(o=>{if(o!==a)o.pause();})));
-function sortCards(mode){const arr=[...cards]; arr.sort((a,b)=>{if(mode==='seed')return +a.dataset.seed-+b.dataset.seed;if(mode==='novelty')return +b.dataset.novelty-+a.dataset.novelty;if(mode==='risk')return +a.dataset.risk-+b.dataset.risk;return +a.dataset.rank-+b.dataset.rank;}); arr.forEach(c=>grid.appendChild(c));}
+function sortCards(mode){const arr=[...cards]; arr.sort((a,b)=>{if(mode==='seed')return +a.dataset.seed-+b.dataset.seed;if(mode==='novelty')return +b.dataset.novelty-+a.dataset.novelty;if(mode==='risk')return +a.dataset.risk-+b.dataset.risk;if(mode==='worst')return +b.dataset.rank-+a.dataset.rank;return +a.dataset.rank-+b.dataset.rank;}); arr.forEach(c=>grid.appendChild(c));}
 document.getElementById('sort').addEventListener('change',e=>sortCards(e.target.value));
-document.getElementById('top5').addEventListener('click',()=>cards.forEach(c=>c.hidden=(+c.dataset.rank>5)));
+document.getElementById('top5').addEventListener('click',()=>{sortCards('rank');cards.forEach(c=>c.hidden=(+c.dataset.rank>5));});
+document.getElementById('bottom5').addEventListener('click',()=>{sortCards('worst');cards.forEach(c=>c.hidden=(+c.dataset.rank<=CANDIDATES.length-5));});
 document.getElementById('showAll').addEventListener('click',()=>cards.forEach(c=>c.hidden=false));
 document.getElementById('exportRatings').addEventListener('click',()=>{
  const payload={schemaVersion:1,searchId:SEARCH_ID,exportedAt:new Date().toISOString(),ratings:Object.entries(reviews).map(([seed,rating])=>{const c=CANDIDATES.find(x=>String(x.seed)===String(seed));return {seed:+seed,rating,rank:c?.rank,objectiveScore:c?.score,combinedRisk:c?.combinedRisk};})};
