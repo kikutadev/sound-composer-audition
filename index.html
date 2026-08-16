@@ -1,612 +1,969 @@
 <!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sound Composer Pattern Library</title>
+<title>Sound Composer Scene Pattern Library</title>
 <style>
-:root{color-scheme:dark;--bg:#08090b;--card:#15171b;--line:#2a2e35;--text:#f4f5f6;--muted:#9da3ad}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;line-height:1.5}main{max-width:1240px;margin:auto;padding:56px 24px 100px}
-.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--muted);font-weight:750}h1{font-size:clamp(44px,7vw,86px);line-height:.94;letter-spacing:-.05em;margin:12px 0 22px;max-width:980px}.lead{max-width:820px;color:#bdc1c8;font-size:18px}.notice{border:1px solid var(--line);background:#111317;border-radius:18px;padding:17px 19px;margin:28px 0}
-nav{position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow:auto;background:rgba(8,9,11,.88);backdrop-filter:blur(20px);padding:13px 0;border-bottom:1px solid var(--line)}nav a{white-space:nowrap;color:#dce0e5;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:13px}.reviewToolbar{display:flex;gap:10px;align-items:center;margin:18px 0 4px}.reviewToolbar span{font-size:12px;color:var(--muted)}
-.pattern{padding:58px 0;border-bottom:1px solid var(--line)}.patternIntro{display:grid;grid-template-columns:minmax(280px,1.05fr) minmax(300px,.95fr);gap:30px;align-items:center;margin-bottom:28px}.patternIntro img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:24px;border:1px solid var(--line)}h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:8px 0 18px;letter-spacing:-.04em}blockquote{font-size:20px;margin:0 0 13px;padding:0;border:0;color:#e4e6e9}.inputMeta,.expression,.mapping,.source{color:var(--muted);font-size:13px}.source{text-decoration:none}.source:hover{color:#fff}
-.candidateGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.candidate{background:linear-gradient(180deg,#1a1d22,var(--card));border:1px solid var(--line);border-radius:22px;padding:17px;min-width:0}.candidateHead{display:flex;justify-content:space-between;gap:12px}.candidateHead small{color:var(--muted);font-size:10px;letter-spacing:.12em}h3{font-size:21px;margin:3px 0 11px}.candidateHead>strong{font-size:27px;letter-spacing:-.04em}audio{width:100%;margin:5px 0 11px}.materials{font-size:12px;color:#b0b5bc;min-height:36px}
-.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric>div{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}.metric i{height:5px;background:#30343b;display:block;border-radius:999px;overflow:hidden;margin-top:4px}.metric em{display:block;height:100%;background:#d8dce2;border-radius:999px}.facts{display:flex;gap:5px;flex-wrap:wrap;margin:13px 0}.facts span{font-size:10px;color:#b6bbc2;background:#24272d;border-radius:999px;padding:4px 7px}
-.review{border-top:1px solid var(--line);padding-top:11px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}.review span{font-size:11px;color:var(--muted);margin-right:auto}button{border:1px solid var(--line);background:#20242a;color:#d1d5da;border-radius:9px;padding:6px 8px;cursor:pointer}button.active{background:#f0f1f2;color:#111;border-color:#f0f1f2}footer{color:var(--muted);font-size:12px;padding-top:35px}
-@media(max-width:900px){.patternIntro{grid-template-columns:1fr}.candidateGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){main{padding:36px 14px 70px}.candidateGrid{grid-template-columns:1fr}}
-</style></head><body><main>
-<div class="eyebrow">SOUND COMPOSER / PATTERN LIBRARY</div><h1>Different memories.<br>Different musical materials.</h1>
-<p class="lead">実際の入力画像とテキストをSwiftのExpression生成へ通し、そのmappingを基準にprocedural synthesisとrights-gated sample hybridを比較しています。seed差だけではなく、入力と素材の違いが音にどう現れるかを聴くページです。</p>
-<div class="notice"><strong>6 patterns × baseline + Top 5 hybrid.</strong> Objective scoreは候補の破綻riskを減らすための開発指標で、「気持ちよさ」の真値ではありません。ランキングは各pattern内だけで解釈してください。</div>
-<nav><a href="#warm">Warm Sunset</a><a href="#nostalgic">Nostalgic Street</a><a href="#calm">Quiet Lakeside</a><a href="#joyful">Festival Colors</a><a href="#open">Open Road</a><a href="#tense">Dramatic Dusk</a></nav><div class="reviewToolbar"><button id="exportRatings">評価JSONを書き出す</button><span id="reviewCount"></span></div><section class="pattern" id="warm">
+:root{color-scheme:dark;--bg:#08090b;--card:#15171b;--line:#2a2e35;--text:#f4f5f6;--muted:#9da3ad}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;line-height:1.5}main{max-width:1240px;margin:auto;padding:56px 24px 100px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--muted);font-weight:750}h1{font-size:clamp(44px,7vw,86px);line-height:.94;letter-spacing:-.05em;margin:12px 0 22px;max-width:980px}.lead{max-width:850px;color:#bdc1c8;font-size:18px}.notice{border:1px solid var(--line);background:#111317;border-radius:18px;padding:17px 19px;margin:28px 0}nav{position:sticky;top:0;z-index:20;display:flex;gap:8px;overflow:auto;background:rgba(8,9,11,.88);backdrop-filter:blur(20px);padding:13px 0;border-bottom:1px solid var(--line)}nav a{white-space:nowrap;color:#dce0e5;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:13px}.reviewToolbar{display:flex;gap:10px;align-items:center;margin:18px 0 4px}.reviewToolbar span{font-size:12px;color:var(--muted)}.pattern{padding:58px 0;border-bottom:1px solid var(--line)}.patternIntro{display:grid;grid-template-columns:minmax(280px,1.05fr) minmax(300px,.95fr);gap:30px;align-items:center;margin-bottom:22px}.patternIntro img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:24px;border:1px solid var(--line)}h2{font-size:clamp(34px,5vw,58px);line-height:1;margin:8px 0 18px;letter-spacing:-.04em}blockquote{font-size:20px;margin:0 0 13px;padding:0;border:0;color:#e4e6e9}.inputMeta,.expression,.mapping,.source{color:var(--muted);font-size:13px}.source{text-decoration:none}.source:hover{color:#fff}.scenePanel{display:grid;grid-template-columns:.7fr 1.3fr;gap:16px;border:1px solid var(--line);background:#101216;border-radius:20px;padding:16px;margin:0 0 22px}.scenePanel>div:first-child{display:flex;flex-direction:column;gap:4px}.scenePanel small{color:var(--muted);font-size:10px;letter-spacing:.12em}.scenePanel strong{font-size:17px}.scenePanel span{font-size:12px;color:var(--muted)}.materialChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.materialChoice{display:grid;grid-template-columns:auto 1fr auto;gap:3px 8px;background:#1a1d22;border-radius:12px;padding:9px 10px;align-items:center}.materialChoice small{grid-column:1;color:#a8adb5}.materialChoice b{font-size:13px}.materialChoice span{grid-column:1/3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.materialChoice em{grid-row:1/3;grid-column:3;font-style:normal;font-size:12px;color:#d9dde2}.candidateGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.candidate{background:linear-gradient(180deg,#1a1d22,var(--card));border:1px solid var(--line);border-radius:22px;padding:17px;min-width:0}.candidateHead{display:flex;justify-content:space-between;gap:12px}.candidateHead small{color:var(--muted);font-size:10px;letter-spacing:.12em}h3{font-size:21px;margin:3px 0 11px}.candidateHead>strong{font-size:27px;letter-spacing:-.04em}audio{width:100%;margin:5px 0 11px}.materials{font-size:12px;color:#b0b5bc;min-height:36px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric>div{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}.metric i{height:5px;background:#30343b;display:block;border-radius:999px;overflow:hidden;margin-top:4px}.metric em{display:block;height:100%;background:#d8dce2;border-radius:999px}.facts{display:flex;gap:5px;flex-wrap:wrap;margin:13px 0}.facts span{font-size:10px;color:#b6bbc2;background:#24272d;border-radius:999px;padding:4px 7px}.review{border-top:1px solid var(--line);padding-top:11px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}.review span{font-size:11px;color:var(--muted);margin-right:3px}.review .scenePrompt{margin-left:7px}button{border:1px solid var(--line);background:#20242a;color:#d1d5da;border-radius:9px;padding:6px 8px;cursor:pointer}button.active{background:#f0f1f2;color:#111;border-color:#f0f1f2}footer{color:var(--muted);font-size:12px;padding-top:35px}@media(max-width:900px){.patternIntro,.scenePanel{grid-template-columns:1fr}.candidateGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:580px){main{padding:36px 14px 70px}.candidateGrid,.materialChoices{grid-template-columns:1fr}}
+</style></head><body><main><div class="eyebrow">SOUND COMPOSER / SCENE PATTERN LIBRARY</div><h1>Different scenes.<br>Different musical materials.</h1><p class="lead">同じ生成エンジンでも、Scene semanticsから選ぶ環境素材を変えると何が変わるかを比較します。入力画像＋テキストをSwiftでExpressionとSceneへ解釈し、Scene側がbed / texture / transient / ornamentを選択します。</p><div class="notice"><strong>8 scenes × baseline + Top 5 hybrid.</strong> Objective scoreは候補の破綻riskを減らすための開発指標で、「気持ちよさ」や「Scene適合」の真値ではありません。ランキングは各Scene内だけで解釈してください。</div><nav><a href="#ocean-sunset">Ocean Sunset</a><a href="#quiet-lake">Quiet Lake</a><a href="#forest-day">Forest Day</a><a href="#rural-night">Rural Night</a><a href="#forest-stream">Forest Stream</a><a href="#waterfall">Waterfall</a><a href="#snow-mountain">Snow Mountain</a><a href="#field-sunset">Field Sunset</a></nav><div class="reviewToolbar"><button id="exportRatings">評価JSONを書き出す</button><span id="reviewCount"></span></div><section class="pattern" id="ocean-sunset">
           <div class="patternIntro">
-            <img src="images/warm.jpg" alt="Warm Sunset input image" loading="lazy">
+            <img src="images/ocean-sunset.jpg" alt="Ocean Sunset input image" loading="lazy">
             <div>
-              <small class="eyebrow">INPUT PATTERN · warm</small>
-              <h2>Warm Sunset</h2>
-              <blockquote>夕焼けの水辺。暖かく、少し名残惜しいけれど安心する時間。</blockquote>
-              <p class="inputMeta">Sunset waterfront · waterfront</p>
-              <p class="expression">warmth 0.66 · nostalgia 0.33 · openness 0.53 · motion 0.29 · tension 0.09</p>
-              <p class="mapping">dorian · 91 BPM · density 0.33 · space 0.58</p>
-              <a class="source" href="https://commons.wikimedia.org/wiki/File:Sunset_landscape.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
+              <small class="eyebrow">INPUT SCENE · ocean-sunset</small>
+              <h2>Ocean Sunset</h2>
+              <blockquote>夕暮れの海辺。穏やかな波と風が続き、遠くまで開けている。</blockquote>
+              <p class="inputMeta">Sunset coast · coast ocean beach</p>
+              <p class="expression">warmth 0.58 · nostalgia 0.33 · openness 0.68 · motion 0.27 · tension 0.10</p>
+              <p class="mapping">dorian · 88 BPM · density 0.30 · space 0.65</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Behind_bayside_cafe_red_yellow_and_pink_sunset_with_ocean_and_clouds.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
             </div>
           </div>
-          <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.884</strong></div>
-              <audio controls preload="none" src="audio/warm/baseline.m4a"></audio>
-              <p class="materials">procedural synthesis only</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.116</b></div><i><em style="width:88.4%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.124</b></div><i><em style="width:87.6%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.146</b></div><i><em style="width:85.4%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.413</b></div><i><em style="width:58.7%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.193</b></div><i><em style="width:55.0%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.5 LUFS</span><span>-4.1 dBTP</span></div>
-              <div class="review" data-review-id="warm:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.937</strong></div>
-              <audio controls preload="none" src="audio/warm/hybrid-1.m4a"></audio>
-              <p class="materials">ambience_water_03 · texture_wood_03</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.063</b></div><i><em style="width:93.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.170</b></div><i><em style="width:83.0%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.047</b></div><i><em style="width:95.3%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.182</b></div><i><em style="width:52.0%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-3.7 dBTP</span></div>
-              <div class="review" data-review-id="warm:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.932</strong></div>
-              <audio controls preload="none" src="audio/warm/hybrid-2.m4a"></audio>
-              <p class="materials">ambience_water_03 · texture_bell_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.068</b></div><i><em style="width:93.2%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.110</b></div><i><em style="width:89.0%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.166</b></div><i><em style="width:83.4%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.166</b></div><i><em style="width:47.4%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.0 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="warm:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.927</strong></div>
-              <audio controls preload="none" src="audio/warm/hybrid-3.m4a"></audio>
-              <p class="materials">ambience_water_03 · texture_wood_03 · texture_bell_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.073</b></div><i><em style="width:92.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.093</b></div><i><em style="width:90.7%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.207</b></div><i><em style="width:79.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.079</b></div><i><em style="width:92.1%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.210</b></div><i><em style="width:60.1%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-20.9 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="warm:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.926</strong></div>
-              <audio controls preload="none" src="audio/warm/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_water_03 · texture_wood_03 · texture_bell_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.074</b></div><i><em style="width:92.6%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.101</b></div><i><em style="width:89.9%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.137</b></div><i><em style="width:86.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.168</b></div><i><em style="width:83.2%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.215</b></div><i><em style="width:61.5%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-4.2 dBTP</span></div>
-              <div class="review" data-review-id="warm:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.920</strong></div>
-              <audio controls preload="none" src="audio/warm/hybrid-5.m4a"></audio>
-              <p class="materials">texture_wood_03 · texture_bell_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.080</b></div><i><em style="width:92.0%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.089</b></div><i><em style="width:91.1%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.127</b></div><i><em style="width:87.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.241</b></div><i><em style="width:75.9%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.208</b></div><i><em style="width:59.4%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-5.0 dBTP</span></div>
-              <div class="review" data-review-id="warm:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article></div>
-        </section><section class="pattern" id="nostalgic">
-          <div class="patternIntro">
-            <img src="images/nostalgic.jpg" alt="Nostalgic Street input image" loading="lazy">
-            <div>
-              <small class="eyebrow">INPUT PATTERN · nostalgic</small>
-              <h2>Nostalgic Street</h2>
-              <blockquote>昔よく歩いた街を思い出すような、静かで懐かしい帰り道。</blockquote>
-              <p class="inputMeta">Old city street · street</p>
-              <p class="expression">warmth 0.56 · nostalgia 0.62 · openness 0.53 · motion 0.35 · tension 0.09</p>
-              <p class="mapping">dorian · 87 BPM · density 0.32 · space 0.63</p>
-              <a class="source" href="https://commons.wikimedia.org/wiki/File:Urban_Sunset_Silhouette_in_Architectural_Street.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
-            </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>ocean 92% / beach 90% / coast 86%</strong><span>windy · sunset · flowing</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>ocean</b><span>scene_ocean_waves</span><em>0.874</em></div><div class="materialChoice"><small>texture</small><b>wind</b><span>ambience_wind_01</span><em>0.779</em></div><div class="materialChoice"><small>transient</small><b>birds</b><span>ambience_birds</span><em>0.299</em></div><div class="materialChoice"><small>ornament</small><b>glass</b><span>texture_glass_02</span><em>0.568</em></div></div>
           </div>
           <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.948</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/baseline.m4a"></audio>
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.918</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/baseline.m4a"></audio>
               <p class="materials">procedural synthesis only</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.052</b></div><i><em style="width:94.8%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.088</b></div><i><em style="width:91.2%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.098</b></div><i><em style="width:90.2%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.025</b></div><i><em style="width:97.5%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.024</b></div><i><em style="width:97.6%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.112</b></div><i><em style="width:31.9%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.5 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.948</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/hybrid-1.m4a"></audio>
-              <p class="materials">texture_wind_chimes_03 · texture_glass_02 · texture_bell_02 · ambience_rain</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.052</b></div><i><em style="width:94.8%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.086</b></div><i><em style="width:91.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.104</b></div><i><em style="width:89.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.019</b></div><i><em style="width:98.1%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.024</b></div><i><em style="width:97.6%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.112</b></div><i><em style="width:31.9%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.5 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.923</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/hybrid-2.m4a"></audio>
-              <p class="materials">ambience_rain · texture_bell_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.077</b></div><i><em style="width:92.3%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.087</b></div><i><em style="width:91.3%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.082</b></div><i><em style="width:91.8%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.285</b></div><i><em style="width:71.5%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.082</b></div><i><em style="width:91.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.105</b></div><i><em style="width:89.5%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.115</b></div><i><em style="width:88.5%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.244</b></div><i><em style="width:75.6%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.163</b></div><i><em style="width:46.6%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.187</b></div><i><em style="width:53.3%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.3 LUFS</span><span>-4.5 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.7 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.917</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/hybrid-3.m4a"></audio>
-              <p class="materials">texture_wind_chimes_03 · texture_glass_02 · texture_bell_02 · ambience_rain</p>
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.959</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/hybrid-1.m4a"></audio>
+              <p class="materials">bed · ocean</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.083</b></div><i><em style="width:91.7%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.041</b></div><i><em style="width:95.9%"></em></i></div>
                 <div class="metric"><div><span>Fatigue</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.163</b></div><i><em style="width:83.7%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.215</b></div><i><em style="width:78.5%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.218</b></div><i><em style="width:62.3%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.2 LUFS</span><span>-4.3 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.901</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_rain · texture_wind_chimes_03 · texture_bell_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.094</b></div><i><em style="width:90.6%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.131</b></div><i><em style="width:86.9%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.366</b></div><i><em style="width:63.4%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.225</b></div><i><em style="width:64.2%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-5.1 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.897</strong></div>
-              <audio controls preload="none" src="audio/nostalgic/hybrid-5.m4a"></audio>
-              <p class="materials">texture_wind_chimes_03 · texture_glass_02 · texture_bell_02 · ambience_rain</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.103</b></div><i><em style="width:89.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.106</b></div><i><em style="width:89.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.109</b></div><i><em style="width:89.1%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.097</b></div><i><em style="width:90.3%"></em></i></div>
                 <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.161</b></div><i><em style="width:83.9%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.119</b></div><i><em style="width:34.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.256</b></div><i><em style="width:73.2%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.3 dBTP</span></div>
-              <div class="review" data-review-id="nostalgic:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-5.3 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.919</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/hybrid-2.m4a"></audio>
+              <p class="materials">bed · ocean / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.081</b></div><i><em style="width:91.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.134</b></div><i><em style="width:86.6%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.225</b></div><i><em style="width:77.5%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.254</b></div><i><em style="width:72.4%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.7 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.918</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/hybrid-3.m4a"></audio>
+              <p class="materials">bed · ocean / texture · wind / transient · birds / ornament · glass</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.082</b></div><i><em style="width:91.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.102</b></div><i><em style="width:89.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.120</b></div><i><em style="width:88.0%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.240</b></div><i><em style="width:76.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.187</b></div><i><em style="width:53.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.7 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.908</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/hybrid-4.m4a"></audio>
+              <p class="materials">bed · ocean / texture · wind / transient · birds / ornament · glass</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.093</b></div><i><em style="width:90.7%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.141</b></div><i><em style="width:85.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.306</b></div><i><em style="width:69.4%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.210</b></div><i><em style="width:59.9%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.3 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.888</strong></div>
+              <audio controls preload="none" src="audio/ocean-sunset/hybrid-5.m4a"></audio>
+              <p class="materials">bed · ocean / transient · birds</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.112</b></div><i><em style="width:88.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.084</b></div><i><em style="width:91.6%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.122</b></div><i><em style="width:87.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.095</b></div><i><em style="width:90.5%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.160</b></div><i><em style="width:84.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.123</b></div><i><em style="width:35.1%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.5 LUFS</span><span>-4.3 dBTP</span></div>
+              <div class="review" data-review-id="ocean-sunset:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article></div>
-        </section><section class="pattern" id="calm">
+        </section><section class="pattern" id="quiet-lake">
           <div class="patternIntro">
-            <img src="images/calm.jpg" alt="Quiet Lakeside input image" loading="lazy">
+            <img src="images/quiet-lake.jpg" alt="Quiet Lake input image" loading="lazy">
             <div>
-              <small class="eyebrow">INPUT PATTERN · calm</small>
-              <h2>Quiet Lakeside</h2>
-              <blockquote>静かな湖のほとりで何もしない。穏やかで、風と水だけが動いている。</blockquote>
-              <p class="inputMeta">Quiet lakeside · lake garden</p>
-              <p class="expression">warmth 0.53 · nostalgia 0.33 · openness 0.69 · motion 0.23 · tension 0.11</p>
-              <p class="mapping">dorian · 86 BPM · density 0.28 · space 0.66</p>
+              <small class="eyebrow">INPUT SCENE · quiet-lake</small>
+              <h2>Quiet Lake</h2>
+              <blockquote>静かな湖畔。水面はほとんど動かず、弱い風と遠い鳥だけが聞こえそう。</blockquote>
+              <p class="inputMeta">Quiet lakeside · lake</p>
+              <p class="expression">warmth 0.45 · nostalgia 0.29 · openness 0.69 · motion 0.27 · tension 0.11</p>
+              <p class="mapping">dorian · 88 BPM · density 0.29 · space 0.64</p>
               <a class="source" href="https://commons.wikimedia.org/wiki/File:Peaceful_Lake_Landscape_with_Lush_Greenery.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
             </div>
           </div>
-          <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.947</strong></div>
-              <audio controls preload="none" src="audio/calm/baseline.m4a"></audio>
-              <p class="materials">procedural synthesis only</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.053</b></div><i><em style="width:94.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.077</b></div><i><em style="width:92.3%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.110</b></div><i><em style="width:89.0%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.095</b></div><i><em style="width:90.5%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.170</b></div><i><em style="width:48.5%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-4.2 dBTP</span></div>
-              <div class="review" data-review-id="calm:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.959</strong></div>
-              <audio controls preload="none" src="audio/calm/hybrid-1.m4a"></audio>
-              <p class="materials">ambience_water_02 · texture_wind_chimes_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.041</b></div><i><em style="width:95.9%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.058</b></div><i><em style="width:94.2%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.127</b></div><i><em style="width:87.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.019</b></div><i><em style="width:98.1%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.277</b></div><i><em style="width:79.2%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.5 dBTP</span></div>
-              <div class="review" data-review-id="calm:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.955</strong></div>
-              <audio controls preload="none" src="audio/calm/hybrid-2.m4a"></audio>
-              <p class="materials">ambience_water_02 · texture_wind_chimes_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.045</b></div><i><em style="width:95.5%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.061</b></div><i><em style="width:93.9%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.119</b></div><i><em style="width:88.1%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.058</b></div><i><em style="width:94.2%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.170</b></div><i><em style="width:48.6%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-4.2 dBTP</span></div>
-              <div class="review" data-review-id="calm:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.954</strong></div>
-              <audio controls preload="none" src="audio/calm/hybrid-3.m4a"></audio>
-              <p class="materials">ambience_water_02 · texture_wind_chimes_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.046</b></div><i><em style="width:95.4%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.083</b></div><i><em style="width:91.7%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.137</b></div><i><em style="width:86.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.185</b></div><i><em style="width:53.0%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.2 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="calm:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.951</strong></div>
-              <audio controls preload="none" src="audio/calm/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_water_02 · texture_wind_chimes_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.049</b></div><i><em style="width:95.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.093</b></div><i><em style="width:90.7%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.134</b></div><i><em style="width:86.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.002</b></div><i><em style="width:99.8%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.158</b></div><i><em style="width:45.1%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.1 dBTP</span></div>
-              <div class="review" data-review-id="calm:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.930</strong></div>
-              <audio controls preload="none" src="audio/calm/hybrid-5.m4a"></audio>
-              <p class="materials">ambience_water_02 · texture_wind_chimes_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.070</b></div><i><em style="width:93.0%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.066</b></div><i><em style="width:93.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.161</b></div><i><em style="width:83.9%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.173</b></div><i><em style="width:82.7%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.297</b></div><i><em style="width:84.9%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.9 LUFS</span><span>-5.1 dBTP</span></div>
-              <div class="review" data-review-id="calm:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article></div>
-        </section><section class="pattern" id="joyful">
-          <div class="patternIntro">
-            <img src="images/joyful.jpg" alt="Festival Colors input image" loading="lazy">
-            <div>
-              <small class="eyebrow">INPUT PATTERN · joyful</small>
-              <h2>Festival Colors</h2>
-              <blockquote>祭のように色があふれていて楽しい。人の気配が賑やかで、少し浮き立つ。</blockquote>
-              <p class="inputMeta">Festival square · festival</p>
-              <p class="expression">warmth 0.56 · nostalgia 0.33 · openness 0.55 · motion 0.52 · tension 0.11</p>
-              <p class="mapping">dorian · 98 BPM · density 0.41 · space 0.59</p>
-              <a class="source" href="https://commons.wikimedia.org/wiki/File:Colourful_ballons.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
-            </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>lake 90%</strong><span>windy · day · still</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>lake_water</b><span>ambience_water_01</span><em>0.713</em></div><div class="materialChoice"><small>texture</small><b>wind</b><span>ambience_wind_02</span><em>0.737</em></div><div class="materialChoice"><small>transient</small><b>birds</b><span>ambience_birds</span><em>0.645</em></div><div class="materialChoice"><small>ornament</small><b>glass</b><span>texture_glass_02</span><em>0.563</em></div></div>
           </div>
           <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.877</strong></div>
-              <audio controls preload="none" src="audio/joyful/baseline.m4a"></audio>
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.907</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/baseline.m4a"></audio>
               <p class="materials">procedural synthesis only</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.123</b></div><i><em style="width:87.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.131</b></div><i><em style="width:86.9%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.154</b></div><i><em style="width:84.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.172</b></div><i><em style="width:82.8%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.106</b></div><i><em style="width:89.4%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.171</b></div><i><em style="width:48.8%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.093</b></div><i><em style="width:90.7%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.093</b></div><i><em style="width:90.7%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.319</b></div><i><em style="width:68.1%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.182</b></div><i><em style="width:52.0%"></em></i></div>
               </div>
-              <div class="facts"><span>4 sections</span><span>-21.3 LUFS</span><span>-3.9 dBTP</span></div>
-              <div class="review" data-review-id="joyful:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-4.0 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.941</strong></div>
-              <audio controls preload="none" src="audio/joyful/hybrid-1.m4a"></audio>
-              <p class="materials">ambience_bubbles_01 · ambience_birds · texture_bell_01 · texture_glass_02</p>
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.942</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/hybrid-1.m4a"></audio>
+              <p class="materials">bed · lake_water</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.058</b></div><i><em style="width:94.2%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.117</b></div><i><em style="width:88.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.153</b></div><i><em style="width:84.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.274</b></div><i><em style="width:78.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-3.0 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.928</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/hybrid-2.m4a"></audio>
+              <p class="materials">bed · lake_water / transient · birds</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.072</b></div><i><em style="width:92.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.116</b></div><i><em style="width:88.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.136</b></div><i><em style="width:86.4%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.118</b></div><i><em style="width:88.2%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.003</b></div><i><em style="width:99.7%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.145</b></div><i><em style="width:41.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.8 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.923</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/hybrid-3.m4a"></audio>
+              <p class="materials">bed · lake_water / texture · wind / transient · birds / ornament · glass</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.077</b></div><i><em style="width:92.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.104</b></div><i><em style="width:89.6%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.161</b></div><i><em style="width:83.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.150</b></div><i><em style="width:85.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.162</b></div><i><em style="width:46.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.2 LUFS</span><span>-3.1 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.911</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/hybrid-4.m4a"></audio>
+              <p class="materials">bed · lake_water / transient · birds</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.089</b></div><i><em style="width:91.1%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.098</b></div><i><em style="width:90.2%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.148</b></div><i><em style="width:85.2%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.264</b></div><i><em style="width:73.6%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.222</b></div><i><em style="width:63.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-3.8 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.903</strong></div>
+              <audio controls preload="none" src="audio/quiet-lake/hybrid-5.m4a"></audio>
+              <p class="materials">bed · lake_water / texture · wind / transient · birds / ornament · glass</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.097</b></div><i><em style="width:90.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.094</b></div><i><em style="width:90.6%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.162</b></div><i><em style="width:83.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.313</b></div><i><em style="width:68.7%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.182</b></div><i><em style="width:52.0%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-4.0 dBTP</span></div>
+              <div class="review" data-review-id="quiet-lake:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article></div>
+        </section><section class="pattern" id="forest-day">
+          <div class="patternIntro">
+            <img src="images/forest-day.jpg" alt="Forest Day input image" loading="lazy">
+            <div>
+              <small class="eyebrow">INPUT SCENE · forest-day</small>
+              <h2>Forest Day</h2>
+              <blockquote>昼の森。木々に囲まれ、葉が風で揺れ、鳥の気配がある。</blockquote>
+              <p class="inputMeta">Forest trail · forest</p>
+              <p class="expression">warmth 0.51 · nostalgia 0.29 · openness 0.54 · motion 0.29 · tension 0.10</p>
+              <p class="mapping">dorian · 92 BPM · density 0.33 · space 0.57</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Forest_path.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
+            </div>
+          </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>forest 90%</strong><span>windy · morning · active</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>texture</small><b>foliage</b><span>scene_leaves_wind</span><em>0.867</em></div><div class="materialChoice"><small>transient</small><b>birds</b><span>ambience_birds</span><em>0.626</em></div><div class="materialChoice"><small>texture</small><b>wind</b><span>ambience_wind_02</span><em>0.800</em></div><div class="materialChoice"><small>transient</small><b>wood</b><span>texture_wood_03</span><em>0.598</em></div></div>
+          </div>
+          <div class="candidateGrid"><article class="candidate">
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.949</strong></div>
+              <audio controls preload="none" src="audio/forest-day/baseline.m4a"></audio>
+              <p class="materials">procedural synthesis only</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.051</b></div><i><em style="width:94.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.066</b></div><i><em style="width:93.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.181</b></div><i><em style="width:81.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.005</b></div><i><em style="width:99.5%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.121</b></div><i><em style="width:34.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.3 LUFS</span><span>-3.7 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.949</strong></div>
+              <audio controls preload="none" src="audio/forest-day/hybrid-1.m4a"></audio>
+              <p class="materials">texture · foliage / transient · birds / texture · wind / transient · wood</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.051</b></div><i><em style="width:94.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.064</b></div><i><em style="width:93.6%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.180</b></div><i><em style="width:82.0%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.005</b></div><i><em style="width:99.5%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.121</b></div><i><em style="width:34.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.3 LUFS</span><span>-3.7 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.941</strong></div>
+              <audio controls preload="none" src="audio/forest-day/hybrid-2.m4a"></audio>
+              <p class="materials">texture · foliage / transient · birds / texture · wind / transient · wood</p>
               <div class="metrics">
                 <div class="metric"><div><span>構造補正risk</span><b>0.059</b></div><i><em style="width:94.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.136</b></div><i><em style="width:86.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.131</b></div><i><em style="width:86.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.116</b></div><i><em style="width:88.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.159</b></div><i><em style="width:84.1%"></em></i></div>
                 <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.162</b></div><i><em style="width:46.2%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.1 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.919</strong></div>
+              <audio controls preload="none" src="audio/forest-day/hybrid-3.m4a"></audio>
+              <p class="materials">texture · foliage / transient · birds / texture · wind / transient · wood</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.081</b></div><i><em style="width:91.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.115</b></div><i><em style="width:88.5%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.144</b></div><i><em style="width:85.6%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.182</b></div><i><em style="width:81.8%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.169</b></div><i><em style="width:48.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-3.8 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.916</strong></div>
+              <audio controls preload="none" src="audio/forest-day/hybrid-4.m4a"></audio>
+              <p class="materials">texture · foliage / transient · birds / texture · wind / transient · wood</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.084</b></div><i><em style="width:91.6%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.087</b></div><i><em style="width:91.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.130</b></div><i><em style="width:87.0%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.274</b></div><i><em style="width:72.6%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.206</b></div><i><em style="width:58.9%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-4.9 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.886</strong></div>
+              <audio controls preload="none" src="audio/forest-day/hybrid-5.m4a"></audio>
+              <p class="materials">texture · foliage / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.114</b></div><i><em style="width:88.6%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.090</b></div><i><em style="width:91.0%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.139</b></div><i><em style="width:86.1%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.468</b></div><i><em style="width:53.2%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.223</b></div><i><em style="width:63.6%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.3 LUFS</span><span>-5.0 dBTP</span></div>
+              <div class="review" data-review-id="forest-day:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article></div>
+        </section><section class="pattern" id="rural-night">
+          <div class="patternIntro">
+            <img src="images/rural-night.jpg" alt="Rural Night input image" loading="lazy">
+            <div>
+              <small class="eyebrow">INPUT SCENE · rural-night</small>
+              <h2>Rural Night</h2>
+              <blockquote>夜の田園と小さな集落。人の音は少なく、虫と弱い風が続く静かな夜。</blockquote>
+              <p class="inputMeta">Quiet village at night · rural village</p>
+              <p class="expression">warmth 0.50 · nostalgia 0.32 · openness 0.56 · motion 0.25 · tension 0.11</p>
+              <p class="mapping">dorian · 86 BPM · density 0.27 · space 0.59</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Night_at_my_village.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
+            </div>
+          </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>rural 82%</strong><span>windy · night · active</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>insects</b><span>scene_crickets_night</span><em>0.608</em></div><div class="materialChoice"><small>texture</small><b>foliage</b><span>scene_leaves_wind</span><em>0.797</em></div><div class="materialChoice"><small>transient</small><b>wood</b><span>texture_wood_03</span><em>0.558</em></div><div class="materialChoice"><small>ornament</small><b>bell</b><span>motif_pleasing_bell</span><em>0.457</em></div></div>
+          </div>
+          <div class="candidateGrid"><article class="candidate">
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.928</strong></div>
+              <audio controls preload="none" src="audio/rural-night/baseline.m4a"></audio>
+              <p class="materials">procedural synthesis only</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.072</b></div><i><em style="width:92.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.112</b></div><i><em style="width:88.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.134</b></div><i><em style="width:86.6%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.223</b></div><i><em style="width:63.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.3 LUFS</span><span>-4.5 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.933</strong></div>
+              <audio controls preload="none" src="audio/rural-night/hybrid-1.m4a"></audio>
+              <p class="materials">bed · insects / transient · wood</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.078</b></div><i><em style="width:92.2%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.081</b></div><i><em style="width:91.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.226</b></div><i><em style="width:77.4%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.168</b></div><i><em style="width:47.9%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-5.1 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.927</strong></div>
+              <audio controls preload="none" src="audio/rural-night/hybrid-2.m4a"></audio>
+              <p class="materials">bed · insects / texture · foliage / transient · wood / ornament · bell</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.073</b></div><i><em style="width:92.7%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.112</b></div><i><em style="width:88.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.142</b></div><i><em style="width:85.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.223</b></div><i><em style="width:63.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.3 LUFS</span><span>-4.5 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.912</strong></div>
+              <audio controls preload="none" src="audio/rural-night/hybrid-3.m4a"></audio>
+              <p class="materials">bed · insects / texture · foliage / transient · wood / ornament · bell</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.088</b></div><i><em style="width:91.2%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.068</b></div><i><em style="width:93.2%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.147</b></div><i><em style="width:85.3%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.315</b></div><i><em style="width:68.5%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
                 <div class="metric"><div><span>Section novelty</span><b>0.186</b></div><i><em style="width:53.0%"></em></i></div>
               </div>
-              <div class="facts"><span>4 sections</span><span>-22.3 LUFS</span><span>-3.8 dBTP</span></div>
-              <div class="review" data-review-id="joyful:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.940</strong></div>
-              <audio controls preload="none" src="audio/joyful/hybrid-2.m4a"></audio>
-              <p class="materials">ambience_bubbles_01 · ambience_birds · texture_bell_01</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.060</b></div><i><em style="width:94.0%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.101</b></div><i><em style="width:89.9%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.184</b></div><i><em style="width:81.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.236</b></div><i><em style="width:67.4%"></em></i></div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.7 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
               </div>
-              <div class="facts"><span>4 sections</span><span>-21.5 LUFS</span><span>-3.4 dBTP</span></div>
-              <div class="review" data-review-id="joyful:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.916</strong></div>
-              <audio controls preload="none" src="audio/joyful/hybrid-3.m4a"></audio>
-              <p class="materials">ambience_bubbles_01 · ambience_birds · texture_bell_01</p>
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.908</strong></div>
+              <audio controls preload="none" src="audio/rural-night/hybrid-4.m4a"></audio>
+              <p class="materials">bed · insects / transient · wood</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.084</b></div><i><em style="width:91.6%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.124</b></div><i><em style="width:87.6%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.180</b></div><i><em style="width:82.0%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.138</b></div><i><em style="width:86.2%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.108</b></div><i><em style="width:89.2%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.147</b></div><i><em style="width:85.3%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.270</b></div><i><em style="width:73.0%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.211</b></div><i><em style="width:60.4%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.185</b></div><i><em style="width:52.9%"></em></i></div>
               </div>
-              <div class="facts"><span>4 sections</span><span>-22.5 LUFS</span><span>-5.2 dBTP</span></div>
-              <div class="review" data-review-id="joyful:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-5.0 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.911</strong></div>
-              <audio controls preload="none" src="audio/joyful/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_bubbles_01 · ambience_birds · texture_bell_01 · texture_glass_02</p>
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.903</strong></div>
+              <audio controls preload="none" src="audio/rural-night/hybrid-5.m4a"></audio>
+              <p class="materials">bed · insects / texture · foliage / transient · wood / ornament · bell</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.089</b></div><i><em style="width:91.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.116</b></div><i><em style="width:88.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.162</b></div><i><em style="width:83.8%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.213</b></div><i><em style="width:78.7%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.248</b></div><i><em style="width:70.7%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.097</b></div><i><em style="width:90.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.072</b></div><i><em style="width:92.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.109</b></div><i><em style="width:89.1%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.026</b></div><i><em style="width:97.4%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.160</b></div><i><em style="width:84.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.157</b></div><i><em style="width:44.8%"></em></i></div>
               </div>
-              <div class="facts"><span>4 sections</span><span>-22.4 LUFS</span><span>-4.9 dBTP</span></div>
-              <div class="review" data-review-id="joyful:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.901</strong></div>
-              <audio controls preload="none" src="audio/joyful/hybrid-5.m4a"></audio>
-              <p class="materials">ambience_bubbles_01 · ambience_birds · texture_glass_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.118</b></div><i><em style="width:88.2%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.144</b></div><i><em style="width:85.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.304</b></div><i><em style="width:69.6%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.196</b></div><i><em style="width:55.9%"></em></i></div>
+              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-3.8 dBTP</span></div>
+              <div class="review" data-review-id="rural-night:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
               </div>
-              <div class="facts"><span>4 sections</span><span>-22.3 LUFS</span><span>-6.0 dBTP</span></div>
-              <div class="review" data-review-id="joyful:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
             </article></div>
-        </section><section class="pattern" id="open">
+        </section><section class="pattern" id="forest-stream">
           <div class="patternIntro">
-            <img src="images/open.jpg" alt="Open Road input image" loading="lazy">
+            <img src="images/forest-stream.jpg" alt="Forest Stream input image" loading="lazy">
             <div>
-              <small class="eyebrow">INPUT PATTERN · open</small>
-              <h2>Open Road</h2>
-              <blockquote>遠くまで見渡せる湖の景色。静かで、どこへでも行けそうな感じ。</blockquote>
-              <p class="inputMeta">Open lakeside road · lake viewpoint</p>
-              <p class="expression">warmth 0.54 · nostalgia 0.33 · openness 0.68 · motion 0.28 · tension 0.10</p>
-              <p class="mapping">dorian · 88 BPM · density 0.29 · space 0.65</p>
-              <a class="source" href="https://commons.wikimedia.org/wiki/File:Landscape_of_lake_and_clouds.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
+              <small class="eyebrow">INPUT SCENE · forest-stream</small>
+              <h2>Forest Stream</h2>
+              <blockquote>森の中を小さな渓流が流れている。せせらぎが中心で、葉と風が周囲を包む。</blockquote>
+              <p class="inputMeta">Forest stream · forest stream</p>
+              <p class="expression">warmth 0.49 · nostalgia 0.29 · openness 0.55 · motion 0.27 · tension 0.11</p>
+              <p class="mapping">dorian · 91 BPM · density 0.32 · space 0.58</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Wild_stream.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
             </div>
           </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>forest 90% / stream 88%</strong><span>windy · day · active</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>stream</b><span>scene_stream_creek</span><em>0.712</em></div><div class="materialChoice"><small>texture</small><b>foliage</b><span>scene_leaves_wind</span><em>0.822</em></div><div class="materialChoice"><small>transient</small><b>birds</b><span>ambience_birds</span><em>0.566</em></div><div class="materialChoice"><small>texture</small><b>wind</b><span>ambience_wind_02</span><em>0.789</em></div></div>
+          </div>
           <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.904</strong></div>
-              <audio controls preload="none" src="audio/open/baseline.m4a"></audio>
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.933</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/baseline.m4a"></audio>
               <p class="materials">procedural synthesis only</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.096</b></div><i><em style="width:90.4%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.104</b></div><i><em style="width:89.6%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.175</b></div><i><em style="width:82.5%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.271</b></div><i><em style="width:72.9%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.096</b></div><i><em style="width:90.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.143</b></div><i><em style="width:85.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.115</b></div><i><em style="width:88.5%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.176</b></div><i><em style="width:50.4%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.179</b></div><i><em style="width:51.2%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-5.2 dBTP</span></div>
-              <div class="review" data-review-id="open:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-4.6 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.951</strong></div>
-              <audio controls preload="none" src="audio/open/hybrid-1.m4a"></audio>
-              <p class="materials">texture_wind_chimes_02 · ambience_water_01 · ambience_birds</p>
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.938</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/hybrid-1.m4a"></audio>
+              <p class="materials">bed · stream / texture · foliage</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.049</b></div><i><em style="width:95.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.132</b></div><i><em style="width:86.8%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.062</b></div><i><em style="width:93.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.083</b></div><i><em style="width:91.7%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.119</b></div><i><em style="width:88.1%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.135</b></div><i><em style="width:86.5%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.277</b></div><i><em style="width:79.1%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.269</b></div><i><em style="width:77.0%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.9 LUFS</span><span>-4.6 dBTP</span></div>
-              <div class="review" data-review-id="open:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.947</strong></div>
-              <audio controls preload="none" src="audio/open/hybrid-2.m4a"></audio>
-              <p class="materials">texture_wind_chimes_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.053</b></div><i><em style="width:94.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.087</b></div><i><em style="width:91.3%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.127</b></div><i><em style="width:87.3%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.056</b></div><i><em style="width:94.4%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.191</b></div><i><em style="width:54.6%"></em></i></div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.9 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.3 dBTP</span></div>
-              <div class="review" data-review-id="open:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.940</strong></div>
-              <audio controls preload="none" src="audio/open/hybrid-3.m4a"></audio>
-              <p class="materials">texture_wind_chimes_02 · ambience_water_01 · ambience_birds</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.060</b></div><i><em style="width:94.0%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.118</b></div><i><em style="width:88.2%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.162</b></div><i><em style="width:83.8%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.173</b></div><i><em style="width:49.5%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.7 LUFS</span><span>-3.9 dBTP</span></div>
-              <div class="review" data-review-id="open:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.936</strong></div>
-              <audio controls preload="none" src="audio/open/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_water_01 · texture_wind_chimes_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.064</b></div><i><em style="width:93.6%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.086</b></div><i><em style="width:91.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.135</b></div><i><em style="width:86.5%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.123</b></div><i><em style="width:87.7%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.196</b></div><i><em style="width:55.9%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.6 LUFS</span><span>-4.8 dBTP</span></div>
-              <div class="review" data-review-id="open:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.934</strong></div>
-              <audio controls preload="none" src="audio/open/hybrid-5.m4a"></audio>
-              <p class="materials">ambience_water_01 · ambience_birds · texture_wind_chimes_02</p>
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.934</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/hybrid-2.m4a"></audio>
+              <p class="materials">bed · stream / texture · foliage / transient · birds / texture · wind</p>
               <div class="metrics">
                 <div class="metric"><div><span>構造補正risk</span><b>0.066</b></div><i><em style="width:93.4%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.154</b></div><i><em style="width:84.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.102</b></div><i><em style="width:89.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.087</b></div><i><em style="width:91.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.153</b></div><i><em style="width:84.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.115</b></div><i><em style="width:88.5%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.200</b></div><i><em style="width:57.1%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.179</b></div><i><em style="width:51.2%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.8 LUFS</span><span>-5.5 dBTP</span></div>
-              <div class="review" data-review-id="open:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article></div>
-        </section><section class="pattern" id="tense">
-          <div class="patternIntro">
-            <img src="images/tense.jpg" alt="Dramatic Dusk input image" loading="lazy">
-            <div>
-              <small class="eyebrow">INPUT PATTERN · tense</small>
-              <h2>Dramatic Dusk</h2>
-              <blockquote>日が沈む直前。美しいけれど、少し不安で緊張感のある空。</blockquote>
-              <p class="inputMeta">Mountain overlook · mountain viewpoint</p>
-              <p class="expression">warmth 0.58 · nostalgia 0.33 · openness 0.68 · motion 0.29 · tension 0.34</p>
-              <p class="mapping">dorian · 93 BPM · density 0.36 · space 0.62</p>
-              <a class="source" href="https://commons.wikimedia.org/wiki/File:Dramatic_sunset_landscape.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
-            </div>
-          </div>
-          <div class="candidateGrid"><article class="candidate">
-              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.931</strong></div>
-              <audio controls preload="none" src="audio/tense/baseline.m4a"></audio>
-              <p class="materials">procedural synthesis only</p>
+              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-4.6 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.931</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/hybrid-3.m4a"></audio>
+              <p class="materials">bed · stream / texture · foliage / transient · birds / texture · wind</p>
               <div class="metrics">
                 <div class="metric"><div><span>構造補正risk</span><b>0.069</b></div><i><em style="width:93.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.107</b></div><i><em style="width:89.3%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.161</b></div><i><em style="width:83.9%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.087</b></div><i><em style="width:91.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.073</b></div><i><em style="width:92.7%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.113</b></div><i><em style="width:88.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.210</b></div><i><em style="width:79.0%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.241</b></div><i><em style="width:68.8%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.139</b></div><i><em style="width:39.8%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-4.6 dBTP</span></div>
-              <div class="review" data-review-id="tense:baseline"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-4.4 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.951</strong></div>
-              <audio controls preload="none" src="audio/tense/hybrid-1.m4a"></audio>
-              <p class="materials">ambience_rain · texture_metal_03</p>
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.916</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/hybrid-4.m4a"></audio>
+              <p class="materials">bed · stream / transient · birds</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.049</b></div><i><em style="width:95.1%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.101</b></div><i><em style="width:89.9%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.128</b></div><i><em style="width:87.2%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.084</b></div><i><em style="width:91.6%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.106</b></div><i><em style="width:89.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.149</b></div><i><em style="width:85.1%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.214</b></div><i><em style="width:78.6%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.143</b></div><i><em style="width:40.9%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.207</b></div><i><em style="width:59.1%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-22.7 LUFS</span><span>-4.8 dBTP</span></div>
-              <div class="review" data-review-id="tense:hybrid-1"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.7 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
             </article><article class="candidate">
-              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.948</strong></div>
-              <audio controls preload="none" src="audio/tense/hybrid-2.m4a"></audio>
-              <p class="materials">ambience_rain · texture_metal_03 · texture_spring_05 · texture_gong_02</p>
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.902</strong></div>
+              <audio controls preload="none" src="audio/forest-stream/hybrid-5.m4a"></audio>
+              <p class="materials">bed · stream</p>
               <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.052</b></div><i><em style="width:94.8%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.086</b></div><i><em style="width:91.4%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.164</b></div><i><em style="width:83.6%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>構造補正risk</span><b>0.098</b></div><i><em style="width:90.2%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.076</b></div><i><em style="width:92.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.152</b></div><i><em style="width:84.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.360</b></div><i><em style="width:64.0%"></em></i></div>
                 <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.181</b></div><i><em style="width:51.7%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.140</b></div><i><em style="width:40.1%"></em></i></div>
               </div>
-              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.4 dBTP</span></div>
-              <div class="review" data-review-id="tense:hybrid-2"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.947</strong></div>
-              <audio controls preload="none" src="audio/tense/hybrid-3.m4a"></audio>
-              <p class="materials">ambience_rain · texture_metal_03 · texture_spring_05 · texture_gong_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.053</b></div><i><em style="width:94.7%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.107</b></div><i><em style="width:89.3%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.140</b></div><i><em style="width:86.0%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.146</b></div><i><em style="width:41.6%"></em></i></div>
+              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-5.9 dBTP</span></div>
+              <div class="review" data-review-id="forest-stream:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
               </div>
-              <div class="facts"><span>3 sections</span><span>-21.6 LUFS</span><span>-3.0 dBTP</span></div>
-              <div class="review" data-review-id="tense:hybrid-3"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.932</strong></div>
-              <audio controls preload="none" src="audio/tense/hybrid-4.m4a"></audio>
-              <p class="materials">ambience_rain · texture_metal_03 · texture_spring_05 · texture_gong_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.068</b></div><i><em style="width:93.2%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.098</b></div><i><em style="width:90.2%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.165</b></div><i><em style="width:83.5%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.091</b></div><i><em style="width:90.9%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.233</b></div><i><em style="width:66.4%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-22.9 LUFS</span><span>-3.9 dBTP</span></div>
-              <div class="review" data-review-id="tense:hybrid-4"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
-            </article><article class="candidate">
-              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.932</strong></div>
-              <audio controls preload="none" src="audio/tense/hybrid-5.m4a"></audio>
-              <p class="materials">ambience_rain · texture_gong_02</p>
-              <div class="metrics">
-                <div class="metric"><div><span>構造補正risk</span><b>0.068</b></div><i><em style="width:93.2%"></em></i></div>
-                <div class="metric"><div><span>Fatigue</span><b>0.102</b></div><i><em style="width:89.8%"></em></i></div>
-                <div class="metric"><div><span>Chaos</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
-                <div class="metric"><div><span>Low-end</span><b>0.128</b></div><i><em style="width:87.2%"></em></i></div>
-                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
-                <div class="metric"><div><span>Section novelty</span><b>0.243</b></div><i><em style="width:69.4%"></em></i></div>
-              </div>
-              <div class="facts"><span>3 sections</span><span>-21.3 LUFS</span><span>-3.9 dBTP</span></div>
-              <div class="review" data-review-id="tense:hybrid-5"><span>あなたの感覚</span><button data-rating="like">好き</button><button data-rating="neutral">普通</button><button data-rating="dislike">微妙</button></div>
             </article></div>
-        </section>
-<footer>Audio QA is calculated from lossless 48 kHz WAV. Browser preview uses AAC 128 kbps. Input images shown above are the same files passed to the Swift image analyzer.</footer>
-</main><script>
-const ITEMS=[{"reviewId": "warm:baseline", "pattern": "warm", "variant": "baseline", "score": 0.8838470343012578, "kind": "synthesis"}, {"reviewId": "warm:hybrid-1", "pattern": "warm", "variant": "hybrid-1", "score": 0.937155193050242, "kind": "hybrid"}, {"reviewId": "warm:hybrid-2", "pattern": "warm", "variant": "hybrid-2", "score": 0.9321962272864573, "kind": "hybrid"}, {"reviewId": "warm:hybrid-3", "pattern": "warm", "variant": "hybrid-3", "score": 0.9274313863003324, "kind": "hybrid"}, {"reviewId": "warm:hybrid-4", "pattern": "warm", "variant": "hybrid-4", "score": 0.9255798426234174, "kind": "hybrid"}, {"reviewId": "warm:hybrid-5", "pattern": "warm", "variant": "hybrid-5", "score": 0.9201698905385649, "kind": "hybrid"}, {"reviewId": "nostalgic:baseline", "pattern": "nostalgic", "variant": "baseline", "score": 0.9476673865066003, "kind": "synthesis"}, {"reviewId": "nostalgic:hybrid-1", "pattern": "nostalgic", "variant": "hybrid-1", "score": 0.9478543072298775, "kind": "hybrid"}, {"reviewId": "nostalgic:hybrid-2", "pattern": "nostalgic", "variant": "hybrid-2", "score": 0.9226559649375348, "kind": "hybrid"}, {"reviewId": "nostalgic:hybrid-3", "pattern": "nostalgic", "variant": "hybrid-3", "score": 0.9166316992614101, "kind": "hybrid"}, {"reviewId": "nostalgic:hybrid-4", "pattern": "nostalgic", "variant": "hybrid-4", "score": 0.9007646309660192, "kind": "hybrid"}, {"reviewId": "nostalgic:hybrid-5", "pattern": "nostalgic", "variant": "hybrid-5", "score": 0.8973975962528968, "kind": "hybrid"}, {"reviewId": "calm:baseline", "pattern": "calm", "variant": "baseline", "score": 0.946777573540046, "kind": "synthesis"}, {"reviewId": "calm:hybrid-1", "pattern": "calm", "variant": "hybrid-1", "score": 0.9593171781744503, "kind": "hybrid"}, {"reviewId": "calm:hybrid-2", "pattern": "calm", "variant": "hybrid-2", "score": 0.9546442480772884, "kind": "hybrid"}, {"reviewId": "calm:hybrid-3", "pattern": "calm", "variant": "hybrid-3", "score": 0.9535699836642451, "kind": "hybrid"}, {"reviewId": "calm:hybrid-4", "pattern": "calm", "variant": "hybrid-4", "score": 0.9513840487825354, "kind": "hybrid"}, {"reviewId": "calm:hybrid-5", "pattern": "calm", "variant": "hybrid-5", "score": 0.9295497053194048, "kind": "hybrid"}, {"reviewId": "joyful:baseline", "pattern": "joyful", "variant": "baseline", "score": 0.8773402798354291, "kind": "synthesis"}, {"reviewId": "joyful:hybrid-1", "pattern": "joyful", "variant": "hybrid-1", "score": 0.9412227282685687, "kind": "hybrid"}, {"reviewId": "joyful:hybrid-2", "pattern": "joyful", "variant": "hybrid-2", "score": 0.9404851831672323, "kind": "hybrid"}, {"reviewId": "joyful:hybrid-3", "pattern": "joyful", "variant": "hybrid-3", "score": 0.9162151475199958, "kind": "hybrid"}, {"reviewId": "joyful:hybrid-4", "pattern": "joyful", "variant": "hybrid-4", "score": 0.9108169980216524, "kind": "hybrid"}, {"reviewId": "joyful:hybrid-5", "pattern": "joyful", "variant": "hybrid-5", "score": 0.9007496204743434, "kind": "hybrid"}, {"reviewId": "open:baseline", "pattern": "open", "variant": "baseline", "score": 0.9036629930948357, "kind": "synthesis"}, {"reviewId": "open:hybrid-1", "pattern": "open", "variant": "hybrid-1", "score": 0.9505093876264998, "kind": "hybrid"}, {"reviewId": "open:hybrid-2", "pattern": "open", "variant": "hybrid-2", "score": 0.9466651797999387, "kind": "hybrid"}, {"reviewId": "open:hybrid-3", "pattern": "open", "variant": "hybrid-3", "score": 0.9401604887772623, "kind": "hybrid"}, {"reviewId": "open:hybrid-4", "pattern": "open", "variant": "hybrid-4", "score": 0.9360431914627213, "kind": "hybrid"}, {"reviewId": "open:hybrid-5", "pattern": "open", "variant": "hybrid-5", "score": 0.9340615693328116, "kind": "hybrid"}, {"reviewId": "tense:baseline", "pattern": "tense", "variant": "baseline", "score": 0.9309417807324221, "kind": "synthesis"}, {"reviewId": "tense:hybrid-1", "pattern": "tense", "variant": "hybrid-1", "score": 0.9507546213897119, "kind": "hybrid"}, {"reviewId": "tense:hybrid-2", "pattern": "tense", "variant": "hybrid-2", "score": 0.9481337790180634, "kind": "hybrid"}, {"reviewId": "tense:hybrid-3", "pattern": "tense", "variant": "hybrid-3", "score": 0.9469297937193245, "kind": "hybrid"}, {"reviewId": "tense:hybrid-4", "pattern": "tense", "variant": "hybrid-4", "score": 0.9320957890731998, "kind": "hybrid"}, {"reviewId": "tense:hybrid-5", "pattern": "tense", "variant": "hybrid-5", "score": 0.9316082227170832, "kind": "hybrid"}];const key='sound-composer-pattern-library-ratings-v1';let ratings={};try{ratings=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
-function update(){document.querySelectorAll('.review').forEach(r=>r.querySelectorAll('button').forEach(b=>b.classList.toggle('active',ratings[r.dataset.reviewId]===b.dataset.rating)));const n=Object.keys(ratings).length;document.getElementById('reviewCount').textContent=n?`${n} / ${ITEMS.length} reviewed`:''}
-document.querySelectorAll('.review button').forEach(b=>b.addEventListener('click',()=>{const r=b.closest('.review');ratings[r.dataset.reviewId]=b.dataset.rating;localStorage.setItem(key,JSON.stringify(ratings));update()}));
-document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause()})));document.getElementById('exportRatings').addEventListener('click',()=>{const payload={schemaVersion:1,exportedAt:new Date().toISOString(),ratings:Object.entries(ratings).map(([reviewId,rating])=>{const item=ITEMS.find(x=>x.reviewId===reviewId)||{};return {reviewId,rating,pattern:item.pattern,variant:item.variant,kind:item.kind,objectiveScore:item.score}})};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sound-composer-pattern-ratings.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});update();
+        </section><section class="pattern" id="waterfall">
+          <div class="patternIntro">
+            <img src="images/waterfall.jpg" alt="Waterfall input image" loading="lazy">
+            <div>
+              <small class="eyebrow">INPUT SCENE · waterfall</small>
+              <h2>Waterfall</h2>
+              <blockquote>森の滝。強い水の流れと飛沫が主役で、他の細かな音は少ない。</blockquote>
+              <p class="inputMeta">Forest waterfall · waterfall forest</p>
+              <p class="expression">warmth 0.46 · nostalgia 0.29 · openness 0.53 · motion 0.30 · tension 0.10</p>
+              <p class="mapping">dorian · 92 BPM · density 0.33 · space 0.57</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Waterfall_nature_landscape.jpg" target="_blank" rel="noreferrer">Input image source · Public Domain</a>
+            </div>
+          </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>waterfall 94% / forest 90% / stream 66%</strong><span>unknown · day · active</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>waterfall</b><span>scene_stream_waterfall</span><em>0.822</em></div><div class="materialChoice"><small>texture</small><b>wind</b><span>ambience_wind_01</span><em>0.724</em></div></div>
+          </div>
+          <div class="candidateGrid"><article class="candidate">
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.943</strong></div>
+              <audio controls preload="none" src="audio/waterfall/baseline.m4a"></audio>
+              <p class="materials">procedural synthesis only</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.057</b></div><i><em style="width:94.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.109</b></div><i><em style="width:89.1%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.124</b></div><i><em style="width:87.6%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.047</b></div><i><em style="width:95.3%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.211</b></div><i><em style="width:60.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.8 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.950</strong></div>
+              <audio controls preload="none" src="audio/waterfall/hybrid-1.m4a"></audio>
+              <p class="materials">bed · waterfall / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.050</b></div><i><em style="width:95.0%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.096</b></div><i><em style="width:90.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.106</b></div><i><em style="width:89.4%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.046</b></div><i><em style="width:95.4%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.211</b></div><i><em style="width:60.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.8 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.941</strong></div>
+              <audio controls preload="none" src="audio/waterfall/hybrid-2.m4a"></audio>
+              <p class="materials">bed · waterfall / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.059</b></div><i><em style="width:94.1%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.147</b></div><i><em style="width:85.3%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.109</b></div><i><em style="width:89.1%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.166</b></div><i><em style="width:47.3%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.4 LUFS</span><span>-4.6 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.940</strong></div>
+              <audio controls preload="none" src="audio/waterfall/hybrid-3.m4a"></audio>
+              <p class="materials">bed · waterfall / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.060</b></div><i><em style="width:94.0%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.082</b></div><i><em style="width:91.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.171</b></div><i><em style="width:82.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.054</b></div><i><em style="width:94.6%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.162</b></div><i><em style="width:46.2%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.1 LUFS</span><span>-3.3 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.935</strong></div>
+              <audio controls preload="none" src="audio/waterfall/hybrid-4.m4a"></audio>
+              <p class="materials">bed · waterfall / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.065</b></div><i><em style="width:93.5%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.156</b></div><i><em style="width:84.4%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.092</b></div><i><em style="width:90.8%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.217</b></div><i><em style="width:61.9%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-4.1 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.894</strong></div>
+              <audio controls preload="none" src="audio/waterfall/hybrid-5.m4a"></audio>
+              <p class="materials">bed · waterfall / texture · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.106</b></div><i><em style="width:89.4%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.084</b></div><i><em style="width:91.6%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.082</b></div><i><em style="width:91.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.495</b></div><i><em style="width:50.5%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.140</b></div><i><em style="width:40.1%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.4 LUFS</span><span>-4.3 dBTP</span></div>
+              <div class="review" data-review-id="waterfall:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article></div>
+        </section><section class="pattern" id="snow-mountain">
+          <div class="patternIntro">
+            <img src="images/snow-mountain.jpg" alt="Snow Mountain input image" loading="lazy">
+            <div>
+              <small class="eyebrow">INPUT SCENE · snow-mountain</small>
+              <h2>Snow Mountain</h2>
+              <blockquote>雪に覆われた山と平原。冬の乾いた風があり、虫や水の気配はほとんどない。</blockquote>
+              <p class="inputMeta">Snow mountain · snow mountain winter</p>
+              <p class="expression">warmth 0.43 · nostalgia 0.29 · openness 0.69 · motion 0.27 · tension 0.11</p>
+              <p class="mapping">dorian · 91 BPM · density 0.32 · space 0.64</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Snow-capped_mountain_range.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
+            </div>
+          </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>mountain 88% / snow 88%</strong><span>snowy · day · gentle</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>snow_winter</b><span>scene_snow_wind</span><em>0.879</em></div><div class="materialChoice"><small>ornament</small><b>glass</b><span>texture_glass_02</span><em>0.222</em></div><div class="materialChoice"><small>bed</small><b>wind</b><span>scene_wind_forest</span><em>0.831</em></div></div>
+          </div>
+          <div class="candidateGrid"><article class="candidate">
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.910</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/baseline.m4a"></audio>
+              <p class="materials">procedural synthesis only</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.090</b></div><i><em style="width:91.0%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.117</b></div><i><em style="width:88.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.139</b></div><i><em style="width:86.1%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.246</b></div><i><em style="width:75.4%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.199</b></div><i><em style="width:56.9%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.9 LUFS</span><span>-5.0 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.949</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/hybrid-1.m4a"></audio>
+              <p class="materials">bed · snow_winter / bed · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.051</b></div><i><em style="width:94.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.101</b></div><i><em style="width:89.9%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.138</b></div><i><em style="width:86.2%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.190</b></div><i><em style="width:54.2%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.5 LUFS</span><span>-3.5 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.938</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/hybrid-2.m4a"></audio>
+              <p class="materials">bed · snow_winter / bed · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.062</b></div><i><em style="width:93.8%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.096</b></div><i><em style="width:90.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.038</b></div><i><em style="width:96.2%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.107</b></div><i><em style="width:30.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.8 LUFS</span><span>-3.3 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.924</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/hybrid-3.m4a"></audio>
+              <p class="materials">bed · snow_winter / ornament · glass / bed · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.076</b></div><i><em style="width:92.4%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.101</b></div><i><em style="width:89.9%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.161</b></div><i><em style="width:83.9%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.145</b></div><i><em style="width:85.5%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.212</b></div><i><em style="width:60.4%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.2 LUFS</span><span>-5.2 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.919</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/hybrid-4.m4a"></audio>
+              <p class="materials">bed · snow_winter / ornament · glass / bed · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.081</b></div><i><em style="width:91.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.097</b></div><i><em style="width:90.3%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.133</b></div><i><em style="width:86.7%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.200</b></div><i><em style="width:80.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.010</b></div><i><em style="width:99.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.128</b></div><i><em style="width:36.5%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.1 LUFS</span><span>-3.6 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.919</strong></div>
+              <audio controls preload="none" src="audio/snow-mountain/hybrid-5.m4a"></audio>
+              <p class="materials">bed · snow_winter / bed · wind / ornament · glass</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.081</b></div><i><em style="width:91.9%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.105</b></div><i><em style="width:89.5%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.172</b></div><i><em style="width:82.8%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.164</b></div><i><em style="width:83.6%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.186</b></div><i><em style="width:53.0%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.7 LUFS</span><span>-4.1 dBTP</span></div>
+              <div class="review" data-review-id="snow-mountain:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article></div>
+        </section><section class="pattern" id="field-sunset">
+          <div class="patternIntro">
+            <img src="images/field-sunset.jpg" alt="Field Sunset input image" loading="lazy">
+            <div>
+              <small class="eyebrow">INPUT SCENE · field-sunset</small>
+              <h2>Field Sunset</h2>
+              <blockquote>開けた田園の夕暮れ。弱い風が草を動かし、昼の鳥から夜の虫へ移る手前の時間。</blockquote>
+              <p class="inputMeta">Open farm field · field rural</p>
+              <p class="expression">warmth 0.57 · nostalgia 0.33 · openness 0.55 · motion 0.26 · tension 0.13</p>
+              <p class="mapping">dorian · 91 BPM · density 0.33 · space 0.58</p>
+              <a class="source" href="https://commons.wikimedia.org/wiki/File:Sunset_over_the_Farm_Fields.jpg" target="_blank" rel="noreferrer">Input image source · CC0</a>
+            </div>
+          </div>
+          <div class="scenePanel">
+            <div><small>SCENE SEMANTICS</small><strong>field 84% / rural 82%</strong><span>windy · sunset · active</span></div>
+            <div class="materialChoices"><div class="materialChoice"><small>bed</small><b>wind</b><span>scene_wind_forest</span><em>0.801</em></div><div class="materialChoice"><small>texture</small><b>foliage</b><span>scene_leaves_wind</span><em>0.804</em></div><div class="materialChoice"><small>transient</small><b>birds</b><span>ambience_birds</span><em>0.578</em></div><div class="materialChoice"><small>ornament</small><b>bell</b><span>texture_bell_02</span><em>0.459</em></div></div>
+          </div>
+          <div class="candidateGrid"><article class="candidate">
+              <div class="candidateHead"><div><small>BASE · SYNTHESIS</small><h3>Synthesis baseline</h3></div><strong>0.933</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/baseline.m4a"></audio>
+              <p class="materials">procedural synthesis only</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.100</b></div><i><em style="width:90.0%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.155</b></div><i><em style="width:84.5%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.095</b></div><i><em style="width:90.5%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.222</b></div><i><em style="width:63.5%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-3.9 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:baseline">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#1 · HYBRID</small><h3>Hybrid 1</h3></div><strong>0.950</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/hybrid-1.m4a"></audio>
+              <p class="materials">bed · wind</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.050</b></div><i><em style="width:95.0%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.091</b></div><i><em style="width:90.9%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.148</b></div><i><em style="width:85.2%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.175</b></div><i><em style="width:50.0%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.5 LUFS</span><span>-4.9 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:hybrid-1">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#2 · HYBRID</small><h3>Hybrid 2</h3></div><strong>0.943</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/hybrid-2.m4a"></audio>
+              <p class="materials">bed · wind / transient · birds</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.057</b></div><i><em style="width:94.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.110</b></div><i><em style="width:89.0%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.158</b></div><i><em style="width:84.2%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.244</b></div><i><em style="width:69.6%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.1 LUFS</span><span>-3.2 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:hybrid-2">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#3 · HYBRID</small><h3>Hybrid 3</h3></div><strong>0.933</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/hybrid-3.m4a"></audio>
+              <p class="materials">bed · wind / texture · foliage / transient · birds / ornament · bell</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.066</b></div><i><em style="width:93.4%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.108</b></div><i><em style="width:89.2%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.218</b></div><i><em style="width:78.2%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.195</b></div><i><em style="width:55.6%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-23.0 LUFS</span><span>-5.8 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:hybrid-3">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#4 · HYBRID</small><h3>Hybrid 4</h3></div><strong>0.933</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/hybrid-4.m4a"></audio>
+              <p class="materials">bed · wind / texture · foliage / transient · birds / ornament · bell</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.067</b></div><i><em style="width:93.3%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.095</b></div><i><em style="width:90.5%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.164</b></div><i><em style="width:83.6%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.094</b></div><i><em style="width:90.6%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.222</b></div><i><em style="width:63.5%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-22.0 LUFS</span><span>-3.9 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:hybrid-4">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article><article class="candidate">
+              <div class="candidateHead"><div><small>#5 · HYBRID</small><h3>Hybrid 5</h3></div><strong>0.901</strong></div>
+              <audio controls preload="none" src="audio/field-sunset/hybrid-5.m4a"></audio>
+              <p class="materials">bed · wind / texture · foliage</p>
+              <div class="metrics">
+                <div class="metric"><div><span>構造補正risk</span><b>0.099</b></div><i><em style="width:90.1%"></em></i></div>
+                <div class="metric"><div><span>Fatigue</span><b>0.083</b></div><i><em style="width:91.7%"></em></i></div>
+                <div class="metric"><div><span>Chaos</span><b>0.127</b></div><i><em style="width:87.3%"></em></i></div>
+                <div class="metric"><div><span>Low-end</span><b>0.393</b></div><i><em style="width:60.7%"></em></i></div>
+                <div class="metric"><div><span>Long-form</span><b>0.000</b></div><i><em style="width:100.0%"></em></i></div>
+                <div class="metric"><div><span>Section novelty</span><b>0.139</b></div><i><em style="width:39.7%"></em></i></div>
+              </div>
+              <div class="facts"><span>3 sections</span><span>-21.4 LUFS</span><span>-3.8 dBTP</span></div>
+              <div class="review" data-review-id="field-sunset:hybrid-5">
+                <span>好み</span><button data-axis="preference" data-rating="like">好き</button><button data-axis="preference" data-rating="neutral">普通</button><button data-axis="preference" data-rating="dislike">微妙</button>
+                <span class="scenePrompt">Scene fit</span><button data-axis="sceneFit" data-rating="fit">合う</button><button data-axis="sceneFit" data-rating="not_fit">合わない</button>
+              </div>
+            </article></div>
+        </section><footer>Audio QA is calculated from lossless 48 kHz WAV. Browser preview uses AAC 128 kbps. Input images shown above are the same files passed to the Swift image analyzer.</footer></main><script>
+const ITEMS=[{"reviewId": "ocean-sunset:baseline", "pattern": "ocean-sunset", "variant": "baseline", "score": 0.9177926333487826, "kind": "synthesis"}, {"reviewId": "ocean-sunset:hybrid-1", "pattern": "ocean-sunset", "variant": "hybrid-1", "score": 0.9585311527339537, "kind": "hybrid"}, {"reviewId": "ocean-sunset:hybrid-2", "pattern": "ocean-sunset", "variant": "hybrid-2", "score": 0.9186297594503399, "kind": "hybrid"}, {"reviewId": "ocean-sunset:hybrid-3", "pattern": "ocean-sunset", "variant": "hybrid-3", "score": 0.9181546297144845, "kind": "hybrid"}, {"reviewId": "ocean-sunset:hybrid-4", "pattern": "ocean-sunset", "variant": "hybrid-4", "score": 0.907794925387041, "kind": "hybrid"}, {"reviewId": "ocean-sunset:hybrid-5", "pattern": "ocean-sunset", "variant": "hybrid-5", "score": 0.8878301633232486, "kind": "hybrid"}, {"reviewId": "quiet-lake:baseline", "pattern": "quiet-lake", "variant": "baseline", "score": 0.9070925603539166, "kind": "synthesis"}, {"reviewId": "quiet-lake:hybrid-1", "pattern": "quiet-lake", "variant": "hybrid-1", "score": 0.9419988131057556, "kind": "hybrid"}, {"reviewId": "quiet-lake:hybrid-2", "pattern": "quiet-lake", "variant": "hybrid-2", "score": 0.9279270268765202, "kind": "hybrid"}, {"reviewId": "quiet-lake:hybrid-3", "pattern": "quiet-lake", "variant": "hybrid-3", "score": 0.9229321433355269, "kind": "hybrid"}, {"reviewId": "quiet-lake:hybrid-4", "pattern": "quiet-lake", "variant": "hybrid-4", "score": 0.9109375382493593, "kind": "hybrid"}, {"reviewId": "quiet-lake:hybrid-5", "pattern": "quiet-lake", "variant": "hybrid-5", "score": 0.9026554983491646, "kind": "hybrid"}, {"reviewId": "forest-day:baseline", "pattern": "forest-day", "variant": "baseline", "score": 0.9486049681472184, "kind": "synthesis"}, {"reviewId": "forest-day:hybrid-1", "pattern": "forest-day", "variant": "hybrid-1", "score": 0.9493622738583154, "kind": "hybrid"}, {"reviewId": "forest-day:hybrid-2", "pattern": "forest-day", "variant": "hybrid-2", "score": 0.9411613091423455, "kind": "hybrid"}, {"reviewId": "forest-day:hybrid-3", "pattern": "forest-day", "variant": "hybrid-3", "score": 0.9188170480454583, "kind": "hybrid"}, {"reviewId": "forest-day:hybrid-4", "pattern": "forest-day", "variant": "hybrid-4", "score": 0.9155069455806901, "kind": "hybrid"}, {"reviewId": "forest-day:hybrid-5", "pattern": "forest-day", "variant": "hybrid-5", "score": 0.8859590220250546, "kind": "hybrid"}, {"reviewId": "rural-night:baseline", "pattern": "rural-night", "variant": "baseline", "score": 0.9282373960167106, "kind": "synthesis"}, {"reviewId": "rural-night:hybrid-1", "pattern": "rural-night", "variant": "hybrid-1", "score": 0.9334207368572781, "kind": "hybrid"}, {"reviewId": "rural-night:hybrid-2", "pattern": "rural-night", "variant": "hybrid-2", "score": 0.9266686251151288, "kind": "hybrid"}, {"reviewId": "rural-night:hybrid-3", "pattern": "rural-night", "variant": "hybrid-3", "score": 0.9116429106999931, "kind": "hybrid"}, {"reviewId": "rural-night:hybrid-4", "pattern": "rural-night", "variant": "hybrid-4", "score": 0.9076895748083145, "kind": "hybrid"}, {"reviewId": "rural-night:hybrid-5", "pattern": "rural-night", "variant": "hybrid-5", "score": 0.9029828993244713, "kind": "hybrid"}, {"reviewId": "forest-stream:baseline", "pattern": "forest-stream", "variant": "baseline", "score": 0.9330411269046618, "kind": "synthesis"}, {"reviewId": "forest-stream:hybrid-1", "pattern": "forest-stream", "variant": "hybrid-1", "score": 0.9382149007581104, "kind": "hybrid"}, {"reviewId": "forest-stream:hybrid-2", "pattern": "forest-stream", "variant": "hybrid-2", "score": 0.9337447948256039, "kind": "hybrid"}, {"reviewId": "forest-stream:hybrid-3", "pattern": "forest-stream", "variant": "hybrid-3", "score": 0.9313718798770354, "kind": "hybrid"}, {"reviewId": "forest-stream:hybrid-4", "pattern": "forest-stream", "variant": "hybrid-4", "score": 0.9155927311750689, "kind": "hybrid"}, {"reviewId": "forest-stream:hybrid-5", "pattern": "forest-stream", "variant": "hybrid-5", "score": 0.9023780116591131, "kind": "hybrid"}, {"reviewId": "waterfall:baseline", "pattern": "waterfall", "variant": "baseline", "score": 0.9429272795075504, "kind": "synthesis"}, {"reviewId": "waterfall:hybrid-1", "pattern": "waterfall", "variant": "hybrid-1", "score": 0.9495582603237861, "kind": "hybrid"}, {"reviewId": "waterfall:hybrid-2", "pattern": "waterfall", "variant": "hybrid-2", "score": 0.9407969237843417, "kind": "hybrid"}, {"reviewId": "waterfall:hybrid-3", "pattern": "waterfall", "variant": "hybrid-3", "score": 0.9404373028558078, "kind": "hybrid"}, {"reviewId": "waterfall:hybrid-4", "pattern": "waterfall", "variant": "hybrid-4", "score": 0.9349364354802816, "kind": "hybrid"}, {"reviewId": "waterfall:hybrid-5", "pattern": "waterfall", "variant": "hybrid-5", "score": 0.8941106960900016, "kind": "hybrid"}, {"reviewId": "snow-mountain:baseline", "pattern": "snow-mountain", "variant": "baseline", "score": 0.910242460126215, "kind": "synthesis"}, {"reviewId": "snow-mountain:hybrid-1", "pattern": "snow-mountain", "variant": "hybrid-1", "score": 0.9490532646327089, "kind": "hybrid"}, {"reviewId": "snow-mountain:hybrid-2", "pattern": "snow-mountain", "variant": "hybrid-2", "score": 0.937934565291137, "kind": "hybrid"}, {"reviewId": "snow-mountain:hybrid-3", "pattern": "snow-mountain", "variant": "hybrid-3", "score": 0.9243954183368863, "kind": "hybrid"}, {"reviewId": "snow-mountain:hybrid-4", "pattern": "snow-mountain", "variant": "hybrid-4", "score": 0.9193909062483812, "kind": "hybrid"}, {"reviewId": "snow-mountain:hybrid-5", "pattern": "snow-mountain", "variant": "hybrid-5", "score": 0.9188095782431261, "kind": "hybrid"}, {"reviewId": "field-sunset:baseline", "pattern": "field-sunset", "variant": "baseline", "score": 0.932910824103098, "kind": "synthesis"}, {"reviewId": "field-sunset:hybrid-1", "pattern": "field-sunset", "variant": "hybrid-1", "score": 0.9496217013146787, "kind": "hybrid"}, {"reviewId": "field-sunset:hybrid-2", "pattern": "field-sunset", "variant": "hybrid-2", "score": 0.9429276071387288, "kind": "hybrid"}, {"reviewId": "field-sunset:hybrid-3", "pattern": "field-sunset", "variant": "hybrid-3", "score": 0.9328069848153706, "kind": "hybrid"}, {"reviewId": "field-sunset:hybrid-4", "pattern": "field-sunset", "variant": "hybrid-4", "score": 0.9325034806773042, "kind": "hybrid"}, {"reviewId": "field-sunset:hybrid-5", "pattern": "field-sunset", "variant": "hybrid-5", "score": 0.9006096393511387, "kind": "hybrid"}];const key='sound-composer-scene-pattern-ratings-v2';let ratings={};try{ratings=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+function state(id){return ratings[id]||{}}function update(){document.querySelectorAll('.review').forEach(r=>r.querySelectorAll('button').forEach(b=>b.classList.toggle('active',state(r.dataset.reviewId)[b.dataset.axis]===b.dataset.rating)));const n=Object.values(ratings).filter(v=>v.preference||v.sceneFit).length;document.getElementById('reviewCount').textContent=n?`${n} / ${ITEMS.length} reviewed`:''}
+document.querySelectorAll('.review button').forEach(b=>b.addEventListener('click',()=>{const r=b.closest('.review');const id=r.dataset.reviewId;ratings[id]=state(id);ratings[id][b.dataset.axis]=b.dataset.rating;localStorage.setItem(key,JSON.stringify(ratings));update()}));document.querySelectorAll('audio').forEach(a=>a.addEventListener('play',()=>document.querySelectorAll('audio').forEach(x=>{if(x!==a)x.pause()})));document.getElementById('exportRatings').addEventListener('click',()=>{const payload={schemaVersion:2,exportedAt:new Date().toISOString(),ratings:Object.entries(ratings).map(([reviewId,value])=>{const item=ITEMS.find(x=>x.reviewId===reviewId)||{};return {reviewId,preference:value.preference||null,sceneFit:value.sceneFit||null,pattern:item.pattern,variant:item.variant,kind:item.kind,objectiveScore:item.score}})};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='sound-composer-scene-ratings.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});update();
 </script></body></html>

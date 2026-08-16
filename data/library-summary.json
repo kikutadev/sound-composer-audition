@@ -1,97 +1,266 @@
 {
-  "schemaVersion": 1,
-  "metricVersion": "sound_composer_pattern_library_v1_uncalibrated",
+  "schemaVersion": 2,
+  "metricVersion": "sound_composer_scene_pattern_library_v2_uncalibrated",
   "subjectivePleasantnessClaim": false,
-  "generatedAt": "2026-08-15T22:20:59.964982+09:00",
+  "generatedAt": "2026-08-16T18:16:57.712201+09:00",
   "candidatePolicy": {
-    "patterns": 6,
+    "patterns": 8,
     "hybridCandidatesPerPattern": 8,
     "publishedHybridsPerPattern": 5,
     "durationSeconds": 60.0,
     "includesSynthesisBaseline": true,
-    "rankingScope": "within-pattern only"
+    "rankingScope": "within-pattern only",
+    "sceneMaterialSelection": true,
+    "selectorVersion": "scene_material_selector_v1",
+    "semanticPrimaryBedRetentionGate": true
   },
   "patterns": [
     {
-      "id": "warm",
-      "title": "Warm Sunset",
-      "image": "images/warm.jpg",
+      "id": "ocean-sunset",
+      "title": "Ocean Sunset",
+      "image": "images/ocean-sunset.jpg",
       "input": {
         "place": {
-          "name": "Sunset waterfront",
-          "category": "waterfront"
+          "name": "Sunset coast",
+          "category": "coast ocean beach"
         },
-        "note": "夕焼けの水辺。暖かく、少し名残惜しいけれど安心する時間。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
+        "note": "夕暮れの海辺。穏やかな波と風が続き、遠くまで開けている。",
+        "capturedAt": "2026-08-16T18:15:00+09:00"
       },
       "source": {
         "provider": "Wikimedia Commons",
-        "file": "Sunset landscape.jpg",
+        "file": "Behind bayside cafe red yellow and pink sunset with ocean and clouds.jpg",
         "license": "Public Domain",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Sunset_landscape.jpg"
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Behind_bayside_cafe_red_yellow_and_pink_sunset_with_ocean_and_clouds.jpg"
       },
       "expression": {
-        "valence": -0.02703510200321349,
-        "arousal": 0.40623994516068385,
-        "warmth": 0.6552187453703704,
-        "nostalgia": 0.32831,
-        "intimacy": 0.4327985069811068,
-        "openness": 0.5283936627361656,
-        "tension": 0.09041280121912447,
-        "motion": 0.28977762278883945,
-        "confidence": 0.7400000000000001,
+        "valence": 0.019506042535674794,
+        "arousal": 0.30811797648903383,
+        "warmth": 0.5821111682098766,
+        "nostalgia": 0.32818,
+        "intimacy": 0.4211524557046623,
+        "openness": 0.6788443036917211,
+        "tension": 0.10482604130062163,
+        "motion": 0.2747606256174986,
+        "confidence": 0.7200000000000001,
         "memoryPalette": [
-          "#0B0D0F",
-          "#132339",
-          "#2C1A1A",
-          "#4D2A2B",
-          "#8D514D"
+          "#090809",
+          "#4F3130",
+          "#4E566F",
+          "#716879",
+          "#90564E"
         ]
       },
       "photoFeatures": {
-        "contrast": 0.35442038928123204,
-        "luminance": 0.1771008233478577,
+        "contrast": 0.502914031179927,
+        "luminance": 0.3229508510348565,
         "palette": [
-          "#0B0D0F",
-          "#132339",
-          "#2C1A1A",
-          "#4D2A2B",
-          "#8D514D"
+          "#090809",
+          "#4F3130",
+          "#4E566F",
+          "#716879",
+          "#90564E"
         ],
         "photoCount": 1,
-        "saturation": 0.45845505646882795,
-        "warmthBias": 0.049369099491648555
+        "saturation": 0.3449635339649438,
+        "warmthBias": 0.14817765068990618
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.92,
+            "label": "ocean"
+          },
+          {
+            "confidence": 0.9,
+            "label": "beach"
+          },
+          {
+            "confidence": 0.86,
+            "label": "coast"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "sunset"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "flowing"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "vast"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "insects",
+          "lake_water",
+          "waterfall"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.62,
+          "minimum": 0.2
+        },
+        "preferredBeds": [
+          {
+            "family": "ocean",
+            "weight": 1
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "glass",
+            "weight": 0.3
+          },
+          {
+            "family": "bell",
+            "weight": 0.22
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "wind",
+            "weight": 0.82
+          },
+          {
+            "family": "foliage",
+            "weight": 0.2
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "birds",
+            "weight": 0.35
+          }
+        ],
+        "pulseAllowance": 0.25495212512349974,
+        "realismBias": 0.84,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.37876319999999997
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_ocean_waves",
+            "family": "ocean",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8410983470651223,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.92,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.8741098347065123
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_wind_01",
+            "family": "wind",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8410983470651223,
+              "motionFit": 0.042,
+              "roleFit": 0.82,
+              "sceneFit": 0.92,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.7793098347065123
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_birds",
+            "family": "birds",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8410983470651223,
+              "motionFit": 0.72,
+              "roleFit": 0.35,
+              "sceneFit": 0,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.2994098347065122
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_glass_02",
+            "family": "glass",
+            "role": "ornament",
+            "score": {
+              "expressionCompatibility": 0.5957074970061729,
+              "motionFit": 0.72,
+              "roleFit": 0.3,
+              "sceneFit": 0.86,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.5683707497006173
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          }
+        ]
       },
       "parameters": {
-        "bpm": 91.13836676989611,
-        "density": 0.327513296474049,
+        "bpm": 87.98309472098848,
+        "density": 0.2960457432082639,
         "durationSeconds": 60,
-        "glitch": 0.06264825801816708,
-        "highFrequency": 0.2181892864381753,
+        "glitch": 0.06375301665749934,
+        "highFrequency": 0.22197478913044322,
         "mode": "dorian",
         "sectionBars": 8,
-        "space": 0.5783073585499356,
-        "stutter": 0.09773075095686483
+        "space": 0.6481272580983369,
+        "stutter": 0.08978083549336328
       },
       "recipeAssetIds": [
-        "ambience_water_03",
-        "texture_wood_03",
-        "texture_bell_01"
+        "scene_ocean_waves",
+        "ambience_wind_01",
+        "ambience_birds",
+        "texture_glass_02"
       ],
       "baseline": {
-        "score": 0.8838470343012578,
-        "combinedRisk": 0.1161529656987422,
-        "qualityRisk": 0.2579158058084392,
-        "fatigueRisk": 0.1235411415112892,
-        "chaosRisk": 0.1455696849037568,
-        "lowEndDominanceRisk": 0.41306946873664857,
+        "score": 0.9177926333487826,
+        "combinedRisk": 0.08220736665121742,
+        "qualityRisk": 0.22449266103239537,
+        "fatigueRisk": 0.10520441495903943,
+        "chaosRisk": 0.11467211070295769,
+        "lowEndDominanceRisk": 0.24438027739524845,
         "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -21.5,
-        "maxTruePeakDBTP": -4.1,
+        "integratedLUFS": -21.8,
+        "maxTruePeakDBTP": -3.7,
         "longFormSufficient": true,
         "sectionCount": 3,
         "transitionCount": 2,
-        "sectionNoveltyMean": 0.19256754403948928,
+        "sectionNoveltyMean": 0.18668156358321453,
         "stagnantTransitionRatio": 0.0,
         "abruptTransitionRatio": 0.0,
         "longFormMonotonyRisk": 0.0,
@@ -100,56 +269,57 @@
         "technicalGatePassed": true,
         "materials": [],
         "kind": "synthesis-only",
-        "audio": "audio/warm/baseline.m4a",
+        "audio": "audio/ocean-sunset/baseline.m4a",
         "publicId": "baseline"
       },
       "top5": [
         {
-          "score": 0.937155193050242,
-          "combinedRisk": 0.06284480694975805,
-          "qualityRisk": 0.2034667413550897,
-          "fatigueRisk": 0.09863720241856076,
-          "chaosRisk": 0.17010031922502447,
-          "lowEndDominanceRisk": 0.04700769186019901,
+          "score": 0.9585311527339537,
+          "combinedRisk": 0.041468847266046244,
+          "qualityRisk": 0.1837464895385672,
+          "fatigueRisk": 0.0924662044934598,
+          "chaosRisk": 0.09682018943192605,
+          "lowEndDominanceRisk": 0.0,
           "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.2,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -5.3,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.2562229639480072,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_ocean_waves"
+          ],
+          "materialLabel": "semantic bed only",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 2,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_ocean_waves",
+          "audio": "audio/ocean-sunset/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9186297594503399,
+          "combinedRisk": 0.0813702405496601,
+          "qualityRisk": 0.22255440946628724,
+          "fatigueRisk": 0.09874337549719356,
+          "chaosRisk": 0.13437439317814837,
+          "lowEndDominanceRisk": 0.2250683724880219,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.8,
           "maxTruePeakDBTP": -3.7,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.18216981938115417,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "ambience_water_03",
-            "texture_wood_03"
-          ],
-          "materialLabel": "ambience + primary texture",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 20,
-          "kind": "hybrid",
-          "audio": "audio/warm/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9321962272864573,
-          "combinedRisk": 0.06780377271354268,
-          "qualityRisk": 0.20851208945689162,
-          "fatigueRisk": 0.1097295408790026,
-          "chaosRisk": 0.16620370352068525,
-          "lowEndDominanceRisk": 0.06683875322341923,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.0,
-          "maxTruePeakDBTP": -3.0,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.16587593752061142,
+          "sectionNoveltyMean": 0.2535460054361111,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -158,289 +328,32 @@
           "technicalGatePassed": true,
           "rank": 2,
           "materials": [
-            "ambience_water_03",
-            "texture_bell_01"
+            "scene_ocean_waves",
+            "ambience_wind_01"
           ],
-          "materialLabel": "ambience + alternate texture",
+          "materialLabel": "bed + primary texture",
           "layerGainOffsetDb": -1.0,
-          "materialEventCount": 20,
+          "materialEventCount": 11,
           "kind": "hybrid",
-          "audio": "audio/warm/hybrid-2.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_ocean_waves",
+          "audio": "audio/ocean-sunset/hybrid-2.m4a",
           "publicId": "hybrid-2"
         },
         {
-          "score": 0.9274313863003324,
-          "combinedRisk": 0.07256861369966763,
-          "qualityRisk": 0.21205146151279805,
-          "fatigueRisk": 0.0928420455326621,
-          "chaosRisk": 0.20741379439705715,
-          "lowEndDominanceRisk": 0.07925142049789433,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -20.9,
-          "maxTruePeakDBTP": -3.0,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.21045023505295002,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 3,
-          "materials": [
-            "ambience_water_03",
-            "texture_wood_03",
-            "texture_bell_01"
-          ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 20,
-          "kind": "hybrid",
-          "audio": "audio/warm/hybrid-3.m4a",
-          "publicId": "hybrid-3"
-        },
-        {
-          "score": 0.9255798426234174,
-          "combinedRisk": 0.07442015737658264,
-          "qualityRisk": 0.22395684291297352,
-          "fatigueRisk": 0.1008440240834462,
-          "chaosRisk": 0.1369334653775075,
-          "lowEndDominanceRisk": 0.1682334810495377,
+          "score": 0.9181546297144845,
+          "combinedRisk": 0.08184537028551553,
+          "qualityRisk": 0.22195873238617564,
+          "fatigueRisk": 0.10231152351708322,
+          "chaosRisk": 0.11988648118341219,
+          "lowEndDominanceRisk": 0.24046291112899784,
           "stereoInstabilityRisk": 0.0,
           "integratedLUFS": -21.8,
-          "maxTruePeakDBTP": -4.2,
+          "maxTruePeakDBTP": -3.7,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.21528919466634264,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 4,
-          "materials": [
-            "ambience_water_03",
-            "texture_wood_03",
-            "texture_bell_01"
-          ],
-          "materialLabel": "full material recipe",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 20,
-          "kind": "hybrid",
-          "audio": "audio/warm/hybrid-4.m4a",
-          "publicId": "hybrid-4"
-        },
-        {
-          "score": 0.9201698905385649,
-          "combinedRisk": 0.0798301094614351,
-          "qualityRisk": 0.22213549328483478,
-          "fatigueRisk": 0.08892655294634826,
-          "chaosRisk": 0.12731073470244672,
-          "lowEndDominanceRisk": 0.24138052463531498,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.9,
-          "maxTruePeakDBTP": -5.0,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.20784889758886202,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 5,
-          "materials": [
-            "texture_wood_03",
-            "texture_bell_01"
-          ],
-          "materialLabel": "texture-only material",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 3,
-          "kind": "hybrid",
-          "audio": "audio/warm/hybrid-5.m4a",
-          "publicId": "hybrid-5"
-        }
-      ]
-    },
-    {
-      "id": "nostalgic",
-      "title": "Nostalgic Street",
-      "image": "images/nostalgic.jpg",
-      "input": {
-        "place": {
-          "name": "Old city street",
-          "category": "street"
-        },
-        "note": "昔よく歩いた街を思い出すような、静かで懐かしい帰り道。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
-      },
-      "source": {
-        "provider": "Wikimedia Commons",
-        "file": "Urban Sunset Silhouette in Architectural Street.jpg",
-        "license": "CC0",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Urban_Sunset_Silhouette_in_Architectural_Street.jpg"
-      },
-      "expression": {
-        "valence": -0.034274465692381184,
-        "arousal": 0.3154735981005543,
-        "warmth": 0.5618780781250001,
-        "nostalgia": 0.6199500000000001,
-        "intimacy": 0.4320287699485033,
-        "openness": 0.5282653756437092,
-        "tension": 0.09360908388982679,
-        "motion": 0.3547023197609436,
-        "confidence": 0.78,
-        "memoryPalette": [
-          "#171614",
-          "#4B3212",
-          "#2E2A24",
-          "#87766C",
-          "#73470D"
-        ]
-      },
-      "photoFeatures": {
-        "contrast": 0.3823325932499687,
-        "luminance": 0.16227210682189655,
-        "palette": [
-          "#171614",
-          "#4B3212",
-          "#2E2A24",
-          "#87766C",
-          "#73470D"
-        ],
-        "photoCount": 1,
-        "saturation": 0.23719268581052924,
-        "warmthBias": 0.06530330882352993
-      },
-      "parameters": {
-        "bpm": 87.26368603427294,
-        "density": 0.31817117565717856,
-        "durationSeconds": 60,
-        "glitch": 0.06835363900324777,
-        "highFrequency": 0.17812306182356324,
-        "mode": "dorian",
-        "sectionBars": 8,
-        "space": 0.630359773515878,
-        "stutter": 0.09932788443284338
-      },
-      "recipeAssetIds": [
-        "texture_wind_chimes_03",
-        "texture_glass_02",
-        "texture_bell_02",
-        "ambience_rain"
-      ],
-      "baseline": {
-        "score": 0.9476673865066003,
-        "combinedRisk": 0.052332613493399634,
-        "qualityRisk": 0.18652445291339456,
-        "fatigueRisk": 0.08771406333182111,
-        "chaosRisk": 0.09839374567543326,
-        "lowEndDominanceRisk": 0.025243204832077065,
-        "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -21.5,
-        "maxTruePeakDBTP": -3.0,
-        "longFormSufficient": true,
-        "sectionCount": 3,
-        "transitionCount": 2,
-        "sectionNoveltyMean": 0.11173273192635286,
-        "stagnantTransitionRatio": 0.0,
-        "abruptTransitionRatio": 0.0,
-        "longFormMonotonyRisk": 0.04141017064528674,
-        "longFormChaosRisk": 0.0,
-        "longFormRisk": 0.024017898974266306,
-        "technicalGatePassed": true,
-        "materials": [],
-        "kind": "synthesis-only",
-        "audio": "audio/nostalgic/baseline.m4a",
-        "publicId": "baseline"
-      },
-      "top5": [
-        {
-          "score": 0.9478543072298775,
-          "combinedRisk": 0.05214569277012254,
-          "qualityRisk": 0.18407003244741763,
-          "fatigueRisk": 0.08641378337493157,
-          "chaosRisk": 0.10371753987555313,
-          "lowEndDominanceRisk": 0.01945015490055088,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.5,
-          "maxTruePeakDBTP": -3.0,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.1117406990274504,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.04142965114481809,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.024029197663994493,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "texture_wind_chimes_03",
-            "texture_glass_02",
-            "texture_bell_02",
-            "ambience_rain"
-          ],
-          "materialLabel": "full material recipe",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/nostalgic/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9226559649375348,
-          "combinedRisk": 0.07734403506246523,
-          "qualityRisk": 0.222045995182197,
-          "fatigueRisk": 0.08741571505233747,
-          "chaosRisk": 0.08173816002587404,
-          "lowEndDominanceRisk": 0.2850220024585724,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.3,
-          "maxTruePeakDBTP": -4.5,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.1630790497224724,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 2,
-          "materials": [
-            "ambience_rain",
-            "texture_bell_02"
-          ],
-          "materialLabel": "ambience + alternate texture",
-          "layerGainOffsetDb": -1.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/nostalgic/hybrid-2.m4a",
-          "publicId": "hybrid-2"
-        },
-        {
-          "score": 0.9166316992614101,
-          "combinedRisk": 0.08336830073858989,
-          "qualityRisk": 0.2223927507329873,
-          "fatigueRisk": 0.0921598825111337,
-          "chaosRisk": 0.16302208590310965,
-          "lowEndDominanceRisk": 0.21473397016525272,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.2,
-          "maxTruePeakDBTP": -4.3,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.21822262067938242,
+          "sectionNoveltyMean": 0.18667267369588078,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -449,32 +362,34 @@
           "technicalGatePassed": true,
           "rank": 3,
           "materials": [
-            "texture_wind_chimes_03",
-            "texture_glass_02",
-            "texture_bell_02",
-            "ambience_rain"
+            "scene_ocean_waves",
+            "ambience_wind_01",
+            "ambience_birds",
+            "texture_glass_02"
           ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 12,
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 16,
           "kind": "hybrid",
-          "audio": "audio/nostalgic/hybrid-3.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_ocean_waves",
+          "audio": "audio/ocean-sunset/hybrid-3.m4a",
           "publicId": "hybrid-3"
         },
         {
-          "score": 0.9007646309660192,
-          "combinedRisk": 0.09923536903398078,
-          "qualityRisk": 0.24119695806338984,
-          "fatigueRisk": 0.09398624124785265,
-          "chaosRisk": 0.13077978650978545,
-          "lowEndDominanceRisk": 0.36613274812698365,
+          "score": 0.907794925387041,
+          "combinedRisk": 0.09220507461295899,
+          "qualityRisk": 0.23287688937680356,
+          "fatigueRisk": 0.09263694467609768,
+          "chaosRisk": 0.14066841773552508,
+          "lowEndDominanceRisk": 0.30570824146270753,
           "stereoInstabilityRisk": 0.0,
           "integratedLUFS": -22.0,
-          "maxTruePeakDBTP": -5.1,
+          "maxTruePeakDBTP": -4.3,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.22477779430345834,
+          "sectionNoveltyMean": 0.20973559135119935,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -483,64 +398,67 @@
           "technicalGatePassed": true,
           "rank": 4,
           "materials": [
-            "ambience_rain",
-            "texture_wind_chimes_03",
-            "texture_bell_02"
+            "scene_ocean_waves",
+            "ambience_wind_01",
+            "ambience_birds",
+            "texture_glass_02"
           ],
-          "materialLabel": "alternate texture subset",
-          "layerGainOffsetDb": 1.0,
-          "materialEventCount": 12,
+          "materialLabel": "semantic selection · present",
+          "layerGainOffsetDb": 2.0,
+          "materialEventCount": 16,
           "kind": "hybrid",
-          "audio": "audio/nostalgic/hybrid-4.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_ocean_waves",
+          "audio": "audio/ocean-sunset/hybrid-4.m4a",
           "publicId": "hybrid-4"
         },
         {
-          "score": 0.8973975962528968,
-          "combinedRisk": 0.10260240374710311,
-          "qualityRisk": 0.18831470864101596,
-          "fatigueRisk": 0.10582630931980626,
-          "chaosRisk": 0.1088030300965563,
-          "lowEndDominanceRisk": 0.0,
+          "score": 0.8878301633232486,
+          "combinedRisk": 0.11216983667675141,
+          "qualityRisk": 0.19798589711229378,
+          "fatigueRisk": 0.08439454416102082,
+          "chaosRisk": 0.12208185973820565,
+          "lowEndDominanceRisk": 0.09466086030006413,
           "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.4,
+          "integratedLUFS": -21.5,
           "maxTruePeakDBTP": -4.3,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.11899396418685335,
+          "sectionNoveltyMean": 0.12292701178436692,
           "stagnantTransitionRatio": 0.5,
           "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.27751508953286663,
+          "longFormMonotonyRisk": 0.275,
           "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.16095875192906264,
+          "longFormRisk": 0.1595,
           "technicalGatePassed": true,
           "rank": 5,
           "materials": [
-            "texture_wind_chimes_03",
-            "texture_glass_02",
-            "texture_bell_02",
-            "ambience_rain"
+            "scene_ocean_waves",
+            "ambience_birds"
           ],
-          "materialLabel": "full recipe · restrained layer",
-          "layerGainOffsetDb": -4.0,
-          "materialEventCount": 12,
+          "materialLabel": "bed + sparse accent",
+          "layerGainOffsetDb": -2.0,
+          "materialEventCount": 4,
           "kind": "hybrid",
-          "audio": "audio/nostalgic/hybrid-5.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_ocean_waves",
+          "audio": "audio/ocean-sunset/hybrid-5.m4a",
           "publicId": "hybrid-5"
         }
       ]
     },
     {
-      "id": "calm",
-      "title": "Quiet Lakeside",
-      "image": "images/calm.jpg",
+      "id": "quiet-lake",
+      "title": "Quiet Lake",
+      "image": "images/quiet-lake.jpg",
       "input": {
         "place": {
           "name": "Quiet lakeside",
-          "category": "lake garden"
+          "category": "lake"
         },
-        "note": "静かな湖のほとりで何もしない。穏やかで、風と水だけが動いている。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
+        "note": "静かな湖畔。水面はほとんど動かず、弱い風と遠い鳥だけが聞こえそう。",
+        "capturedAt": "2026-08-16T14:00:00+09:00"
       },
       "source": {
         "provider": "Wikimedia Commons",
@@ -549,15 +467,15 @@
         "sourcePage": "https://commons.wikimedia.org/wiki/File:Peaceful_Lake_Landscape_with_Lush_Greenery.jpg"
       },
       "expression": {
-        "valence": 0.08224067044368882,
-        "arousal": 0.2831981425299957,
-        "warmth": 0.5263164427083333,
-        "nostalgia": 0.32831,
-        "intimacy": 0.4194703289188431,
-        "openness": 0.6949958885144609,
-        "tension": 0.10861984141167742,
-        "motion": 0.23147202927741664,
-        "confidence": 0.7400000000000001,
+        "valence": 0.0817363037580475,
+        "arousal": 0.30278011141941813,
+        "warmth": 0.45228475347222225,
+        "nostalgia": 0.28728000000000004,
+        "intimacy": 0.3955643670946013,
+        "openness": 0.6919454113174837,
+        "tension": 0.1081721182608329,
+        "motion": 0.2679389631154354,
+        "confidence": 0.7200000000000001,
         "memoryPalette": [
           "#2A3618",
           "#92AFC6",
@@ -580,551 +498,197 @@
         "saturation": 0.28936726255448564,
         "warmthBias": -0.05391646241830066
       },
-      "parameters": {
-        "bpm": 86.47044016854008,
-        "density": 0.2773453583591268,
-        "durationSeconds": 60,
-        "glitch": 0.06089693696806173,
-        "highFrequency": 0.23155576886462031,
-        "mode": "dorian",
-        "sectionBars": 8,
-        "space": 0.6553894686592809,
-        "stutter": 0.08303150556097356
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.9,
+            "label": "lake"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "day"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "still"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "open"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
       },
-      "recipeAssetIds": [
-        "ambience_water_02",
-        "texture_wind_chimes_01"
-      ],
-      "baseline": {
-        "score": 0.946777573540046,
-        "combinedRisk": 0.053222426459954036,
-        "qualityRisk": 0.19834807411871389,
-        "fatigueRisk": 0.07718584399246126,
-        "chaosRisk": 0.11019627809318226,
-        "lowEndDominanceRisk": 0.09513412117958073,
-        "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -22.2,
-        "maxTruePeakDBTP": -4.2,
-        "longFormSufficient": true,
-        "sectionCount": 3,
-        "transitionCount": 2,
-        "sectionNoveltyMean": 0.16973377432248965,
-        "stagnantTransitionRatio": 0.0,
-        "abruptTransitionRatio": 0.0,
-        "longFormMonotonyRisk": 0.0,
-        "longFormChaosRisk": 0.0,
-        "longFormRisk": 0.0,
-        "technicalGatePassed": true,
-        "materials": [],
-        "kind": "synthesis-only",
-        "audio": "audio/calm/baseline.m4a",
-        "publicId": "baseline"
+      "affordance": {
+        "excludedFamilies": [
+          "ocean",
+          "waterfall"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.52,
+          "minimum": 0.16
+        },
+        "preferredBeds": [
+          {
+            "family": "lake_water",
+            "weight": 1
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "glass",
+            "weight": 0.22
+          },
+          {
+            "family": "wind_chime",
+            "weight": 0.16
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "wind",
+            "weight": 0.58
+          },
+          {
+            "family": "foliage",
+            "weight": 0.52
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "birds",
+            "weight": 0.55
+          },
+          {
+            "family": "bubbles_water_detail",
+            "weight": 0.28
+          }
+        ],
+        "pulseAllowance": 0.16,
+        "realismBias": 0.88,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.22
       },
-      "top5": [
-        {
-          "score": 0.9593171781744503,
-          "combinedRisk": 0.04068282182554972,
-          "qualityRisk": 0.18129601574057233,
-          "fatigueRisk": 0.058395743260710384,
-          "chaosRisk": 0.1269679472624382,
-          "lowEndDominanceRisk": 0.018897843360900918,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.8,
-          "maxTruePeakDBTP": -3.5,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.27717225517327226,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "ambience_water_02",
-            "texture_wind_chimes_01"
-          ],
-          "materialLabel": "full recipe · restrained layer",
-          "layerGainOffsetDb": -4.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/calm/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9546442480772884,
-          "combinedRisk": 0.045355751922711546,
-          "qualityRisk": 0.1845530378293338,
-          "fatigueRisk": 0.060994719234792855,
-          "chaosRisk": 0.11865473064772389,
-          "lowEndDominanceRisk": 0.058137667179107705,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.2,
-          "maxTruePeakDBTP": -4.2,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.16996290936006914,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 2,
-          "materials": [
-            "ambience_water_02",
-            "texture_wind_chimes_01"
-          ],
-          "materialLabel": "full material recipe",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/calm/hybrid-2.m4a",
-          "publicId": "hybrid-2"
-        },
-        {
-          "score": 0.9535699836642451,
-          "combinedRisk": 0.046430016335754914,
-          "qualityRisk": 0.18618610828688556,
-          "fatigueRisk": 0.08348104376018226,
-          "chaosRisk": 0.13736080532281972,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.2,
-          "maxTruePeakDBTP": -3.0,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.18533319221395061,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 3,
-          "materials": [
-            "ambience_water_02",
-            "texture_wind_chimes_01"
-          ],
-          "materialLabel": "ambience + alternate texture",
-          "layerGainOffsetDb": -1.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/calm/hybrid-3.m4a",
-          "publicId": "hybrid-3"
-        },
-        {
-          "score": 0.9513840487825354,
-          "combinedRisk": 0.04861595121746465,
-          "qualityRisk": 0.1874119625594781,
-          "fatigueRisk": 0.09298851437714085,
-          "chaosRisk": 0.13405678500815368,
-          "lowEndDominanceRisk": 0.002205115556716958,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.8,
-          "maxTruePeakDBTP": -3.1,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.15802244533854626,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 4,
-          "materials": [
-            "ambience_water_02",
-            "texture_wind_chimes_01"
-          ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/calm/hybrid-4.m4a",
-          "publicId": "hybrid-4"
-        },
-        {
-          "score": 0.9295497053194048,
-          "combinedRisk": 0.07045029468059513,
-          "qualityRisk": 0.20956418709348268,
-          "fatigueRisk": 0.06620848767835798,
-          "chaosRisk": 0.1613702285384392,
-          "lowEndDominanceRisk": 0.17278176248073582,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.9,
-          "maxTruePeakDBTP": -5.1,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.2972172501621848,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 5,
-          "materials": [
-            "ambience_water_02",
-            "texture_wind_chimes_01"
-          ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/calm/hybrid-5.m4a",
-          "publicId": "hybrid-5"
-        }
-      ]
-    },
-    {
-      "id": "joyful",
-      "title": "Festival Colors",
-      "image": "images/joyful.jpg",
-      "input": {
-        "place": {
-          "name": "Festival square",
-          "category": "festival"
-        },
-        "note": "祭のように色があふれていて楽しい。人の気配が賑やかで、少し浮き立つ。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
-      },
-      "source": {
-        "provider": "Wikimedia Commons",
-        "file": "Colourful ballons.jpg",
-        "license": "CC0",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Colourful_ballons.jpg"
-      },
-      "expression": {
-        "valence": 0.26995582024593306,
-        "arousal": 0.4760916768777691,
-        "warmth": 0.5561123240740742,
-        "nostalgia": 0.32844,
-        "intimacy": 0.4304779651327001,
-        "openness": 0.5525254358412491,
-        "tension": 0.11019165009234451,
-        "motion": 0.5245130625357468,
-        "confidence": 0.76,
-        "memoryPalette": [
-          "#D9EAF6",
-          "#333130",
-          "#AEB216",
-          "#8E922E",
-          "#B6C6D1"
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "ambience_water_01",
+            "family": "lake_water",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8517407716708817,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.7129740771670882
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_wind_02",
+            "family": "wind",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8517407716708817,
+              "motionFit": 0.042,
+              "roleFit": 0.58,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.7373740771670881
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_birds",
+            "family": "birds",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8517407716708817,
+              "motionFit": 0.72,
+              "roleFit": 0.55,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.6454740771670882
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_glass_02",
+            "family": "glass",
+            "role": "ornament",
+            "score": {
+              "expressionCompatibility": 0.5239410457638889,
+              "motionFit": 0.72,
+              "roleFit": 0.22,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.563194104576389
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          }
         ]
       },
-      "photoFeatures": {
-        "contrast": 0.5481008105484253,
-        "luminance": 0.5279241090232385,
-        "palette": [
-          "#D9EAF6",
-          "#333130",
-          "#AEB216",
-          "#8E922E",
-          "#B6C6D1"
-        ],
-        "photoCount": 1,
-        "saturation": 0.39464978306277093,
-        "warmthBias": 0.04848175381263637
-      },
       "parameters": {
-        "bpm": 97.53723203234588,
-        "density": 0.4139412967005818,
+        "bpm": 88.0407531517037,
+        "density": 0.2942165469383463,
         "durationSeconds": 60,
-        "glitch": 0.08459170901763487,
-        "highFrequency": 0.2770810837369002,
+        "glitch": 0.06374265597096809,
+        "highFrequency": 0.23767378095217742,
         "mode": "dorian",
         "sectionBars": 8,
-        "space": 0.5877504814051812,
-        "stutter": 0.13177756739035068
+        "space": 0.644672134973877,
+        "stutter": 0.08875588928625315
       },
       "recipeAssetIds": [
-        "ambience_bubbles_01",
+        "ambience_water_01",
+        "ambience_wind_02",
         "ambience_birds",
-        "texture_bell_01",
         "texture_glass_02"
       ],
       "baseline": {
-        "score": 0.8773402798354291,
-        "combinedRisk": 0.12265972016457097,
-        "qualityRisk": 0.22711035607285981,
-        "fatigueRisk": 0.13136193455406203,
-        "chaosRisk": 0.15432784854840612,
-        "lowEndDominanceRisk": 0.17185669839382176,
+        "score": 0.9070925603539166,
+        "combinedRisk": 0.09290743964608339,
+        "qualityRisk": 0.23545464103560934,
+        "fatigueRisk": 0.09334846894107475,
+        "chaosRisk": 0.1332933717333416,
+        "lowEndDominanceRisk": 0.31888593435287477,
         "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -21.3,
-        "maxTruePeakDBTP": -3.9,
-        "longFormSufficient": true,
-        "sectionCount": 4,
-        "transitionCount": 3,
-        "sectionNoveltyMean": 0.17065390974608344,
-        "stagnantTransitionRatio": 0.3333333333333333,
-        "abruptTransitionRatio": 0.0,
-        "longFormMonotonyRisk": 0.18333333333333335,
-        "longFormChaosRisk": 0.0,
-        "longFormRisk": 0.10633333333333334,
-        "technicalGatePassed": true,
-        "materials": [],
-        "kind": "synthesis-only",
-        "audio": "audio/joyful/baseline.m4a",
-        "publicId": "baseline"
-      },
-      "top5": [
-        {
-          "score": 0.9412227282685687,
-          "combinedRisk": 0.058777271731431324,
-          "qualityRisk": 0.20005616401958293,
-          "fatigueRisk": 0.13561272861272095,
-          "chaosRisk": 0.13065534606735485,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.3,
-          "maxTruePeakDBTP": -3.8,
-          "longFormSufficient": true,
-          "sectionCount": 4,
-          "transitionCount": 3,
-          "sectionNoveltyMean": 0.1856162124326969,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "ambience_bubbles_01",
-            "ambience_birds",
-            "texture_bell_01",
-            "texture_glass_02"
-          ],
-          "materialLabel": "full recipe · restrained layer",
-          "layerGainOffsetDb": -4.0,
-          "materialEventCount": 19,
-          "kind": "hybrid",
-          "audio": "audio/joyful/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9404851831672323,
-          "combinedRisk": 0.05951481683276777,
-          "qualityRisk": 0.1995159182700975,
-          "fatigueRisk": 0.1012047539613889,
-          "chaosRisk": 0.18445322668225927,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.5,
-          "maxTruePeakDBTP": -3.4,
-          "longFormSufficient": true,
-          "sectionCount": 4,
-          "transitionCount": 3,
-          "sectionNoveltyMean": 0.2359660546852064,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 2,
-          "materials": [
-            "ambience_bubbles_01",
-            "ambience_birds",
-            "texture_bell_01"
-          ],
-          "materialLabel": "alternate texture subset",
-          "layerGainOffsetDb": 1.0,
-          "materialEventCount": 19,
-          "kind": "hybrid",
-          "audio": "audio/joyful/hybrid-2.m4a",
-          "publicId": "hybrid-2"
-        },
-        {
-          "score": 0.9162151475199958,
-          "combinedRisk": 0.08378485248000425,
-          "qualityRisk": 0.22491009946010132,
-          "fatigueRisk": 0.12357687265217171,
-          "chaosRisk": 0.17987150763861748,
-          "lowEndDominanceRisk": 0.13769995868206028,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.5,
-          "maxTruePeakDBTP": -5.2,
-          "longFormSufficient": true,
-          "sectionCount": 4,
-          "transitionCount": 3,
-          "sectionNoveltyMean": 0.21130506226794563,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 3,
-          "materials": [
-            "ambience_bubbles_01",
-            "ambience_birds",
-            "texture_bell_01"
-          ],
-          "materialLabel": "ambience + primary texture",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 19,
-          "kind": "hybrid",
-          "audio": "audio/joyful/hybrid-3.m4a",
-          "publicId": "hybrid-3"
-        },
-        {
-          "score": 0.9108169980216524,
-          "combinedRisk": 0.08918300197834761,
-          "qualityRisk": 0.2291623217605266,
-          "fatigueRisk": 0.11565661785153938,
-          "chaosRisk": 0.16247337534783104,
-          "lowEndDominanceRisk": 0.21333624124526981,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.4,
-          "maxTruePeakDBTP": -4.9,
-          "longFormSufficient": true,
-          "sectionCount": 4,
-          "transitionCount": 3,
-          "sectionNoveltyMean": 0.24752120932054,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 4,
-          "materials": [
-            "ambience_bubbles_01",
-            "ambience_birds",
-            "texture_bell_01",
-            "texture_glass_02"
-          ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 19,
-          "kind": "hybrid",
-          "audio": "audio/joyful/hybrid-4.m4a",
-          "publicId": "hybrid-4"
-        },
-        {
-          "score": 0.9007496204743434,
-          "combinedRisk": 0.09925037952565666,
-          "qualityRisk": 0.24053935972999804,
-          "fatigueRisk": 0.11828436047529692,
-          "chaosRisk": 0.14387164462069005,
-          "lowEndDominanceRisk": 0.3042824983596802,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.3,
-          "maxTruePeakDBTP": -6.0,
-          "longFormSufficient": true,
-          "sectionCount": 4,
-          "transitionCount": 3,
-          "sectionNoveltyMean": 0.1957237126807437,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 5,
-          "materials": [
-            "ambience_bubbles_01",
-            "ambience_birds",
-            "texture_glass_02"
-          ],
-          "materialLabel": "ambience + alternate texture",
-          "layerGainOffsetDb": -1.0,
-          "materialEventCount": 19,
-          "kind": "hybrid",
-          "audio": "audio/joyful/hybrid-5.m4a",
-          "publicId": "hybrid-5"
-        }
-      ]
-    },
-    {
-      "id": "open",
-      "title": "Open Road",
-      "image": "images/open.jpg",
-      "input": {
-        "place": {
-          "name": "Open lakeside road",
-          "category": "lake viewpoint"
-        },
-        "note": "遠くまで見渡せる湖の景色。静かで、どこへでも行けそうな感じ。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
-      },
-      "source": {
-        "provider": "Wikimedia Commons",
-        "file": "Landscape of lake and clouds.jpg",
-        "license": "CC0",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Landscape_of_lake_and_clouds.jpg"
-      },
-      "expression": {
-        "valence": 0.040054270991939075,
-        "arousal": 0.301063055846803,
-        "warmth": 0.5441492777777779,
-        "nostalgia": 0.32818,
-        "intimacy": 0.4208063802780305,
-        "openness": 0.6831702465246188,
-        "tension": 0.09965122148426159,
-        "motion": 0.27574173752481274,
-        "confidence": 0.7200000000000001,
-        "memoryPalette": [
-          "#2B3715",
-          "#48502C",
-          "#8A99AC",
-          "#6C778C",
-          "#ACAFB0"
-        ]
-      },
-      "photoFeatures": {
-        "contrast": 0.4501958178918254,
-        "luminance": 0.3890563344226582,
-        "palette": [
-          "#2B3715",
-          "#48502C",
-          "#8A99AC",
-          "#6C778C",
-          "#ACAFB0"
-        ],
-        "photoCount": 1,
-        "saturation": 0.3529595560294433,
-        "warmthBias": 0.011683006535947761
-      },
-      "parameters": {
-        "bpm": 87.76840783678777,
-        "density": 0.293693989020265,
-        "durationSeconds": 60,
-        "glitch": 0.06300353443946688,
-        "highFrequency": 0.22517295520213487,
-        "mode": "dorian",
-        "sectionBars": 8,
-        "space": 0.6506935066056333,
-        "stutter": 0.08914598348646681
-      },
-      "recipeAssetIds": [
-        "texture_wind_chimes_02",
-        "ambience_water_01",
-        "ambience_birds"
-      ],
-      "baseline": {
-        "score": 0.9036629930948357,
-        "combinedRisk": 0.09633700690516431,
-        "qualityRisk": 0.23844633563222872,
-        "fatigueRisk": 0.10386522023101635,
-        "chaosRisk": 0.17458083716318576,
-        "lowEndDominanceRisk": 0.2707678496837616,
-        "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -22.0,
-        "maxTruePeakDBTP": -5.2,
+        "integratedLUFS": -21.6,
+        "maxTruePeakDBTP": -4.0,
         "longFormSufficient": true,
         "sectionCount": 3,
         "transitionCount": 2,
-        "sectionNoveltyMean": 0.1762666091087224,
+        "sectionNoveltyMean": 0.18207821185016487,
         "stagnantTransitionRatio": 0.0,
         "abruptTransitionRatio": 0.0,
         "longFormMonotonyRisk": 0.0,
@@ -1133,339 +697,16 @@
         "technicalGatePassed": true,
         "materials": [],
         "kind": "synthesis-only",
-        "audio": "audio/open/baseline.m4a",
+        "audio": "audio/quiet-lake/baseline.m4a",
         "publicId": "baseline"
       },
       "top5": [
         {
-          "score": 0.9505093876264998,
-          "combinedRisk": 0.049490612373500165,
-          "qualityRisk": 0.19091300056249286,
-          "fatigueRisk": 0.09919453651016678,
-          "chaosRisk": 0.13166684933809328,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.9,
-          "maxTruePeakDBTP": -4.6,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.27689158636106753,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "texture_wind_chimes_02",
-            "ambience_water_01",
-            "ambience_birds"
-          ],
-          "materialLabel": "full recipe · restrained layer",
-          "layerGainOffsetDb": -4.0,
-          "materialEventCount": 23,
-          "kind": "hybrid",
-          "audio": "audio/open/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9466651797999387,
-          "combinedRisk": 0.053334820200061334,
-          "qualityRisk": 0.19959963022203353,
-          "fatigueRisk": 0.08731848398444429,
-          "chaosRisk": 0.12675568411804106,
-          "lowEndDominanceRisk": 0.0558285087347031,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.4,
-          "maxTruePeakDBTP": -4.3,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.1910637336182958,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 2,
-          "materials": [
-            "texture_wind_chimes_02"
-          ],
-          "materialLabel": "texture-only material",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 3,
-          "kind": "hybrid",
-          "audio": "audio/open/hybrid-2.m4a",
-          "publicId": "hybrid-2"
-        },
-        {
-          "score": 0.9401604887772623,
-          "combinedRisk": 0.059839511222737646,
-          "qualityRisk": 0.1991371796340599,
-          "fatigueRisk": 0.11833223075176655,
-          "chaosRisk": 0.16151739570710186,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.7,
-          "maxTruePeakDBTP": -3.9,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.17329131774138096,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 3,
-          "materials": [
-            "texture_wind_chimes_02",
-            "ambience_water_01",
-            "ambience_birds"
-          ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 23,
-          "kind": "hybrid",
-          "audio": "audio/open/hybrid-3.m4a",
-          "publicId": "hybrid-3"
-        },
-        {
-          "score": 0.9360431914627213,
-          "combinedRisk": 0.06395680853727873,
-          "qualityRisk": 0.20528823454710138,
-          "fatigueRisk": 0.08617202851453516,
-          "chaosRisk": 0.1352133741837327,
-          "lowEndDominanceRisk": 0.12295481264591221,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.6,
-          "maxTruePeakDBTP": -4.8,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.19551318134194132,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 4,
-          "materials": [
-            "ambience_water_01",
-            "texture_wind_chimes_02"
-          ],
-          "materialLabel": "single ambience + textures",
-          "layerGainOffsetDb": -2.0,
-          "materialEventCount": 21,
-          "kind": "hybrid",
-          "audio": "audio/open/hybrid-4.m4a",
-          "publicId": "hybrid-4"
-        },
-        {
-          "score": 0.9340615693328116,
-          "combinedRisk": 0.06593843066718841,
-          "qualityRisk": 0.20716434470402226,
-          "fatigueRisk": 0.09190018155425113,
-          "chaosRisk": 0.15413903691602193,
-          "lowEndDominanceRisk": 0.10213826298713688,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.8,
-          "maxTruePeakDBTP": -5.5,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.19971266869634016,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 5,
-          "materials": [
-            "ambience_water_01",
-            "ambience_birds",
-            "texture_wind_chimes_02"
-          ],
-          "materialLabel": "ambience + alternate texture",
-          "layerGainOffsetDb": -1.0,
-          "materialEventCount": 23,
-          "kind": "hybrid",
-          "audio": "audio/open/hybrid-5.m4a",
-          "publicId": "hybrid-5"
-        }
-      ]
-    },
-    {
-      "id": "tense",
-      "title": "Dramatic Dusk",
-      "image": "images/tense.jpg",
-      "input": {
-        "place": {
-          "name": "Mountain overlook",
-          "category": "mountain viewpoint"
-        },
-        "note": "日が沈む直前。美しいけれど、少し不安で緊張感のある空。",
-        "capturedAt": "2026-08-15T18:30:00+09:00"
-      },
-      "source": {
-        "provider": "Wikimedia Commons",
-        "file": "Dramatic sunset landscape.jpg",
-        "license": "Public Domain",
-        "sourcePage": "https://commons.wikimedia.org/wiki/File:Dramatic_sunset_landscape.jpg"
-      },
-      "expression": {
-        "valence": -0.13117647648087727,
-        "arousal": 0.43693816817957837,
-        "warmth": 0.5750390394265235,
-        "nostalgia": 0.32818,
-        "intimacy": 0.42121043497230953,
-        "openness": 0.6781195628461312,
-        "tension": 0.33675972225536804,
-        "motion": 0.2909089944295615,
-        "confidence": 0.7200000000000001,
-        "memoryPalette": [
-          "#0B090A",
-          "#4E2F2D",
-          "#2D1511",
-          "#71332D",
-          "#AF704D"
-        ]
-      },
-      "photoFeatures": {
-        "contrast": 0.532393258510269,
-        "luminance": 0.31187596036263915,
-        "palette": [
-          "#0B090A",
-          "#4E2F2D",
-          "#2D1511",
-          "#71332D",
-          "#AF704D"
-        ],
-        "photoCount": 1,
-        "saturation": 0.4765720817405173,
-        "warmthBias": 0.12274931477967561
-      },
-      "parameters": {
-        "bpm": 93.06610583414093,
-        "density": 0.3622423294267765,
-        "durationSeconds": 60,
-        "glitch": 0.10215427511522379,
-        "highFrequency": 0.23386414520923987,
-        "mode": "dorian",
-        "sectionBars": 8,
-        "space": 0.6245906527383909,
-        "stutter": 0.11233273721688627
-      },
-      "recipeAssetIds": [
-        "ambience_rain",
-        "texture_metal_03",
-        "texture_spring_05",
-        "texture_gong_02"
-      ],
-      "baseline": {
-        "score": 0.9309417807324221,
-        "combinedRisk": 0.06905821926757796,
-        "qualityRisk": 0.21175161229709996,
-        "fatigueRisk": 0.10743522225298593,
-        "chaosRisk": 0.16076386521043573,
-        "lowEndDominanceRisk": 0.0870540410280228,
-        "stereoInstabilityRisk": 0.0,
-        "integratedLUFS": -22.2,
-        "maxTruePeakDBTP": -4.6,
-        "longFormSufficient": true,
-        "sectionCount": 3,
-        "transitionCount": 2,
-        "sectionNoveltyMean": 0.24070127048886353,
-        "stagnantTransitionRatio": 0.0,
-        "abruptTransitionRatio": 0.0,
-        "longFormMonotonyRisk": 0.0,
-        "longFormChaosRisk": 0.0,
-        "longFormRisk": 0.0,
-        "technicalGatePassed": true,
-        "materials": [],
-        "kind": "synthesis-only",
-        "audio": "audio/tense/baseline.m4a",
-        "publicId": "baseline"
-      },
-      "top5": [
-        {
-          "score": 0.9507546213897119,
-          "combinedRisk": 0.04924537861028813,
-          "qualityRisk": 0.18937714224387042,
-          "fatigueRisk": 0.10076588825650647,
-          "chaosRisk": 0.12803470924220253,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.7,
-          "maxTruePeakDBTP": -4.8,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.1432256075117805,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 1,
-          "materials": [
-            "ambience_rain",
-            "texture_metal_03"
-          ],
-          "materialLabel": "ambience + primary texture",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/tense/hybrid-1.m4a",
-          "publicId": "hybrid-1"
-        },
-        {
-          "score": 0.9481337790180634,
-          "combinedRisk": 0.051866220981936606,
-          "qualityRisk": 0.1914475191218098,
-          "fatigueRisk": 0.08623676459311168,
-          "chaosRisk": 0.16358145659848647,
-          "lowEndDominanceRisk": 0.0,
-          "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.8,
-          "maxTruePeakDBTP": -3.4,
-          "longFormSufficient": true,
-          "sectionCount": 3,
-          "transitionCount": 2,
-          "sectionNoveltyMean": 0.18108004701786737,
-          "stagnantTransitionRatio": 0.0,
-          "abruptTransitionRatio": 0.0,
-          "longFormMonotonyRisk": 0.0,
-          "longFormChaosRisk": 0.0,
-          "longFormRisk": 0.0,
-          "technicalGatePassed": true,
-          "rank": 2,
-          "materials": [
-            "ambience_rain",
-            "texture_metal_03",
-            "texture_spring_05",
-            "texture_gong_02"
-          ],
-          "materialLabel": "full material recipe",
-          "layerGainOffsetDb": 0.0,
-          "materialEventCount": 12,
-          "kind": "hybrid",
-          "audio": "audio/tense/hybrid-2.m4a",
-          "publicId": "hybrid-2"
-        },
-        {
-          "score": 0.9469297937193245,
-          "combinedRisk": 0.05307020628067552,
-          "qualityRisk": 0.201054823930868,
-          "fatigueRisk": 0.10714874260124944,
-          "chaosRisk": 0.1400640733575036,
+          "score": 0.9419988131057556,
+          "combinedRisk": 0.05800118689424441,
+          "qualityRisk": 0.19838260512213862,
+          "fatigueRisk": 0.11741816794942464,
+          "chaosRisk": 0.15262479570774448,
           "lowEndDominanceRisk": 0.0,
           "stereoInstabilityRisk": 0.0,
           "integratedLUFS": -21.6,
@@ -1473,7 +714,74 @@
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.14573020303238254,
+          "sectionNoveltyMean": 0.2739180828114014,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "ambience_water_01"
+          ],
+          "materialLabel": "semantic bed only",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 18,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "ambience_water_01",
+          "audio": "audio/quiet-lake/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9279270268765202,
+          "combinedRisk": 0.07207297312347986,
+          "qualityRisk": 0.21238221936331048,
+          "fatigueRisk": 0.11564379455948179,
+          "chaosRisk": 0.1355333054446358,
+          "lowEndDominanceRisk": 0.11767264902591709,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -4.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.14457182252086312,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0056771034717588,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0032927200136201036,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "ambience_water_01",
+            "ambience_birds"
+          ],
+          "materialLabel": "bed + sparse accent",
+          "layerGainOffsetDb": -2.0,
+          "materialEventCount": 20,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "ambience_water_01",
+          "audio": "audio/quiet-lake/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9229321433355269,
+          "combinedRisk": 0.0770678566644731,
+          "qualityRisk": 0.21697778144322108,
+          "fatigueRisk": 0.10431341094993266,
+          "chaosRisk": 0.16114714637197394,
+          "lowEndDominanceRisk": 0.14957059621810917,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.2,
+          "maxTruePeakDBTP": -3.1,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1619783484886806,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -1482,32 +790,34 @@
           "technicalGatePassed": true,
           "rank": 3,
           "materials": [
-            "ambience_rain",
-            "texture_metal_03",
-            "texture_spring_05",
-            "texture_gong_02"
+            "ambience_water_01",
+            "ambience_wind_02",
+            "ambience_birds",
+            "texture_glass_02"
           ],
-          "materialLabel": "full recipe · restrained layer",
-          "layerGainOffsetDb": -4.0,
-          "materialEventCount": 12,
+          "materialLabel": "semantic selection · present",
+          "layerGainOffsetDb": 2.0,
+          "materialEventCount": 32,
           "kind": "hybrid",
-          "audio": "audio/tense/hybrid-3.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "ambience_water_01",
+          "audio": "audio/quiet-lake/hybrid-3.m4a",
           "publicId": "hybrid-3"
         },
         {
-          "score": 0.9320957890731998,
-          "combinedRisk": 0.06790421092680018,
-          "qualityRisk": 0.20820662105268822,
-          "fatigueRisk": 0.0981229725740819,
-          "chaosRisk": 0.16473846687699364,
-          "lowEndDominanceRisk": 0.09099510014057163,
+          "score": 0.9109375382493593,
+          "combinedRisk": 0.08906246175064067,
+          "qualityRisk": 0.22995312325574355,
+          "fatigueRisk": 0.09765207850348945,
+          "chaosRisk": 0.14828130823629318,
+          "lowEndDominanceRisk": 0.26415918469429017,
           "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -22.9,
-          "maxTruePeakDBTP": -3.9,
+          "integratedLUFS": -21.9,
+          "maxTruePeakDBTP": -3.8,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.23254025519043367,
+          "sectionNoveltyMean": 0.2217059095102494,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -1516,32 +826,32 @@
           "technicalGatePassed": true,
           "rank": 4,
           "materials": [
-            "ambience_rain",
-            "texture_metal_03",
-            "texture_spring_05",
-            "texture_gong_02"
+            "ambience_water_01",
+            "ambience_birds"
           ],
-          "materialLabel": "full recipe · present layer",
-          "layerGainOffsetDb": 2.0,
-          "materialEventCount": 12,
+          "materialLabel": "alternate semantic subset",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 20,
           "kind": "hybrid",
-          "audio": "audio/tense/hybrid-4.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "ambience_water_01",
+          "audio": "audio/quiet-lake/hybrid-4.m4a",
           "publicId": "hybrid-4"
         },
         {
-          "score": 0.9316082227170832,
-          "combinedRisk": 0.06839177728291679,
-          "qualityRisk": 0.20940324965318682,
-          "fatigueRisk": 0.10193349830746468,
-          "chaosRisk": 0.1329783894045473,
-          "lowEndDominanceRisk": 0.12823541164398197,
+          "score": 0.9026554983491646,
+          "combinedRisk": 0.09734450165083536,
+          "qualityRisk": 0.23739270846287425,
+          "fatigueRisk": 0.0938995473976108,
+          "chaosRisk": 0.16152761229889698,
+          "lowEndDominanceRisk": 0.3132546365261078,
           "stereoInstabilityRisk": 0.0,
-          "integratedLUFS": -21.3,
-          "maxTruePeakDBTP": -3.9,
+          "integratedLUFS": -21.6,
+          "maxTruePeakDBTP": -4.0,
           "longFormSufficient": true,
           "sectionCount": 3,
           "transitionCount": 2,
-          "sectionNoveltyMean": 0.2429285043814105,
+          "sectionNoveltyMean": 0.1821091513250001,
           "stagnantTransitionRatio": 0.0,
           "abruptTransitionRatio": 0.0,
           "longFormMonotonyRisk": 0.0,
@@ -1550,14 +860,2542 @@
           "technicalGatePassed": true,
           "rank": 5,
           "materials": [
-            "ambience_rain",
-            "texture_gong_02"
+            "ambience_water_01",
+            "ambience_wind_02",
+            "ambience_birds",
+            "texture_glass_02"
           ],
-          "materialLabel": "ambience + alternate texture",
-          "layerGainOffsetDb": -1.0,
-          "materialEventCount": 12,
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 32,
           "kind": "hybrid",
-          "audio": "audio/tense/hybrid-5.m4a",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "ambience_water_01",
+          "audio": "audio/quiet-lake/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "forest-day",
+      "title": "Forest Day",
+      "image": "images/forest-day.jpg",
+      "input": {
+        "place": {
+          "name": "Forest trail",
+          "category": "forest"
+        },
+        "note": "昼の森。木々に囲まれ、葉が風で揺れ、鳥の気配がある。",
+        "capturedAt": "2026-08-16T10:30:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Forest path.jpg",
+        "license": "Public Domain",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Forest_path.jpg"
+      },
+      "expression": {
+        "valence": 0.017489384486044826,
+        "arousal": 0.4139239621788383,
+        "warmth": 0.5095911036036039,
+        "nostalgia": 0.2878,
+        "intimacy": 0.40879028405076134,
+        "openness": 0.5363714493654832,
+        "tension": 0.09800621437645197,
+        "motion": 0.2866163780529698,
+        "confidence": 0.7000000000000001,
+        "memoryPalette": [
+          "#4C3826",
+          "#695132",
+          "#8E744F",
+          "#271C0F",
+          "#AC9371"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.4363997347458795,
+        "luminance": 0.3147740584702348,
+        "palette": [
+          "#4C3826",
+          "#695132",
+          "#8E744F",
+          "#271C0F",
+          "#AC9371"
+        ],
+        "photoCount": 1,
+        "saturation": 0.4503550977471621,
+        "warmthBias": 0.15268945416004365
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.9,
+            "label": "forest"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "morning"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "active"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "semi_open"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "insects",
+          "ocean"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.56,
+          "minimum": 0.18
+        },
+        "preferredBeds": [
+          {
+            "family": "wind",
+            "weight": 0.52
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "wood",
+            "weight": 0.22
+          },
+          {
+            "family": "bell",
+            "weight": 0.1
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "foliage",
+            "weight": 1
+          },
+          {
+            "family": "wind",
+            "weight": 0.55
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "birds",
+            "weight": 0.88
+          },
+          {
+            "family": "wood",
+            "weight": 0.24
+          }
+        ],
+        "pulseAllowance": 0.18,
+        "realismBias": 0.9,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.12
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_leaves_wind",
+            "family": "foliage",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8417966477864322,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.8671796647786433
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_birds",
+            "family": "birds",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8417966477864322,
+              "motionFit": 0.042,
+              "roleFit": 0.88,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.6261796647786433
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_wind_02",
+            "family": "wind",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8417966477864322,
+              "motionFit": 0.72,
+              "roleFit": 0.55,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.7996796647786433
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_wood_03",
+            "family": "wood",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8417966477864322,
+              "motionFit": 0.72,
+              "roleFit": 0.24,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.5979796647786433
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 91.6664385278244,
+        "density": 0.33092471796306044,
+        "durationSeconds": 60,
+        "glitch": 0.06361030454446989,
+        "highFrequency": 0.22694868061818732,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.5721648969818477,
+        "stutter": 0.09826895343769766
+      },
+      "recipeAssetIds": [
+        "scene_leaves_wind",
+        "ambience_birds",
+        "ambience_wind_02",
+        "texture_wood_03"
+      ],
+      "baseline": {
+        "score": 0.9486049681472184,
+        "combinedRisk": 0.05139503185278164,
+        "qualityRisk": 0.1921413265425989,
+        "fatigueRisk": 0.06598096080465561,
+        "chaosRisk": 0.18128082759147074,
+        "lowEndDominanceRisk": 0.0,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -21.3,
+        "maxTruePeakDBTP": -3.7,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.12130101797015588,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.008047165385532311,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0046673559236087405,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/forest-day/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9493622738583154,
+          "combinedRisk": 0.05063772614168459,
+          "qualityRisk": 0.18825715695116027,
+          "fatigueRisk": 0.06378126845229427,
+          "chaosRisk": 0.1802064200827401,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.3,
+          "maxTruePeakDBTP": -3.7,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.12131743939664952,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.008087203645974284,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.004690578114665085,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02",
+            "texture_wood_03"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 16,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": null,
+          "audio": "audio/forest-day/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9411613091423455,
+          "combinedRisk": 0.0588386908576545,
+          "qualityRisk": 0.20072003281991252,
+          "fatigueRisk": 0.11604323816037602,
+          "chaosRisk": 0.1592636051997597,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -4.1,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1617922146726577,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02",
+            "texture_wood_03"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 16,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": null,
+          "audio": "audio/forest-day/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9188170480454583,
+          "combinedRisk": 0.08118295195454178,
+          "qualityRisk": 0.2214667538554727,
+          "fatigueRisk": 0.11456988749529015,
+          "chaosRisk": 0.14417076195673229,
+          "lowEndDominanceRisk": 0.18174317181110386,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.6,
+          "maxTruePeakDBTP": -3.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1689806452608795,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02",
+            "texture_wood_03"
+          ],
+          "materialLabel": "semantic selection · present",
+          "layerGainOffsetDb": 2.0,
+          "materialEventCount": 16,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": null,
+          "audio": "audio/forest-day/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9155069455806901,
+          "combinedRisk": 0.08449305441930988,
+          "qualityRisk": 0.2303177713974406,
+          "fatigueRisk": 0.08694726857750384,
+          "chaosRisk": 0.13036380842442957,
+          "lowEndDominanceRisk": 0.2744377076625824,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.6,
+          "maxTruePeakDBTP": -4.9,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.20613995249117234,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02",
+            "texture_wood_03"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 16,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": null,
+          "audio": "audio/forest-day/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.8859590220250546,
+          "combinedRisk": 0.11404097797494542,
+          "qualityRisk": 0.25646980445641143,
+          "fatigueRisk": 0.09021557838883064,
+          "chaosRisk": 0.13944947010489722,
+          "lowEndDominanceRisk": 0.46774302124977113,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.3,
+          "maxTruePeakDBTP": -5.0,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.22258447799011993,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_leaves_wind",
+            "ambience_wind_02"
+          ],
+          "materialLabel": "alternate semantic subset",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": null,
+          "audio": "audio/forest-day/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "rural-night",
+      "title": "Rural Night",
+      "image": "images/rural-night.jpg",
+      "input": {
+        "place": {
+          "name": "Quiet village at night",
+          "category": "rural village"
+        },
+        "note": "夜の田園と小さな集落。人の音は少なく、虫と弱い風が続く静かな夜。",
+        "capturedAt": "2026-08-16T21:30:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Night at my village.jpg",
+        "license": "CC0",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Night_at_my_village.jpg"
+      },
+      "expression": {
+        "valence": -0.031144957601566173,
+        "arousal": 0.24981717265748848,
+        "warmth": 0.5037496400462963,
+        "nostalgia": 0.32,
+        "intimacy": 0.45534066118065797,
+        "openness": 0.5582417352417756,
+        "tension": 0.10675714789008384,
+        "motion": 0.25335272052542634,
+        "confidence": 0.7200000000000001,
+        "memoryPalette": [
+          "#100F10",
+          "#2E2C2C",
+          "#504A4C",
+          "#756A6B",
+          "#B5ACAC"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.3559204145281565,
+        "luminance": 0.1600020666530493,
+        "palette": [
+          "#100F10",
+          "#2E2C2C",
+          "#504A4C",
+          "#756A6B",
+          "#B5ACAC"
+        ],
+        "photoCount": 1,
+        "saturation": 0.17048997983232533,
+        "warmthBias": 0.013482094226579481
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.82,
+            "label": "rural"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "night"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "active"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "open"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "light"
+        },
+        "confidence": 0.8949999999999999
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "ocean",
+          "waterfall"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.55,
+          "minimum": 0.18
+        },
+        "preferredBeds": [
+          {
+            "family": "insects",
+            "weight": 0.95
+          },
+          {
+            "family": "wind",
+            "weight": 0.48
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "bell",
+            "weight": 0.14
+          },
+          {
+            "family": "wind_chime",
+            "weight": 0.12
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "foliage",
+            "weight": 0.72
+          },
+          {
+            "family": "wind",
+            "weight": 0.45
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "wood",
+            "weight": 0.16
+          }
+        ],
+        "pulseAllowance": 0.20053643528406823,
+        "realismBias": 0.88,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.2112
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_crickets_night",
+            "family": "insects",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8384836016929708,
+              "motionFit": 0.042,
+              "roleFit": 0.95,
+              "sceneFit": 0.82,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.608348360169297
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "scene_leaves_wind",
+            "family": "foliage",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8384836016929708,
+              "motionFit": 0.72,
+              "roleFit": 0.72,
+              "sceneFit": 0.82,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.796848360169297
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_wood_03",
+            "family": "wood",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8384836016929708,
+              "motionFit": 0.72,
+              "roleFit": 0.16,
+              "sceneFit": 0.82,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.5576483601692971
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "motif_pleasing_bell",
+            "family": "bell",
+            "role": "ornament",
+            "score": {
+              "expressionCompatibility": 0.5426649208101852,
+              "motionFit": 0.042,
+              "roleFit": 0.14,
+              "sceneFit": 0.82,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.4572664920810185
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 85.92189274074266,
+        "density": 0.2712590680690872,
+        "durationSeconds": 60,
+        "glitch": 0.06234936130444753,
+        "highFrequency": 0.20263739953824064,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.5913075710214963,
+        "stutter": 0.08322738594357955
+      },
+      "recipeAssetIds": [
+        "scene_crickets_night",
+        "scene_leaves_wind",
+        "texture_wood_03",
+        "motif_pleasing_bell"
+      ],
+      "baseline": {
+        "score": 0.9282373960167106,
+        "combinedRisk": 0.0717626039832894,
+        "qualityRisk": 0.21418016721232302,
+        "fatigueRisk": 0.11184773139638025,
+        "chaosRisk": 0.13402383760474534,
+        "lowEndDominanceRisk": 0.13255645036697392,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -22.3,
+        "maxTruePeakDBTP": -4.5,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.2230574580959263,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.0,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/rural-night/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9334207368572781,
+          "combinedRisk": 0.06657926314272189,
+          "qualityRisk": 0.20612700315244348,
+          "fatigueRisk": 0.0780981927785062,
+          "chaosRisk": 0.08122179773386241,
+          "lowEndDominanceRisk": 0.22609863877296452,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.9,
+          "maxTruePeakDBTP": -5.1,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1675362240854491,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_crickets_night",
+            "texture_wood_03"
+          ],
+          "materialLabel": "bed + sparse accent",
+          "layerGainOffsetDb": -2.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_crickets_night",
+          "audio": "audio/rural-night/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9266686251151288,
+          "combinedRisk": 0.07333137488487115,
+          "qualityRisk": 0.21235807125404405,
+          "fatigueRisk": 0.11230459188242864,
+          "chaosRisk": 0.1415391217044946,
+          "lowEndDominanceRisk": 0.13325099349021916,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.3,
+          "maxTruePeakDBTP": -4.5,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.22307140672474585,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_crickets_night",
+            "scene_leaves_wind",
+            "texture_wood_03",
+            "motif_pleasing_bell"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 7,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_crickets_night",
+          "audio": "audio/rural-night/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9116429106999931,
+          "combinedRisk": 0.08835708930000685,
+          "qualityRisk": 0.22715640608381957,
+          "fatigueRisk": 0.06843543686375901,
+          "chaosRisk": 0.14734858826627856,
+          "lowEndDominanceRisk": 0.3145794987678528,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.0,
+          "maxTruePeakDBTP": -4.7,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1855852521305026,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_crickets_night",
+            "scene_leaves_wind",
+            "texture_wood_03",
+            "motif_pleasing_bell"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 7,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_crickets_night",
+          "audio": "audio/rural-night/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9076895748083145,
+          "combinedRisk": 0.09231042519168559,
+          "qualityRisk": 0.22912439922869454,
+          "fatigueRisk": 0.10817421068512004,
+          "chaosRisk": 0.14688945443642495,
+          "lowEndDominanceRisk": 0.26960734724998475,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -5.0,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.18505854856871187,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_crickets_night",
+            "texture_wood_03"
+          ],
+          "materialLabel": "alternate semantic subset",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_crickets_night",
+          "audio": "audio/rural-night/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.9029828993244713,
+          "combinedRisk": 0.09701710067552867,
+          "qualityRisk": 0.18293651618845305,
+          "fatigueRisk": 0.0723461106854128,
+          "chaosRisk": 0.1085410535459815,
+          "lowEndDominanceRisk": 0.026212301850318948,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.2,
+          "maxTruePeakDBTP": -3.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.156766916189943,
+          "stagnantTransitionRatio": 0.5,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.275,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.1595,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_crickets_night",
+            "scene_leaves_wind",
+            "texture_wood_03",
+            "motif_pleasing_bell"
+          ],
+          "materialLabel": "semantic selection · present",
+          "layerGainOffsetDb": 2.0,
+          "materialEventCount": 7,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_crickets_night",
+          "audio": "audio/rural-night/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "forest-stream",
+      "title": "Forest Stream",
+      "image": "images/forest-stream.jpg",
+      "input": {
+        "place": {
+          "name": "Forest stream",
+          "category": "forest stream"
+        },
+        "note": "森の中を小さな渓流が流れている。せせらぎが中心で、葉と風が周囲を包む。",
+        "capturedAt": "2026-08-16T11:20:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Wild stream.jpg",
+        "license": "Public Domain",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Wild_stream.jpg"
+      },
+      "expression": {
+        "valence": 0.07970766725408514,
+        "arousal": 0.39578991617098647,
+        "warmth": 0.4898792434210528,
+        "nostalgia": 0.2878,
+        "intimacy": 0.4077423971830891,
+        "openness": 0.5494700352113864,
+        "tension": 0.10680397097236576,
+        "motion": 0.2661182695106522,
+        "confidence": 0.7000000000000001,
+        "memoryPalette": [
+          "#4D6E33",
+          "#746A51",
+          "#B3AFB0",
+          "#D0CAD0",
+          "#375027"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.5274738195897076,
+        "luminance": 0.5181682486240116,
+        "palette": [
+          "#4D6E33",
+          "#746A51",
+          "#B3AFB0",
+          "#D0CAD0",
+          "#375027"
+        ],
+        "photoCount": 1,
+        "saturation": 0.28059850526420027,
+        "warmthBias": 0.08066950464396337
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.9,
+            "label": "forest"
+          },
+          {
+            "confidence": 0.88,
+            "label": "stream"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "day"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "active"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "semi_open"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "ocean"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.6,
+          "minimum": 0.2
+        },
+        "preferredBeds": [
+          {
+            "family": "stream",
+            "weight": 1
+          },
+          {
+            "family": "lake_water",
+            "weight": 0.7
+          },
+          {
+            "family": "waterfall",
+            "weight": 0.26
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "wood",
+            "weight": 0.22
+          },
+          {
+            "family": "glass",
+            "weight": 0.12
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "foliage",
+            "weight": 0.7
+          },
+          {
+            "family": "wind",
+            "weight": 0.48
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "birds",
+            "weight": 0.48
+          },
+          {
+            "family": "bubbles_water_detail",
+            "weight": 0.36
+          }
+        ],
+        "pulseAllowance": 0.18,
+        "realismBias": 0.9,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.16
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_stream_creek",
+            "family": "stream",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8424026858433493,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.712040268584335
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "scene_leaves_wind",
+            "family": "foliage",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8424026858433493,
+              "motionFit": 0.72,
+              "roleFit": 0.7,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.822240268584335
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_birds",
+            "family": "birds",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8424026858433493,
+              "motionFit": 0.042,
+              "roleFit": 0.48,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.566240268584335
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_wind_02",
+            "family": "wind",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8424026858433493,
+              "motionFit": 0.72,
+              "roleFit": 0.48,
+              "sceneFit": 0.9,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.7892402685843349
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 90.78864222021079,
+        "density": 0.3208821848572541,
+        "durationSeconds": 60,
+        "glitch": 0.0633780969164307,
+        "highFrequency": 0.23701977286316459,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.577488611578876,
+        "stutter": 0.09497968502186561
+      },
+      "recipeAssetIds": [
+        "scene_stream_creek",
+        "scene_leaves_wind",
+        "ambience_birds",
+        "ambience_wind_02"
+      ],
+      "baseline": {
+        "score": 0.9330411269046618,
+        "combinedRisk": 0.06695887309533818,
+        "qualityRisk": 0.2090879470304033,
+        "fatigueRisk": 0.09608546288932047,
+        "chaosRisk": 0.14341411393384385,
+        "lowEndDominanceRisk": 0.11544365882873539,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -21.9,
+        "maxTruePeakDBTP": -4.6,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.17932359916874863,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.0,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/forest-stream/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9382149007581104,
+          "combinedRisk": 0.06178509924188952,
+          "qualityRisk": 0.20322357966761084,
+          "fatigueRisk": 0.08298821609220393,
+          "chaosRisk": 0.11870335823492388,
+          "lowEndDominanceRisk": 0.13458256125450138,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.0,
+          "maxTruePeakDBTP": -4.9,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.26945184962441104,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_stream_creek",
+            "scene_leaves_wind"
+          ],
+          "materialLabel": "bed + primary texture",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 4,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_creek",
+          "audio": "audio/forest-stream/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9337447948256039,
+          "combinedRisk": 0.06625520517439604,
+          "qualityRisk": 0.2073915764502722,
+          "fatigueRisk": 0.08697388517353007,
+          "chaosRisk": 0.15313204105599948,
+          "lowEndDominanceRisk": 0.11484448313713078,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.9,
+          "maxTruePeakDBTP": -4.6,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1793169715955907,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_stream_creek",
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 15,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_creek",
+          "audio": "audio/forest-stream/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9313718798770354,
+          "combinedRisk": 0.06862812012296465,
+          "qualityRisk": 0.20864787680385952,
+          "fatigueRisk": 0.07308361144771941,
+          "chaosRisk": 0.112637651560745,
+          "lowEndDominanceRisk": 0.209654313325882,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.2,
+          "maxTruePeakDBTP": -4.4,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.13928805130768426,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_stream_creek",
+            "scene_leaves_wind",
+            "ambience_birds",
+            "ambience_wind_02"
+          ],
+          "materialLabel": "semantic selection · present",
+          "layerGainOffsetDb": 2.0,
+          "materialEventCount": 15,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_creek",
+          "audio": "audio/forest-stream/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9155927311750689,
+          "combinedRisk": 0.0844072688249311,
+          "qualityRisk": 0.22502209935228984,
+          "fatigueRisk": 0.10622430478486833,
+          "chaosRisk": 0.14866150933215588,
+          "lowEndDominanceRisk": 0.21449912786483769,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -4.7,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.20673919929061074,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_stream_creek",
+            "ambience_birds"
+          ],
+          "materialLabel": "alternate semantic subset",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 4,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_creek",
+          "audio": "audio/forest-stream/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.9023780116591131,
+          "combinedRisk": 0.0976219883408869,
+          "qualityRisk": 0.23831319339169912,
+          "fatigueRisk": 0.0763469876054184,
+          "chaosRisk": 0.1522041069875591,
+          "lowEndDominanceRisk": 0.35982165932655336,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.2,
+          "maxTruePeakDBTP": -5.9,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1404743142702397,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_stream_creek"
+          ],
+          "materialLabel": "semantic bed only",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 2,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_creek",
+          "audio": "audio/forest-stream/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "waterfall",
+      "title": "Waterfall",
+      "image": "images/waterfall.jpg",
+      "input": {
+        "place": {
+          "name": "Forest waterfall",
+          "category": "waterfall forest"
+        },
+        "note": "森の滝。強い水の流れと飛沫が主役で、他の細かな音は少ない。",
+        "capturedAt": "2026-08-16T13:10:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Waterfall nature landscape.jpg",
+        "license": "Public Domain",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Waterfall_nature_landscape.jpg"
+      },
+      "expression": {
+        "valence": -0.023960575988970667,
+        "arousal": 0.40375610877690166,
+        "warmth": 0.46234326774691353,
+        "nostalgia": 0.2878,
+        "intimacy": 0.4094883886482353,
+        "openness": 0.5276451418970589,
+        "tension": 0.09975996695183391,
+        "motion": 0.29942501907740326,
+        "confidence": 0.7000000000000001,
+        "memoryPalette": [
+          "#0E130F",
+          "#28312F",
+          "#35516A",
+          "#52718C",
+          "#4C5334"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.45455452331090995,
+        "luminance": 0.17927238970588213,
+        "palette": [
+          "#0E130F",
+          "#28312F",
+          "#35516A",
+          "#52718C",
+          "#4C5334"
+        ],
+        "photoCount": 1,
+        "saturation": 0.2950974664795298,
+        "warmthBias": -0.019936909949164975
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.94,
+            "label": "waterfall"
+          },
+          {
+            "confidence": 0.9,
+            "label": "forest"
+          },
+          {
+            "confidence": 0.66,
+            "label": "stream"
+          }
+        ],
+        "weather": {
+          "confidence": 0.3,
+          "label": "unknown"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "day"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "active"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "open"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "insects",
+          "ocean",
+          "wind_chime"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.66,
+          "minimum": 0.24
+        },
+        "preferredBeds": [
+          {
+            "family": "waterfall",
+            "weight": 1
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "wood",
+            "weight": 0.1
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "wind",
+            "weight": 0.35
+          },
+          {
+            "family": "synthetic_air",
+            "weight": 0.3
+          }
+        ],
+        "preferredTransients": [],
+        "pulseAllowance": 0.12,
+        "realismBias": 0.92,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.08
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_stream_waterfall",
+            "family": "waterfall",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.845583716833559,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.94,
+              "timeFit": 0.86,
+              "weatherFit": 0.5,
+              "weightedTotal": 0.8215583716833558
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_wind_01",
+            "family": "wind",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.845583716833559,
+              "motionFit": 0.72,
+              "roleFit": 0.35,
+              "sceneFit": 0.94,
+              "timeFit": 0.86,
+              "weatherFit": 0.5,
+              "weightedTotal": 0.7240583716833557
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 91.59897347450763,
+        "density": 0.33147316504674107,
+        "durationSeconds": 60,
+        "glitch": 0.06491559623848568,
+        "highFrequency": 0.2218823444049929,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.5678567425072637,
+        "stutter": 0.09918192825126321
+      },
+      "recipeAssetIds": [
+        "scene_stream_waterfall",
+        "ambience_wind_01"
+      ],
+      "baseline": {
+        "score": 0.9429272795075504,
+        "combinedRisk": 0.0570727204924496,
+        "qualityRisk": 0.19977813498986904,
+        "fatigueRisk": 0.10871026555214246,
+        "chaosRisk": 0.12352242360419148,
+        "lowEndDominanceRisk": 0.04695725142955784,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -22.0,
+        "maxTruePeakDBTP": -4.8,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.2111370429355777,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.0,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/waterfall/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9495582603237861,
+          "combinedRisk": 0.050441739676213876,
+          "qualityRisk": 0.18964350277480718,
+          "fatigueRisk": 0.09627928560452229,
+          "chaosRisk": 0.10553759420126432,
+          "lowEndDominanceRisk": 0.045802560448646584,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.0,
+          "maxTruePeakDBTP": -4.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.21113873238784037,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_stream_waterfall",
+            "ambience_wind_01"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_waterfall",
+          "audio": "audio/waterfall/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9407969237843417,
+          "combinedRisk": 0.05920307621565829,
+          "qualityRisk": 0.19838559187193397,
+          "fatigueRisk": 0.0673088845484654,
+          "chaosRisk": 0.14660950961692754,
+          "lowEndDominanceRisk": 0.10937896072864536,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.4,
+          "maxTruePeakDBTP": -4.6,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.16552834054740595,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_stream_waterfall",
+            "ambience_wind_01"
+          ],
+          "materialLabel": "bed + primary texture",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_waterfall",
+          "audio": "audio/waterfall/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9404373028558078,
+          "combinedRisk": 0.05956269714419213,
+          "qualityRisk": 0.19773882799147818,
+          "fatigueRisk": 0.08191728147565236,
+          "chaosRisk": 0.17068259150244844,
+          "lowEndDominanceRisk": 0.05386669635772709,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.1,
+          "maxTruePeakDBTP": -3.3,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1615633884285078,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_stream_waterfall",
+            "ambience_wind_01"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_waterfall",
+          "audio": "audio/waterfall/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9349364354802816,
+          "combinedRisk": 0.0650635645197184,
+          "qualityRisk": 0.20551615177141924,
+          "fatigueRisk": 0.09240661749647121,
+          "chaosRisk": 0.15618424431140415,
+          "lowEndDominanceRisk": 0.09231914281845097,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.0,
+          "maxTruePeakDBTP": -4.1,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.21666262087739135,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_stream_waterfall",
+            "ambience_wind_01"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_waterfall",
+          "audio": "audio/waterfall/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.8941106960900016,
+          "combinedRisk": 0.10588930390999846,
+          "qualityRisk": 0.2461613920812459,
+          "fatigueRisk": 0.08430321441070218,
+          "chaosRisk": 0.08184038400497573,
+          "lowEndDominanceRisk": 0.49456570744514466,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.4,
+          "maxTruePeakDBTP": -4.3,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.14027547046570332,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_stream_waterfall",
+            "ambience_wind_01"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 11,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_stream_waterfall",
+          "audio": "audio/waterfall/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "snow-mountain",
+      "title": "Snow Mountain",
+      "image": "images/snow-mountain.jpg",
+      "input": {
+        "place": {
+          "name": "Snow mountain",
+          "category": "snow mountain winter"
+        },
+        "note": "雪に覆われた山と平原。冬の乾いた風があり、虫や水の気配はほとんどない。",
+        "capturedAt": "2026-08-16T12:40:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Snow-capped mountain range.jpg",
+        "license": "CC0",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Snow-capped_mountain_range.jpg"
+      },
+      "expression": {
+        "valence": 0.07443872603090951,
+        "arousal": 0.4033352474067278,
+        "warmth": 0.4250486612654322,
+        "nostalgia": 0.2878,
+        "intimacy": 0.3967028172457952,
+        "openness": 0.68746478442756,
+        "tension": 0.10846425431965204,
+        "motion": 0.26910463971290066,
+        "confidence": 0.7000000000000001,
+        "memoryPalette": [
+          "#758AAB",
+          "#3574C7",
+          "#2559AC",
+          "#ABABAD",
+          "#CCD1D8"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.5446610178017809,
+        "luminance": 0.5009438575708058,
+        "palette": [
+          "#758AAB",
+          "#3574C7",
+          "#2559AC",
+          "#ABABAD",
+          "#CCD1D8"
+        ],
+        "photoCount": 1,
+        "saturation": 0.3053303495892395,
+        "warmthBias": -0.15619780319535184
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.88,
+            "label": "mountain"
+          },
+          {
+            "confidence": 0.88,
+            "label": "snow"
+          }
+        ],
+        "weather": {
+          "confidence": 0.88,
+          "label": "snowy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "day"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "gentle"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "vast"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.94
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "bubbles_water_detail",
+          "insects",
+          "ocean",
+          "rain"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.48,
+          "minimum": 0.14
+        },
+        "preferredBeds": [
+          {
+            "family": "snow_winter",
+            "weight": 1
+          },
+          {
+            "family": "wind",
+            "weight": 0.68
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "glass",
+            "weight": 0.08
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "synthetic_air",
+            "weight": 0.34
+          },
+          {
+            "family": "wind",
+            "weight": 0.28
+          }
+        ],
+        "preferredTransients": [],
+        "pulseAllowance": 0.08,
+        "realismBias": 0.94,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.08
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_snow_wind",
+            "family": "snow_winter",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8656693380971837,
+              "motionFit": 0.72,
+              "roleFit": 1,
+              "sceneFit": 0.88,
+              "timeFit": 0.86,
+              "weatherFit": 0.88,
+              "weightedTotal": 0.8785669338097183
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_glass_02",
+            "family": "glass",
+            "role": "ornament",
+            "score": {
+              "expressionCompatibility": 0.49009470547839507,
+              "motionFit": 0.72,
+              "roleFit": 0.08,
+              "sceneFit": 0,
+              "timeFit": 0.86,
+              "weatherFit": 0.0144,
+              "weightedTotal": 0.22188947054783953
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "scene_wind_forest",
+            "family": "wind",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8656693380971837,
+              "motionFit": 0.72,
+              "roleFit": 0.68,
+              "sceneFit": 0.88,
+              "timeFit": 0.86,
+              "weatherFit": 0.88,
+              "weightedTotal": 0.8305669338097182
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 91.07539795431265,
+        "density": 0.32467011151417696,
+        "durationSeconds": 60,
+        "glitch": 0.06388265186817638,
+        "highFrequency": 0.24801638312857585,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.6426768964729271,
+        "stutter": 0.09594923680000163
+      },
+      "recipeAssetIds": [
+        "scene_snow_wind",
+        "texture_glass_02",
+        "scene_wind_forest"
+      ],
+      "baseline": {
+        "score": 0.910242460126215,
+        "combinedRisk": 0.08975753987378496,
+        "qualityRisk": 0.23256031354280365,
+        "fatigueRisk": 0.11696138857234495,
+        "chaosRisk": 0.13850417447063013,
+        "lowEndDominanceRisk": 0.24583448171615604,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -21.9,
+        "maxTruePeakDBTP": -5.0,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.19922357757901996,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.0,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/snow-mountain/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9490532646327089,
+          "combinedRisk": 0.05094673536729108,
+          "qualityRisk": 0.1917175571906442,
+          "fatigueRisk": 0.10074373536741472,
+          "chaosRisk": 0.1375186898431292,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.5,
+          "maxTruePeakDBTP": -3.5,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.18959809525741933,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_snow_wind",
+            "scene_wind_forest"
+          ],
+          "materialLabel": "alternate semantic subset",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_snow_wind",
+          "audio": "audio/snow-mountain/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.937934565291137,
+          "combinedRisk": 0.06206543470886307,
+          "qualityRisk": 0.19083886227889,
+          "fatigueRisk": 0.09638594749851863,
+          "chaosRisk": 0.1326030400999792,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.8,
+          "maxTruePeakDBTP": -3.3,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.1072856159849163,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.06568270570625984,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0380959693096307,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_snow_wind",
+            "scene_wind_forest"
+          ],
+          "materialLabel": "semantic bed only",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_snow_wind",
+          "audio": "audio/snow-mountain/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9243954183368863,
+          "combinedRisk": 0.07560458166311365,
+          "qualityRisk": 0.21758741530339878,
+          "fatigueRisk": 0.10130127067357718,
+          "chaosRisk": 0.16114031817144103,
+          "lowEndDominanceRisk": 0.1447213858366013,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.2,
+          "maxTruePeakDBTP": -5.2,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.21152490056510875,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_snow_wind",
+            "texture_glass_02",
+            "scene_wind_forest"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 8,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_snow_wind",
+          "audio": "audio/snow-mountain/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9193909062483812,
+          "combinedRisk": 0.08060909375161887,
+          "qualityRisk": 0.21900936214868968,
+          "fatigueRisk": 0.09706889413402135,
+          "chaosRisk": 0.13340253669503327,
+          "lowEndDominanceRisk": 0.19989777803421024,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.1,
+          "maxTruePeakDBTP": -3.6,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.12784612878944965,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.01686517873438947,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.009781803665945893,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_snow_wind",
+            "texture_glass_02",
+            "scene_wind_forest"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 8,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_snow_wind",
+          "audio": "audio/snow-mountain/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.9188095782431261,
+          "combinedRisk": 0.08119042175687388,
+          "qualityRisk": 0.22215977403843015,
+          "fatigueRisk": 0.10512599681959386,
+          "chaosRisk": 0.17197895891904358,
+          "lowEndDominanceRisk": 0.16358178555965427,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.7,
+          "maxTruePeakDBTP": -4.1,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.18558393505811538,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_snow_wind",
+            "scene_wind_forest",
+            "texture_glass_02"
+          ],
+          "materialLabel": "bed + sparse accent",
+          "layerGainOffsetDb": -2.0,
+          "materialEventCount": 8,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_snow_wind",
+          "audio": "audio/snow-mountain/hybrid-5.m4a",
+          "publicId": "hybrid-5"
+        }
+      ]
+    },
+    {
+      "id": "field-sunset",
+      "title": "Field Sunset",
+      "image": "images/field-sunset.jpg",
+      "input": {
+        "place": {
+          "name": "Open farm field",
+          "category": "field rural"
+        },
+        "note": "開けた田園の夕暮れ。弱い風が草を動かし、昼の鳥から夜の虫へ移る手前の時間。",
+        "capturedAt": "2026-08-16T18:25:00+09:00"
+      },
+      "source": {
+        "provider": "Wikimedia Commons",
+        "file": "Sunset over the Farm Fields.jpg",
+        "license": "CC0",
+        "sourcePage": "https://commons.wikimedia.org/wiki/File:Sunset_over_the_Farm_Fields.jpg"
+      },
+      "expression": {
+        "valence": 0.08129924815840596,
+        "arousal": 0.42439669692976667,
+        "warmth": 0.5718996682098767,
+        "nostalgia": 0.32805,
+        "intimacy": 0.4318655916099637,
+        "openness": 0.5498051048754539,
+        "tension": 0.12858852099667667,
+        "motion": 0.2613052678762326,
+        "confidence": 0.7000000000000001,
+        "memoryPalette": [
+          "#383327",
+          "#EBD8CA",
+          "#D1B6AA",
+          "#B1958F",
+          "#6B5853"
+        ]
+      },
+      "photoFeatures": {
+        "contrast": 0.7529867597999657,
+        "luminance": 0.523371193718228,
+        "palette": [
+          "#383327",
+          "#EBD8CA",
+          "#D1B6AA",
+          "#B1958F",
+          "#6B5853"
+        ],
+        "photoCount": 1,
+        "saturation": 0.24073927847811677,
+        "warmthBias": 0.11563634713144569
+      },
+      "sceneProvider": "deterministic_scene_context_v1",
+      "scene": {
+        "schemaVersion": 1,
+        "sceneFamilies": [
+          {
+            "confidence": 0.84,
+            "label": "field"
+          },
+          {
+            "confidence": 0.82,
+            "label": "rural"
+          }
+        ],
+        "weather": {
+          "confidence": 0.8,
+          "label": "windy"
+        },
+        "timeOfDay": {
+          "confidence": 0.86,
+          "label": "sunset"
+        },
+        "motionClass": {
+          "confidence": 0.72,
+          "label": "active"
+        },
+        "spatialClass": {
+          "confidence": 0.7,
+          "label": "vast"
+        },
+        "humanTrace": {
+          "confidence": 0.66,
+          "label": "none"
+        },
+        "confidence": 0.9299999999999999
+      },
+      "affordance": {
+        "excludedFamilies": [
+          "ocean",
+          "waterfall"
+        ],
+        "materialPresenceRange": {
+          "maximum": 0.55,
+          "minimum": 0.18
+        },
+        "preferredBeds": [
+          {
+            "family": "wind",
+            "weight": 0.7
+          }
+        ],
+        "preferredOrnaments": [
+          {
+            "family": "bell",
+            "weight": 0.14
+          },
+          {
+            "family": "wind_chime",
+            "weight": 0.12
+          }
+        ],
+        "preferredTextures": [
+          {
+            "family": "foliage",
+            "weight": 0.72
+          },
+          {
+            "family": "wind",
+            "weight": 0.45
+          }
+        ],
+        "preferredTransients": [
+          {
+            "family": "birds",
+            "weight": 0.7
+          },
+          {
+            "family": "wood",
+            "weight": 0.18
+          }
+        ],
+        "pulseAllowance": 0.20180884286019724,
+        "realismBias": 0.88,
+        "schemaVersion": 1,
+        "tonalOrnamentAllowance": 0.212488
+      },
+      "materialSelection": {
+        "schemaVersion": 1,
+        "selectorVersion": "scene_material_selector_v1",
+        "mode": "spike",
+        "selected": [
+          {
+            "assetId": "scene_wind_forest",
+            "family": "wind",
+            "role": "bed",
+            "score": {
+              "expressionCompatibility": 0.8358934288078111,
+              "motionFit": 0.72,
+              "roleFit": 0.7,
+              "sceneFit": 0.84,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.8005893428807811
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "scene_leaves_wind",
+            "family": "foliage",
+            "role": "texture",
+            "score": {
+              "expressionCompatibility": 0.8358934288078111,
+              "motionFit": 0.72,
+              "roleFit": 0.72,
+              "sceneFit": 0.84,
+              "timeFit": 0.86,
+              "weatherFit": 0.8,
+              "weightedTotal": 0.8035893428807811
+            },
+            "rights": {
+              "productionCandidate": false,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "ambience_birds",
+            "family": "birds",
+            "role": "transient",
+            "score": {
+              "expressionCompatibility": 0.8358934288078111,
+              "motionFit": 0.042,
+              "roleFit": 0.7,
+              "sceneFit": 0.84,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.577589342880781
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          },
+          {
+            "assetId": "texture_bell_02",
+            "family": "bell",
+            "role": "ornament",
+            "score": {
+              "expressionCompatibility": 0.5601695270061728,
+              "motionFit": 0.042,
+              "roleFit": 0.14,
+              "sceneFit": 0.82,
+              "timeFit": 0.86,
+              "weatherFit": 0.023999999999999994,
+              "weightedTotal": 0.45901695270061726
+            },
+            "rights": {
+              "productionCandidate": true,
+              "spikeAllowed": true
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "bpm": 91.32534981365188,
+        "density": 0.32913700392468237,
+        "durationSeconds": 60,
+        "glitch": 0.06647858478956688,
+        "highFrequency": 0.23674087669012142,
+        "mode": "dorian",
+        "sectionBars": 8,
+        "space": 0.5846458455693473,
+        "stutter": 0.09749382698006541
+      },
+      "recipeAssetIds": [
+        "scene_wind_forest",
+        "scene_leaves_wind",
+        "ambience_birds",
+        "texture_bell_02"
+      ],
+      "baseline": {
+        "score": 0.932910824103098,
+        "combinedRisk": 0.06708917589690203,
+        "qualityRisk": 0.2095205430678895,
+        "fatigueRisk": 0.09961875585270918,
+        "chaosRisk": 0.15517988049002335,
+        "lowEndDominanceRisk": 0.0946851491928101,
+        "stereoInstabilityRisk": 0.0,
+        "integratedLUFS": -22.0,
+        "maxTruePeakDBTP": -3.9,
+        "longFormSufficient": true,
+        "sectionCount": 3,
+        "transitionCount": 2,
+        "sectionNoveltyMean": 0.22236229758794146,
+        "stagnantTransitionRatio": 0.0,
+        "abruptTransitionRatio": 0.0,
+        "longFormMonotonyRisk": 0.0,
+        "longFormChaosRisk": 0.0,
+        "longFormRisk": 0.0,
+        "technicalGatePassed": true,
+        "materials": [],
+        "kind": "synthesis-only",
+        "audio": "audio/field-sunset/baseline.m4a",
+        "publicId": "baseline"
+      },
+      "top5": [
+        {
+          "score": 0.9496217013146787,
+          "combinedRisk": 0.05037829868532126,
+          "qualityRisk": 0.19023067554285927,
+          "fatigueRisk": 0.09105413517233617,
+          "chaosRisk": 0.14835679744729913,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.5,
+          "maxTruePeakDBTP": -4.9,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.17510012126809196,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 1,
+          "materials": [
+            "scene_wind_forest"
+          ],
+          "materialLabel": "semantic bed only",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 3,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_wind_forest",
+          "audio": "audio/field-sunset/hybrid-1.m4a",
+          "publicId": "hybrid-1"
+        },
+        {
+          "score": 0.9429276071387288,
+          "combinedRisk": 0.05707239286127119,
+          "qualityRisk": 0.19859438181577538,
+          "fatigueRisk": 0.11034801156356662,
+          "chaosRisk": 0.1576772769707992,
+          "lowEndDominanceRisk": 0.0,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.1,
+          "maxTruePeakDBTP": -3.2,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.2437477192391105,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 2,
+          "materials": [
+            "scene_wind_forest",
+            "ambience_birds"
+          ],
+          "materialLabel": "bed + sparse accent",
+          "layerGainOffsetDb": -2.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_wind_forest",
+          "audio": "audio/field-sunset/hybrid-2.m4a",
+          "publicId": "hybrid-2"
+        },
+        {
+          "score": 0.9328069848153706,
+          "combinedRisk": 0.06719301518462942,
+          "qualityRisk": 0.2071307140947699,
+          "fatigueRisk": 0.066065185155075,
+          "chaosRisk": 0.10819615995647801,
+          "lowEndDominanceRisk": 0.21814827322959904,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -23.0,
+          "maxTruePeakDBTP": -5.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.19464924476853476,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 3,
+          "materials": [
+            "scene_wind_forest",
+            "scene_leaves_wind",
+            "ambience_birds",
+            "texture_bell_02"
+          ],
+          "materialLabel": "semantic selection · restrained",
+          "layerGainOffsetDb": -4.0,
+          "materialEventCount": 10,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_wind_forest",
+          "audio": "audio/field-sunset/hybrid-3.m4a",
+          "publicId": "hybrid-3"
+        },
+        {
+          "score": 0.9325034806773042,
+          "combinedRisk": 0.06749651932269587,
+          "qualityRisk": 0.20845771962656642,
+          "fatigueRisk": 0.09537757948924729,
+          "chaosRisk": 0.16372092738300292,
+          "lowEndDominanceRisk": 0.09448986947536472,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -22.0,
+          "maxTruePeakDBTP": -3.9,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.22236260730919127,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 4,
+          "materials": [
+            "scene_wind_forest",
+            "scene_leaves_wind",
+            "ambience_birds",
+            "texture_bell_02"
+          ],
+          "materialLabel": "semantic selection · full",
+          "layerGainOffsetDb": 0.0,
+          "materialEventCount": 10,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_wind_forest",
+          "audio": "audio/field-sunset/hybrid-4.m4a",
+          "publicId": "hybrid-4"
+        },
+        {
+          "score": 0.9006096393511387,
+          "combinedRisk": 0.09939036064886125,
+          "qualityRisk": 0.24073776672765954,
+          "fatigueRisk": 0.08277114638,
+          "chaosRisk": 0.12692839124592703,
+          "lowEndDominanceRisk": 0.39301965832710267,
+          "stereoInstabilityRisk": 0.0,
+          "integratedLUFS": -21.4,
+          "maxTruePeakDBTP": -3.8,
+          "longFormSufficient": true,
+          "sectionCount": 3,
+          "transitionCount": 2,
+          "sectionNoveltyMean": 0.13904445090706824,
+          "stagnantTransitionRatio": 0.0,
+          "abruptTransitionRatio": 0.0,
+          "longFormMonotonyRisk": 0.0,
+          "longFormChaosRisk": 0.0,
+          "longFormRisk": 0.0,
+          "technicalGatePassed": true,
+          "rank": 5,
+          "materials": [
+            "scene_wind_forest",
+            "scene_leaves_wind"
+          ],
+          "materialLabel": "bed + primary texture",
+          "layerGainOffsetDb": -1.0,
+          "materialEventCount": 5,
+          "kind": "hybrid",
+          "semanticSelectionRetained": true,
+          "primarySemanticBedAssetId": "scene_wind_forest",
+          "audio": "audio/field-sunset/hybrid-5.m4a",
           "publicId": "hybrid-5"
         }
       ]
